@@ -1,6 +1,6 @@
 import { REQUEST_STATES } from "middleware/promiseMiddleware";
 
-const BASE_INITIAL_STATE = {
+export const BASE_INITIAL_STATE = {
   data: null,
   intact: true,
   fetching: false,

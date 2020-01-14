@@ -6,7 +6,10 @@
       "Email": "Adres e-mail",
       "Password": "Hasło",
       "Logout": "Wyloguj się",
-      "Dashboard": "Podsumowanie"
+      "Dashboard": "Podsumowanie",
+      "ConfirmEmail": "Potwierdź adres e-mail",
+      "ConfirmPassword": "Potwierdź hasło",
+      "Name": "Imię"
     },
     "menu": {
       "Home": "Home",

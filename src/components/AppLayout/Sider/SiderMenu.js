@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Menu, Icon, Layout } from "antd";
 import { useParams, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+
+import { logOutUser } from "features/AuthPage/actions/auth.actions";
 
 const { Sider } = Layout;
 
@@ -9,11 +12,16 @@ function SiderMenu() {
   const [collapsed, setCollapsed] = useState(false);
   const { subpage } = useParams();
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
   const defaultSelectedItem = subpage || "home";
 
   const onCollapse = collapsed => {
     setCollapsed(collapsed);
+  };
+
+  const handleLogout = () => {
+    dispatch(logOutUser());
   };
 
   return (
@@ -41,6 +49,10 @@ function SiderMenu() {
             <Icon type="desktop" />
             <span>{t("menu.Servers")}</span>
           </Link>
+        </Menu.Item>
+        <Menu.Item onClick={handleLogout}>
+          <Icon type="logout" />
+          <span>{t("common.Logout")}</span>
         </Menu.Item>
       </Menu>
     </Sider>

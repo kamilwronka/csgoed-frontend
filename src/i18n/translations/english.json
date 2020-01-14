@@ -6,11 +6,22 @@
       "Email": "E-mail address",
       "Password": "Password",
       "Logout": "Logout",
-      "Dashboard": "Dashboard"
+      "Dashboard": "Dashboard",
+      "ConfirmEmail": "Confirm e-mail address",
+      "ConfirmPassword": "Confirm password",
+      "Name": "Name"
     },
     "menu": {
       "Home": "Home",
       "Servers": "Servers"
+    },
+    "form": {
+      "errors": {
+        "Required": "Field is required",
+        "TooLongPassword": "Password is too long",
+        "TooShortPassword": "Password is too short",
+        "InvalidEmail": "E-mail address is invalid"
+      }
     }
   }
 }
