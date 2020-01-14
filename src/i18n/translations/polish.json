@@ -1,0 +1,16 @@
+{
+  "translation": {
+    "common": {
+      "SignUp": "Rejestracja",
+      "SignIn": "Logowanie",
+      "Email": "Adres e-mail",
+      "Password": "Hasło",
+      "Logout": "Wyloguj się",
+      "Dashboard": "Podsumowanie"
+    },
+    "menu": {
+      "Home": "Home",
+      "Servers": "Serwery"
+    }
+  }
+}
