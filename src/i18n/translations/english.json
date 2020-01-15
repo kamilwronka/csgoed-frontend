@@ -9,18 +9,37 @@
       "Dashboard": "Dashboard",
       "ConfirmEmail": "Confirm e-mail address",
       "ConfirmPassword": "Confirm password",
-      "Name": "Name"
+      "Name": "Name",
+      "SigningIn": "Signing in...",
+      "SigningUp": "Signing up..."
     },
     "menu": {
       "Home": "Home",
       "Servers": "Servers"
     },
     "form": {
-      "errors": {
-        "Required": "Field is required",
-        "TooLongPassword": "Password is too long",
-        "TooShortPassword": "Password is too short",
-        "InvalidEmail": "E-mail address is invalid"
+      "common": {
+        "errors": {
+          "required": "Field is required"
+        }
+      },
+      "signUpForm": {
+        "errors": {
+          "tooShortName": "Given name is too short",
+          "tooLongName": "Given name is too long",
+          "tooLongPassword": "Password is too long",
+          "tooShortPassword": "Password is too short",
+          "invalidEmail": "E-mail address is invalid",
+          "notSamePasswords": "Given passwords are not the same",
+          "notSameEmails": "Given emails are not the same",
+          "unableToSignUp": "Unable to Sign Up"
+        }
+      },
+      "signInForm": {
+        "errors": {
+          "unableToSignIn": "Unable to Sign In",
+          "unableToSignInDesc": "Provided e-mail or password is wrong"
+        }
       }
     }
   }

@@ -29,12 +29,12 @@ export const promiseMiddleware = store => next => action => {
           payload: res.data
         })
       )
-      .catch(err =>
-        store.dispatch({
+      .catch(err => {
+        return store.dispatch({
           type: `${action.type}_${REQUEST_STATES.REJECTED}`,
-          payload: err.data
-        })
-      );
+          payload: err.response
+        });
+      });
   }
 
   if (isFunction(action.payload)) {

@@ -30,6 +30,10 @@ additionalCases[`${ACTIONS.SIGN_UP_USER}_${REQUEST_STATES.REJECTED}`] = (
   return { ...state, error: action.payload, fetching: false };
 };
 
+additionalCases[ACTIONS.CLEAR_ERROR] = state => {
+  return { ...state, error: null };
+};
+
 export default createReducer(ACTIONS.SIGN_IN_USER, {
   additionalCases
 });

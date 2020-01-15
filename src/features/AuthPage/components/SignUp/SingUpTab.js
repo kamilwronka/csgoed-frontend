@@ -1,10 +1,12 @@
 import React from "react";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, Alert } from "antd";
 import { Formik, Field } from "formik";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
+import { isNil } from "lodash";
 
+import { SIGN_UP_FORM_CONFIG } from "config";
 import { signUpUser } from "features/AuthPage/actions/auth.actions";
 import { equalTo } from "helpers/equalTo";
 import { useAuthData } from "hooks";
@@ -22,29 +24,50 @@ Yup.addMethod(Yup.string, "equalTo", equalTo);
 function SignUpTab() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { fetching } = useAuthData();
+  const { fetching, error } = useAuthData();
 
   const SignUpSchema = Yup.object().shape({
     name: Yup.string()
-      .min(2, t("form.errors.tooShortName"))
-      .max(50, t("form.errors.tooLongName"))
-      .required(t("form.errors.Required")),
+      .min(
+        SIGN_UP_FORM_CONFIG.nameMinChars,
+        t("form.signUpForm.errors.tooShortName")
+      )
+      .max(
+        SIGN_UP_FORM_CONFIG.nameMaxChars,
+        t("form.signUpForm.errors.tooLongName")
+      )
+      .required(t("form.common.errors.required")),
     email: Yup.string()
-      .email(t("form.errors.InvalidEmail"))
-      .required(t("form.errors.Required")),
+      .email(t("form.signUpForm.errors.invalidEmail"))
+      .required(t("form.common.errors.required")),
     confirmEmail: Yup.string()
-      .email(t("form.errors.InvalidEmail"))
-      .equalTo(Yup.ref("email"), t("form.errors.NotSameEmails"))
-      .required(t("form.errors.Required")),
+      .email(t("form.signUpForm.errors.invalidEmail"))
+      .equalTo(Yup.ref("email"), t("form.signUpForm.errors.notSameEmails"))
+      .required(t("form.common.errors.required")),
     password: Yup.string()
-      .min(8, t("form.errors.TooShortPassword"))
-      .max(36, t("form.errors.TooLongPassword"))
-      .required(t("form.errors.Required")),
+      .min(
+        SIGN_UP_FORM_CONFIG.passwordMinChars,
+        t("form.signUpForm.errors.tooShortPassword")
+      )
+      .max(
+        SIGN_UP_FORM_CONFIG.passwordMaxChars,
+        t("form.signUpForm.errors.tooLongPassword")
+      )
+      .required(t("form.common.errors.required")),
     confirmPassword: Yup.string()
-      .min(8, t("form.errors.TooShortPassword"))
-      .max(36, t("form.errors.TooLongPassword"))
-      .equalTo(Yup.ref("password"), t("form.errors.NotSamePassword"))
-      .required(t("form.errors.Required"))
+      .min(
+        SIGN_UP_FORM_CONFIG.passwordMinChars,
+        t("form.signUpForm.errors.tooShortPassword")
+      )
+      .max(
+        SIGN_UP_FORM_CONFIG.passwordMaxChars,
+        t("form.signUpForm.errors.tooLongPassword")
+      )
+      .equalTo(
+        Yup.ref("password"),
+        t("form.signUpForm.errors.notSamePasswords")
+      )
+      .required(t("form.common.errors.required"))
   });
 
   const onSubmit = values => {
@@ -57,9 +80,19 @@ function SignUpTab() {
       initialValues={INITIAL_FORM_VALUES}
       validationSchema={SignUpSchema}
     >
-      {({ handleSubmit, errors, touched }) => {
+      {({ handleSubmit, errors, touched, submitCount }) => {
         return (
           <Form onSubmit={handleSubmit}>
+            <Form.Item>
+              {!isNil(error) && submitCount > 0 && (
+                <Alert
+                  message={t("form.signUpForm.errors.unableToSignUp")}
+                  description={error.data.message}
+                  type="error"
+                  showIcon
+                />
+              )}
+            </Form.Item>
             <Form.Item
               label={t("common.Name")}
               validateStatus={errors.name && touched.name ? "error" : ""}
@@ -121,7 +154,7 @@ function SignUpTab() {
             </Form.Item>
             <Form.Item>
               <Button htmlType="submit" type="primary" loading={fetching}>
-                {t("common.SignUp")}
+                {fetching ? t("common.SigningUp") : t("common.SignUp")}
               </Button>
             </Form.Item>
           </Form>

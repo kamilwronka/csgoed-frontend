@@ -8,7 +8,8 @@ import { promiseMiddleware } from "middleware/promiseMiddleware";
 
 const persistConfig = {
   key: "root",
-  storage
+  storage,
+  whitelist: []
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -1,9 +1,10 @@
 import React from "react";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, Alert } from "antd";
 import { Formik, Field } from "formik";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
+import { isNil } from "lodash";
 
 import { signInUser } from "features/AuthPage/actions/auth.actions";
 import { useAuthData } from "hooks";
@@ -16,16 +17,16 @@ const INITIAL_FORM_VALUES = {
 function SignInTab() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { fetching } = useAuthData();
+  const { fetching, error } = useAuthData();
 
   const SigninSchema = Yup.object().shape({
     email: Yup.string()
-      .email(t("form.errors.InvalidEmail"))
-      .required(t("form.errors.Required")),
+      .email(t("form.signUpForm.errors.invalidEmail"))
+      .required(t("form.common.errors.required")),
     password: Yup.string()
-      .min(8, t("form.errors.TooShortPassword"))
-      .max(36, t("form.errors.TooLongPassword"))
-      .required(t("form.errors.Required"))
+      .min(8, t("form.signUpForm.errors.tooShortPassword"))
+      .max(36, t("form.signUpForm.errors.tooLongPassword"))
+      .required(t("form.common.errors.required"))
   });
 
   const onSubmit = values => {
@@ -38,9 +39,19 @@ function SignInTab() {
       initialValues={INITIAL_FORM_VALUES}
       validationSchema={SigninSchema}
     >
-      {({ handleSubmit, errors, touched }) => {
+      {({ handleSubmit, errors, touched, submitCount }) => {
         return (
           <Form onSubmit={handleSubmit}>
+            <Form.Item>
+              {!isNil(error) && submitCount > 0 && (
+                <Alert
+                  message={t("form.signInForm.errors.unableToSignIn")}
+                  description={t("form.signInForm.errors.unableToSignInDesc")}
+                  type="error"
+                  showIcon
+                />
+              )}
+            </Form.Item>
             <Form.Item
               label={t("common.Email")}
               validateStatus={errors.email && touched.email ? "error" : ""}

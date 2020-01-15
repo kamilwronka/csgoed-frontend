@@ -3,7 +3,8 @@ import { ApiService } from "services";
 export const ACTIONS = {
   SIGN_IN_USER: "SIGN_IN_USER",
   SIGN_UP_USER: "SIGN_UP_USER",
-  LOG_OUT_USER: "LOG_OUT_USER"
+  LOG_OUT_USER: "LOG_OUT_USER",
+  CLEAR_ERROR: "AUTH_CLEAR_ERROR"
 };
 
 export const signInUser = ({ email, password }) => dispatch => {
@@ -37,5 +38,11 @@ export const signUpUser = ({ name, email, password }) => dispatch => {
 export const logOutUser = () => {
   return {
     type: ACTIONS.LOG_OUT_USER
+  };
+};
+
+export const clearError = () => {
+  return {
+    type: ACTIONS.CLEAR_ERROR
   };
 };

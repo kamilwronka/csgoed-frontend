@@ -2,9 +2,11 @@ import React from "react";
 import { Tabs, Card, Row, Col } from "antd";
 import { useHistory, useLocation, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
 
 import SignInTab from "./components/SignIn/SignInTab";
 import SignUpTab from "./components/SignUp/SingUpTab";
+import { clearError } from "./actions/auth.actions";
 
 const { TabPane } = Tabs;
 
@@ -13,8 +15,10 @@ function AuthPage() {
   const history = useHistory();
   const params = useParams();
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
-  const updateUrl = tab => {
+  const onSwitchTab = tab => {
+    dispatch(clearError());
     history.push(`/auth/${tab}${location.search}`);
   };
 
@@ -32,7 +36,7 @@ function AuthPage() {
           <Tabs
             animated
             defaultActiveKey={defaultActiveKey}
-            onChange={updateUrl}
+            onChange={onSwitchTab}
             tabPosition="top"
           >
             <TabPane tab={t("common.SignIn")} key="signin">
