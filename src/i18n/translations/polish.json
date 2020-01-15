@@ -1,0 +1,19 @@
+{
+  "translation": {
+    "common": {
+      "SignUp": "Rejestracja",
+      "SignIn": "Logowanie",
+      "Email": "Adres e-mail",
+      "Password": "Hasło",
+      "Logout": "Wyloguj się",
+      "Dashboard": "Podsumowanie",
+      "ConfirmEmail": "Potwierdź adres e-mail",
+      "ConfirmPassword": "Potwierdź hasło",
+      "Name": "Imię"
+    },
+    "menu": {
+      "Home": "Home",
+      "Servers": "Serwery"
+    }
+  }
+}
