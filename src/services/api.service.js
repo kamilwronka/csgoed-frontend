@@ -1,7 +1,9 @@
 import axios from "axios";
-import { isNil } from "lodash";
+import { isNil, get } from "lodash";
+import { message } from "antd";
 
 import { API_CONFIG } from "config";
+import { openNotificationWithIcon } from "helpers/openNotification";
 
 class ApiService {
   constructor(type, options) {
@@ -29,7 +31,15 @@ class ApiService {
       payload: token => {
         if (needsAuth) this.setToken(token);
 
-        return this.instance.get(url, data);
+        return this.instance.get(url, data).catch(err => {
+          openNotificationWithIcon(
+            "error",
+            "Unable to fetch data",
+            get(err, "response.data.message")
+              ? `Status ${err.response.status} - ${err.response.data.message}`
+              : null
+          );
+        });
       }
     };
   }

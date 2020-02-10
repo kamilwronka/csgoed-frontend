@@ -8,7 +8,8 @@ export const BASE_INITIAL_STATE = {
 };
 
 function createReducer(type, options = {}) {
-  const additionalCases = options.additionalCases;
+  const additionalCases = options.additionalCases || {};
+
   const normalizedCases = Object.keys(additionalCases).map(key => {
     return {
       type: key,
@@ -34,6 +35,10 @@ function createReducer(type, options = {}) {
       action: (state, action) => {
         return { ...state, error: action.payload, fetching: false };
       }
+    },
+    {
+      type: `${type}_RESET`,
+      action: state => options.initialState || BASE_INITIAL_STATE
     },
     ...normalizedCases
   ];
