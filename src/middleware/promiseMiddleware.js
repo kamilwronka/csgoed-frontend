@@ -30,6 +30,7 @@ export const promiseMiddleware = store => next => action => {
         })
       )
       .catch(err => {
+        console.error(err);
         return store.dispatch({
           type: `${action.type}_${REQUEST_STATES.REJECTED}`,
           payload: err.response

@@ -2,7 +2,7 @@ import axios from "axios";
 import { isNil, get } from "lodash";
 import { message } from "antd";
 
-import { API_CONFIG } from "config";
+import API_CONFIG from "config/api_config";
 import { openNotificationWithIcon } from "helpers/openNotification";
 
 class ApiService {
@@ -53,6 +53,19 @@ class ApiService {
         if (needsAuth) this.setToken(token);
 
         return this.instance.post(url, { ...data });
+      }
+    };
+  }
+
+  delete() {
+    const { url, data, needsAuth } = this.options;
+
+    return {
+      type: this.type,
+      payload: token => {
+        if (needsAuth) this.setToken(token);
+
+        return this.instance.delete(url, { ...data });
       }
     };
   }

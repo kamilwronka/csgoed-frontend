@@ -12,17 +12,15 @@ const SUBPAGES = {
 function Dashboard() {
   const { subpage } = useParams();
 
-  const renderSubpage = subpage => {
+  const renderSubpage = (subpage, props) => {
     switch (subpage) {
       case SUBPAGES.SERVERS:
-        return <ServersDashboard />;
+        return <ServersDashboard {...props} />;
       case SUBPAGES.HOME:
       default:
         return <div>home</div>;
     }
   };
-
-  console.log(subpage);
 
   return <Layout>{renderSubpage(subpage)}</Layout>;
 }

@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Table, Button, Row } from "antd";
+import { Table, Button, Row, message, notification, Spin } from "antd";
 import { format } from "date-fns";
 import { pl } from "date-fns/locale";
 import { useHistory } from "react-router-dom";
+import { isEmpty } from "lodash";
 
-import { fetchServers } from "../../actions/servers.actions";
+import {
+  fetchServers,
+  deleteServer,
+  setServerFetching
+} from "../../actions/servers.actions";
 import AddNewServerModal from "./components/AddNewServerModal";
 import ManageServerDropdown from "./components/ManageServerDropdown";
+import { useSocket } from "use-socketio";
+import { openNotificationWithIcon } from "helpers/openNotification";
 
 function ServersDashboard() {
   const dispatch = useDispatch();
@@ -16,6 +23,37 @@ function ServersDashboard() {
   );
   const { data, fetching } = useSelector(state => state.dashboardPage.servers);
   const history = useHistory();
+
+  useSocket("deleteServerLogs", (id, msg) => {
+    notification.destroy();
+    openNotificationWithIcon("info", msg, "", 0);
+    dispatch(setServerFetching(id, msg));
+  });
+
+  useSocket("stopServerLogs", (id, msg) => {
+    notification.destroy();
+    openNotificationWithIcon("info", msg, "", 0);
+    dispatch(setServerFetching(id, msg));
+  });
+
+  useSocket("startServerLogs", (id, msg) => {
+    notification.destroy();
+    openNotificationWithIcon("info", msg, "", 0);
+    dispatch(setServerFetching(id, msg));
+  });
+
+  useSocket("deleteServer", id => {
+    dispatch(deleteServer(id));
+    setTimeout(notification.destroy, 3000);
+  });
+
+  useSocket("startServer", id => {
+    setTimeout(notification.destroy, 3000);
+  });
+
+  useSocket("stopServer", id => {
+    setTimeout(notification.destroy, 3000);
+  });
 
   const columns = [
     {
@@ -31,7 +69,9 @@ function ServersDashboard() {
       title: "Ip address",
       key: "Ip",
       render: (text, record) => {
-        return "192.168.95.3:" + record.Ports[0].PublicPort;
+        return !isEmpty(record.Ports)
+          ? `${record.Ip}:${record.Ports[0].PublicPort}`
+          : "Not assigned";
       }
     },
     {
@@ -52,6 +92,7 @@ function ServersDashboard() {
             record={record}
             id={record.Id}
             name={record.Names[0].slice(1)}
+            state={record.State}
           />
         );
       }
