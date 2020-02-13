@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Formik, Field } from "formik";
 import { Modal, Form, Input, Select, Button } from "antd";
 import { useTranslation } from "react-i18next";
@@ -12,6 +12,8 @@ import {
   resetCreateNewServer
 } from "features/Dashboard/actions/servers.actions";
 import { openNotificationWithIcon } from "helpers/openNotification";
+import Logs from "components/Logs";
+import { useSocket } from "use-socketio";
 
 const { Option } = Select;
 
@@ -24,6 +26,14 @@ function AddNewServerModal({ visible, setVisibility }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const formRef = useRef(null);
+  const [submitButton, setSubmitButton] = useState({
+    text: t("common.Create")
+  });
+
+  const { socket } = useSocket("createServer", ({ message }) => {
+    openNotificationWithIcon("success", message);
+    setSubmitButton(state => ({ ...state, text: t("common.continue") }));
+  });
 
   const { data: gamesData, fetching: gamesFetching } = useSelector(
     state => state.dashboardPage.availableGames
@@ -59,14 +69,15 @@ function AddNewServerModal({ visible, setVisibility }) {
     game: Yup.string().required(t("form.common.errors.required"))
   });
 
-  const onSubmit = (values, { resetForm }) => {
-    dispatch(createNewServer(values));
-    resetForm(FORM_INITIAL_STATE);
+  const onSubmit = values => {
+    socket.emit("createServer", values);
+
+    createNewServer(values, socket);
   };
 
   const onCancel = () => {
     if (formRef.current) {
-      formRef.current.props.reset();
+      formRef.current.props.resetForm();
       setVisibility(false);
     }
   };
@@ -78,16 +89,22 @@ function AddNewServerModal({ visible, setVisibility }) {
       onOk={setVisibility}
       onCancel={setVisibility}
       footer={[
-        <Button key="cancel" onClick={onCancel}>
-          {t("common.Cancel")}
-        </Button>,
+        submitButton.text !== t("common.continue") ? (
+          <Button key="cancel" onClick={onCancel}>
+            {t("common.Cancel")}
+          </Button>
+        ) : null,
         <Button
           loading={createNewServerFetching}
           key="create"
           type="primary"
-          onClick={formRef.current ? formRef.current.props.onSubmit : noop}
+          onClick={
+            formRef.current && submitButton.text === t("common.Create")
+              ? formRef.current.props.onSubmit
+              : onCancel
+          }
         >
-          {t("common.Create")}
+          {submitButton.text}
         </Button>
       ]}
     >
@@ -106,7 +123,7 @@ function AddNewServerModal({ visible, setVisibility }) {
           values
         }) => {
           return (
-            <Form onSubmit={handleSubmit} ref={formRef} reset={resetForm}>
+            <Form onSubmit={handleSubmit} ref={formRef} resetForm={resetForm}>
               <Form.Item
                 label={t("dashboard.serverName")}
                 validateStatus={
@@ -154,6 +171,7 @@ function AddNewServerModal({ visible, setVisibility }) {
           );
         }}
       </Formik>
+      <Logs message={"createServerLogs"} />
     </Modal>
   );
 }
