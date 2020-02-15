@@ -18,6 +18,10 @@ function ManageServerDropdown({ id, name, state }) {
     socket.emit("startServer", id);
   }
 
+  function handleRestart() {
+    socket.emit("restartServer", id);
+  }
+
   const menu = (
     <Menu onClick={() => {}}>
       <Menu.Item key="1">
@@ -40,7 +44,11 @@ function ManageServerDropdown({ id, name, state }) {
           Start
         </Menu.Item>
       )}
-      <Menu.Item key="3" onClick={handleDelete}>
+      <Menu.Item key="3" onClick={handleRestart}>
+        <Icon type="refresh" />
+        Restart
+      </Menu.Item>
+      <Menu.Item key="4" onClick={handleDelete}>
         <Icon type="delete" />
         Delete
       </Menu.Item>

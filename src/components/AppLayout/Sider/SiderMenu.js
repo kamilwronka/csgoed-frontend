@@ -25,13 +25,7 @@ function SiderMenu() {
   };
 
   return (
-    <Sider
-      collapsible
-      collapsed={collapsed}
-      onCollapse={onCollapse}
-      //   onMouseOver={() => onCollapse(false)}
-      //   onMouseOut={() => onCollapse(true)}
-    >
+    <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
       <div className="logo" />
       <Menu
         theme="dark"
@@ -41,18 +35,18 @@ function SiderMenu() {
         <Menu.Item key="home">
           <Link to="/dashboard/home">
             <Icon type="pie-chart" />
-            <span>{t("menu.Home")}</span>
+            <span>{t("menu.home")}</span>
           </Link>
         </Menu.Item>
         <Menu.Item key="servers">
           <Link to="/dashboard/servers">
             <Icon type="desktop" />
-            <span>{t("menu.Servers")}</span>
+            <span>{t("menu.servers")}</span>
           </Link>
         </Menu.Item>
         <Menu.Item onClick={handleLogout}>
           <Icon type="logout" />
-          <span>{t("common.Logout")}</span>
+          <span>{t("common.logout")}</span>
         </Menu.Item>
       </Menu>
     </Sider>
