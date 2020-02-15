@@ -1,4 +1,10 @@
 FROM node:12.16-alpine as build-deps
+
+ARG API_URL
+
+ENV API_URL=${API_URL}
+ENV NODE_ENV=production
+
 WORKDIR /usr/src/app
 COPY package.json yarn.lock ./
 RUN yarn
