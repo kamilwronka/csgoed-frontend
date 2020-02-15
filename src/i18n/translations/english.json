@@ -1,19 +1,19 @@
 {
   "translation": {
     "common": {
-      "SignUp": "Sign Up",
-      "SignIn": "Sign In",
-      "Email": "E-mail address",
-      "Password": "Password",
-      "Logout": "Logout",
-      "Dashboard": "Dashboard",
-      "ConfirmEmail": "Confirm e-mail address",
-      "ConfirmPassword": "Confirm password",
-      "Name": "Name",
-      "SigningIn": "Signing in...",
-      "SigningUp": "Signing up...",
-      "Cancel": "Cancel",
-      "Create": "Create"
+      "signUp": "Sign Up",
+      "signIn": "Sign In",
+      "email": "E-mail address",
+      "password": "Password",
+      "logout": "Logout",
+      "dashboard": "Dashboard",
+      "confirmEmail": "Confirm e-mail address",
+      "confirmPassword": "Confirm password",
+      "name": "Name",
+      "signingIn": "Signing in...",
+      "signingUp": "Signing up...",
+      "cancel": "Cancel",
+      "create": "Create"
     },
     "menu": {
       "dashboard": "Dashboard",

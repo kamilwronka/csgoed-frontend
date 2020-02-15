@@ -24,22 +24,10 @@ function ServersDashboard() {
   const { data, fetching } = useSelector(state => state.dashboardPage.servers);
   const history = useHistory();
 
-  useSocket("deleteServerLogs", (id, msg) => {
+  useSocket("basicServerLogs", ({ id, message, type }) => {
     notification.destroy();
-    openNotificationWithIcon("info", msg, "", 0);
-    dispatch(setServerFetching(id, msg));
-  });
-
-  useSocket("stopServerLogs", (id, msg) => {
-    notification.destroy();
-    openNotificationWithIcon("info", msg, "", 0);
-    dispatch(setServerFetching(id, msg));
-  });
-
-  useSocket("startServerLogs", (id, msg) => {
-    notification.destroy();
-    openNotificationWithIcon("info", msg, "", 0);
-    dispatch(setServerFetching(id, msg));
+    openNotificationWithIcon(type, message, "", 0);
+    // dispatch(setServerFetching(id, msg));
   });
 
   useSocket("deleteServer", id => {
