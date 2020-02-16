@@ -31,7 +31,7 @@ function Navigation() {
         </UnauthenticatedRoute>
         <AuthenticatedRoute
           appProps={{ isAuthorized: isAuthorized }}
-          path="/dashboard/servers/:id"
+          path="/servers/:id"
         >
           <Layout>
             <SingleServerDashboard />
@@ -39,7 +39,7 @@ function Navigation() {
         </AuthenticatedRoute>
         <AuthenticatedRoute
           appProps={{ isAuthorized: isAuthorized }}
-          path="/dashboard/servers"
+          path="/servers"
         >
           <Layout>
             <ServersDashboard />
@@ -47,7 +47,7 @@ function Navigation() {
         </AuthenticatedRoute>
         <AuthenticatedRoute
           appProps={{ isAuthorized: isAuthorized }}
-          path="/dashboard/home"
+          path="/dashboard"
         >
           <Layout>
             <Home />

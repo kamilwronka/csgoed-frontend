@@ -28,7 +28,7 @@ function ManageServerDropdown({ id, name, state }) {
         <Icon type="edit" />
         <Link
           style={{ display: "inline-block" }}
-          to={`/dashboard/servers/${name}`}
+          to={{ pathname: `/servers/${id}` }}
         >
           Edit
         </Link>

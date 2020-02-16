@@ -33,13 +33,13 @@ function SiderMenu() {
         mode="inline"
       >
         <Menu.Item key="home">
-          <Link to="/dashboard/home">
+          <Link to="/dashboard">
             <Icon type="pie-chart" />
             <span>{t("menu.home")}</span>
           </Link>
         </Menu.Item>
         <Menu.Item key="servers">
-          <Link to="/dashboard/servers">
+          <Link to="/servers">
             <Icon type="desktop" />
             <span>{t("menu.servers")}</span>
           </Link>

@@ -19,8 +19,6 @@ function ContentLayout({ children }) {
           {breadcrumbs.map((breadcrumb, index) => {
             const url = "/" + breadcrumbs.slice(0, index + 1).join("/");
 
-            console.log(url);
-
             return (
               <Breadcrumb.Item key={breadcrumb === id ? id : breadcrumb}>
                 <Link to={url} disabled={index === 0}>
