@@ -1,18 +1,20 @@
-import React from "react";
-import { useLocation, useParams } from "react-router-dom";
-import MainSocketProvider from "providers/MainSocketProvider";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useSocket } from "use-socketio";
 
 function SingleServerDashboard() {
-  const { search } = useLocation();
   const { id } = useParams();
+  const { socket } = useSocket();
 
-  console.log(search);
+  useEffect(() => {
+    socket.emit("singleServerConnection", { id });
+  }, [socket, id]);
 
-  return (
-    <MainSocketProvider url={"http://195.168.95.3:5555"}>
-      <div>dupa</div>
-    </MainSocketProvider>
-  );
+  const doSumting = () => {
+    socket.emit("doSumting");
+  };
+
+  return <div onClick={doSumting}>dupa</div>;
 }
 
 export default SingleServerDashboard;

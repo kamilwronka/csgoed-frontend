@@ -69,10 +69,11 @@ function AddNewServerModal({ visible, setVisibility }) {
     game: Yup.string().required(t("form.common.errors.required"))
   });
 
-  const onSubmit = values => {
-    socket.emit("createServer", values);
+  const onSubmit = ({ serverName, game }) => {
+    console.log({ game, name: serverName });
+    socket.emit("createServer", { game, name: serverName });
 
-    createNewServer(values, socket);
+    createNewServer({ game, name: serverName }, socket);
   };
 
   const onCancel = () => {

@@ -3,6 +3,7 @@ import { Route, Redirect } from "react-router-dom";
 import { SocketIOProvider } from "use-socketio";
 
 import { API_CONFIG } from "config";
+import Notifications from "components/Notifications/Notifications";
 
 export default function AuthenticatedRoute({ children, appProps, ...rest }) {
   return (
@@ -11,6 +12,7 @@ export default function AuthenticatedRoute({ children, appProps, ...rest }) {
       render={props =>
         appProps.isAuthorized ? (
           <SocketIOProvider url={API_CONFIG.API_URL}>
+            <Notifications />
             {children}
           </SocketIOProvider>
         ) : (

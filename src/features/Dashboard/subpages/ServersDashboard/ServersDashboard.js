@@ -24,12 +24,6 @@ function ServersDashboard() {
   const { data, fetching } = useSelector(state => state.dashboardPage.servers);
   const history = useHistory();
 
-  useSocket("basicServerLogs", ({ id, message, type }) => {
-    notification.destroy();
-    openNotificationWithIcon(type, message, "", 0);
-    // dispatch(setServerFetching(id, msg));
-  });
-
   useSocket("deleteServer", id => {
     dispatch(deleteServer(id));
     setTimeout(notification.destroy, 3000);
@@ -94,14 +88,12 @@ function ServersDashboard() {
   const toggleAddingNewServerModal = visibility => {
     if (visibility === true || visibility === false) {
       visibility
-        ? history.push("/dashboard/servers#new-server")
-        : history.push("/dashboard/servers");
+        ? history.push("/servers#new-server")
+        : history.push("/servers");
       return setModal(visibility);
     } else {
       setModal(state => {
-        !state
-          ? history.push("/dashboard/servers#new-server")
-          : history.push("/dashboard/servers");
+        !state ? history.push("/servers#new-server") : history.push("/servers");
         return !state;
       });
     }
