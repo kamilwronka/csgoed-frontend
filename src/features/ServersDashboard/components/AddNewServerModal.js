@@ -4,7 +4,7 @@ import { Modal, Form, Input, Select, Button } from "antd";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { isNil, noop } from "lodash";
+import { isNil } from "lodash";
 
 import {
   fetchAvailableGames,

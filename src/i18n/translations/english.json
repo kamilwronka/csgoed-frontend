@@ -20,7 +20,8 @@
       "home": "Home",
       "servers": "Servers",
       "payments": "Billing and payments",
-      "developers": "For developers"
+      "developers": "For developers",
+      "account": "Account"
     },
     "form": {
       "common": {

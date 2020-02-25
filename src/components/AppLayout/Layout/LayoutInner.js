@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout as AntdLayout, Affix, Button, Icon } from "antd";
+import { Layout as AntdLayout, Affix, Icon } from "antd";
 
 import SiderMenu from "../Sider/SiderMenu";
 import ContentLayout from "../ContentLayout/ContentLayout";

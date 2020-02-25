@@ -6,11 +6,7 @@ import { pl } from "date-fns/locale";
 import { useHistory } from "react-router-dom";
 import { isEmpty } from "lodash";
 
-import {
-  fetchServers,
-  deleteServer,
-  setServerFetching
-} from "./actions/servers.actions";
+import { fetchServers, deleteServer } from "./actions/servers.actions";
 import AddNewServerModal from "./components/AddNewServerModal";
 import ManageServerDropdown from "./components/ManageServerDropdown";
 import { useSocket } from "use-socketio";

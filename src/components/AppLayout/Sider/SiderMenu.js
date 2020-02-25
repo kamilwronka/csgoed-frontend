@@ -1,4 +1,4 @@
-import React, { useDebugValue } from "react";
+import React from "react";
 import { Menu, Icon, Layout, Avatar } from "antd";
 import { Link, useLocation, useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";

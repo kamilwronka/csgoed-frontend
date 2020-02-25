@@ -3,11 +3,15 @@ import { Layout } from "antd";
 
 import UserMenu from "components/UserMenu/UserMenu";
 import useLayout from "hooks/useLayout";
+import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 
 const { Header: AntdHeader } = Layout;
 
 function Header() {
   const { mobile } = useLayout();
+  const { t } = useTranslation();
+  const { pathname } = useLocation();
 
   return (
     <AntdHeader
@@ -22,7 +26,7 @@ function Header() {
         padding: "0 24px"
       }}
     >
-      <div className="logo">csgoed.com</div>
+      <div className="logo">{t(`menu.${pathname.substr(1)}`)}</div>
       {!mobile && <UserMenu />}
     </AntdHeader>
   );
