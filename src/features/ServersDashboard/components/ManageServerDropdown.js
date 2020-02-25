@@ -57,9 +57,7 @@ function ManageServerDropdown({ id, name, state }) {
 
   return (
     <Dropdown overlay={menu} trigger={["click"]}>
-      <Button type="primary">
-        Manage <Icon type="down" />
-      </Button>
+      <Button>Manage</Button>
     </Dropdown>
   );
 }

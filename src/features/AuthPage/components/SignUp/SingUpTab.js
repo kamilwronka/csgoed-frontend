@@ -94,21 +94,21 @@ function SignUpTab() {
               )}
             </Form.Item>
             <Form.Item
-              label={t("common.Name")}
+              label={t("common.name")}
               validateStatus={errors.name && touched.name ? "error" : ""}
               help={errors.name && touched.name ? errors.name : ""}
             >
               <Field id="name" name="name" type="text" as={Input} />
             </Form.Item>
             <Form.Item
-              label={t("common.Email")}
+              label={t("common.email")}
               validateStatus={errors.email && touched.email ? "error" : ""}
               help={errors.email && touched.email ? errors.email : ""}
             >
               <Field id="email" name="email" type="text" as={Input} />
             </Form.Item>
             <Form.Item
-              label={t("common.ConfirmEmail")}
+              label={t("common.confirmEmail")}
               validateStatus={
                 errors.confirmEmail && touched.confirmEmail ? "error" : ""
               }
@@ -126,7 +126,7 @@ function SignUpTab() {
               />
             </Form.Item>
             <Form.Item
-              label={t("common.Password")}
+              label={t("common.password")}
               validateStatus={
                 errors.password && touched.password ? "error" : ""
               }
@@ -135,7 +135,7 @@ function SignUpTab() {
               <Field id="password" name="password" type="password" as={Input} />
             </Form.Item>
             <Form.Item
-              label={t("common.ConfirmPassword")}
+              label={t("common.confirmPassword")}
               validateStatus={
                 errors.confirmPassword && touched.confirmPassword ? "error" : ""
               }
@@ -154,7 +154,7 @@ function SignUpTab() {
             </Form.Item>
             <Form.Item>
               <Button htmlType="submit" type="primary" loading={fetching}>
-                {fetching ? t("common.SigningUp") : t("common.SignUp")}
+                {fetching ? t("common.signingUp") : t("common.signUp")}
               </Button>
             </Form.Item>
           </Form>

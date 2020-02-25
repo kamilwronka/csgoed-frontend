@@ -39,10 +39,10 @@ function AuthPage() {
             onChange={onSwitchTab}
             tabPosition="top"
           >
-            <TabPane tab={t("common.SignIn")} key="signin">
+            <TabPane tab={t("common.signIn")} key="signin">
               <SignInTab />
             </TabPane>
-            <TabPane tab={t("common.SignUp")} key="signup">
+            <TabPane tab={t("common.signUp")} key="signup">
               <SignUpTab />
             </TabPane>
           </Tabs>

@@ -1,55 +1,106 @@
-import React, { useState } from "react";
-import { Menu, Icon, Layout } from "antd";
-import { useParams, Link } from "react-router-dom";
+import React, { useDebugValue } from "react";
+import { Menu, Icon, Layout, Avatar } from "antd";
+import { Link, useLocation, useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import useLayout from "hooks/useLayout";
+import OutsideClickHandler from "react-outside-click-handler";
 import { useDispatch } from "react-redux";
-
 import { logOutUser } from "features/AuthPage/actions/auth.actions";
 
 const { Sider } = Layout;
 
 function SiderMenu() {
-  const [collapsed, setCollapsed] = useState(false);
-  const { subpage } = useParams();
-  const { t } = useTranslation();
+  const { mobile, setMobile, siderOpen, disableSider } = useLayout();
   const dispatch = useDispatch();
 
-  const defaultSelectedItem = subpage || "home";
-
-  const onCollapse = collapsed => {
-    setCollapsed(collapsed);
-  };
+  const { pathname } = useLocation();
+  const { t } = useTranslation();
+  const { push } = useHistory();
 
   const handleLogout = () => {
     dispatch(logOutUser());
   };
 
+  const defaultSelectedItem = pathname;
+
   return (
-    <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
-      <div className="logo" />
-      <Menu
-        theme="dark"
-        defaultSelectedKeys={defaultSelectedItem}
-        mode="inline"
+    <OutsideClickHandler onOutsideClick={disableSider} display="contents">
+      <Sider
+        collapsed={mobile && !siderOpen}
+        style={{
+          background: "#fff",
+          zIndex: 10,
+          boxShadow: mobile
+            ? `10px 0px ${window.innerWidth}px 0px rgba(0,0,0,1)`
+            : "",
+          height: "100vh",
+          overflowY: "auto"
+        }}
+        width={250}
+        breakpoint={"xs"}
+        collapsedWidth={mobile ? 0 : 80}
+        onBreakpoint={setMobile}
+        trigger={null}
+        className="custom"
       >
-        <Menu.Item key="home">
-          <Link to="/dashboard">
-            <Icon type="pie-chart" />
-            <span>{t("menu.home")}</span>
-          </Link>
-        </Menu.Item>
-        <Menu.Item key="servers">
-          <Link to="/servers">
-            <Icon type="desktop" />
-            <span>{t("menu.servers")}</span>
-          </Link>
-        </Menu.Item>
-        <Menu.Item onClick={handleLogout}>
-          <Icon type="logout" />
-          <span>{t("common.logout")}</span>
-        </Menu.Item>
-      </Menu>
-    </Sider>
+        <div>
+          {mobile && (
+            <div
+              style={{
+                margin: 16,
+                display: "flex",
+                justifyContent: "center",
+                flexDirection: "column",
+                alignItems: "center"
+              }}
+              onClick={() => {
+                push("/account");
+              }}
+            >
+              <Avatar size={64} icon="user" />
+              <h4 style={{ margin: "8px 0 0 0" }}>email@address.com</h4>
+              <span>Administrator</span>
+            </div>
+          )}
+          <Menu defaultSelectedKeys={defaultSelectedItem} mode="inline">
+            <Menu.Item key="/dashboard">
+              <Link to="/dashboard" onClick={disableSider}>
+                <Icon type="dashboard" />
+                <span>{t("menu.dashboard")}</span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="/servers">
+              <Link to="/servers" onClick={disableSider}>
+                <Icon type="unordered-list" />
+                <span>{t("menu.servers")}</span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="/payments">
+              <Link to="/payments" onClick={disableSider}>
+                <Icon type="credit-card" />
+                <span>{t("menu.payments")}</span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="/developers">
+              <Link to="/developers" onClick={disableSider}>
+                <Icon type="code" />
+                <span>{t("menu.developers")}</span>
+              </Link>
+            </Menu.Item>
+          </Menu>
+        </div>
+        {mobile && (
+          <Menu defaultSelectedKeys={defaultSelectedItem} mode="inline">
+            <Menu.Item key="/logout">
+              <span onClick={handleLogout}>
+                <Icon type="logout" />
+                <span>{t("common.logout")}</span>
+              </span>
+            </Menu.Item>
+          </Menu>
+        )}
+      </Sider>
+    </OutsideClickHandler>
   );
 }
 

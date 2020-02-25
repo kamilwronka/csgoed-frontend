@@ -2,7 +2,6 @@ import createReducer from "store/reducer.factory";
 // import { REQUEST_STATES } from "middleware/promiseMiddleware";
 
 import { ACTIONS } from "../actions/servers.actions";
-import { validateYupSchema } from "formik";
 
 const additionalCases = {};
 

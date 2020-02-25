@@ -1,15 +1,43 @@
-import React from "react";
-import { Layout as AntdLayout } from "antd";
+import React, { useEffect, useContext, useState } from "react";
 
-import SiderMenu from "../Sider/SiderMenu";
-import ContentLayout from "../ContentLayout/ContentLayout";
+import { useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import LayoutInner from "./LayoutInner";
+
+export const LayoutContext = React.createContext({
+  siderOpen: false,
+  mobile: false
+});
 
 function Layout({ children }) {
+  const { pathname } = useLocation();
+  const { t } = useTranslation();
+  const [value, setValue] = useState({ siderOpen: false, mobile: false });
+
+  const setMobile = val => {
+    setValue({ ...value, mobile: val });
+  };
+
+  const toggleSider = val => {
+    setValue({ ...value, siderOpen: !value.siderOpen });
+  };
+
+  const disableSider = val => {
+    setValue({ ...value, siderOpen: false });
+  };
+
+  console.log(value);
+
+  useEffect(() => {
+    window.document.title = t(`menu.${pathname.substr(1)}`) + " - csgoed.com";
+  }, [pathname, t]);
+
   return (
-    <AntdLayout style={{ minHeight: "100vh" }}>
-      <SiderMenu />
-      <ContentLayout>{children}</ContentLayout>
-    </AntdLayout>
+    <LayoutContext.Provider
+      value={{ ...value, setMobile, toggleSider, disableSider }}
+    >
+      <LayoutInner>{children}</LayoutInner>
+    </LayoutContext.Provider>
   );
 }
 

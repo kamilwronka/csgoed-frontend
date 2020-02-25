@@ -1,34 +1,24 @@
 import React from "react";
-import { Layout, Breadcrumb } from "antd";
-import { useLocation, Link, useParams } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import { Layout } from "antd";
+import useLayout from "hooks/useLayout";
 
 const { Content } = Layout;
 
 function ContentLayout({ children }) {
-  const { pathname } = useLocation();
-  const { t } = useTranslation();
-  const { id } = useParams();
-
-  const breadcrumbs = pathname.split("/").slice(1);
+  const { mobile, siderOpen } = useLayout();
 
   return (
     <Layout>
-      <Content style={{ margin: "0 16px" }}>
-        <Breadcrumb style={{ margin: "16px 0" }}>
-          {breadcrumbs.map((breadcrumb, index) => {
-            const url = "/" + breadcrumbs.slice(0, index + 1).join("/");
-
-            return (
-              <Breadcrumb.Item key={breadcrumb === id ? id : breadcrumb}>
-                <Link to={url} disabled={index === 0}>
-                  {breadcrumb === id ? id : t(`menu.${breadcrumb}`)}
-                </Link>
-              </Breadcrumb.Item>
-            );
-          })}
-        </Breadcrumb>
-        <div style={{ padding: 24, background: "#fff", minHeight: 360 }}>
+      <Content style={{ margin: mobile ? 0 : 20 }}>
+        <div
+          style={{
+            padding: 24,
+            background: "#fff",
+            minHeight: 480,
+            position: siderOpen ? "fixed" : "relative",
+            width: mobile ? window.innerWidth : "100%"
+          }}
+        >
           {children}
         </div>
       </Content>

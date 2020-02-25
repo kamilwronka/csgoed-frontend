@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Table, Button, Row, message, notification, Spin } from "antd";
+import { Table, Button, Row, notification } from "antd";
 import { format } from "date-fns";
 import { pl } from "date-fns/locale";
 import { useHistory } from "react-router-dom";
@@ -10,18 +10,19 @@ import {
   fetchServers,
   deleteServer,
   setServerFetching
-} from "../../actions/servers.actions";
+} from "./actions/servers.actions";
 import AddNewServerModal from "./components/AddNewServerModal";
 import ManageServerDropdown from "./components/ManageServerDropdown";
 import { useSocket } from "use-socketio";
-import { openNotificationWithIcon } from "helpers/openNotification";
 
 function ServersDashboard() {
   const dispatch = useDispatch();
   const [modalOpen, setModal] = useState(
     window.location.href.includes("new-server")
   );
-  const { data, fetching } = useSelector(state => state.dashboardPage.servers);
+  const { data, fetching } = useSelector(
+    state => state.serversDashboard.servers
+  );
   const history = useHistory();
 
   useSocket("deleteServer", id => {
@@ -39,15 +40,17 @@ function ServersDashboard() {
 
   const columns = [
     {
+      width: 150,
       title: "Name",
       key: "Image",
       render: (text, record) => {
         return record.Names[0].slice(1);
       }
     },
-    { title: "State", dataIndex: "State", key: "State" },
-    { title: "Status", dataIndex: "Status", key: "Status" },
+    { width: 150, title: "State", dataIndex: "State", key: "State" },
+    { width: 200, title: "Status", dataIndex: "Status", key: "Status" },
     {
+      width: 150,
       title: "Ip address",
       key: "Ip",
       render: (text, record) => {
@@ -57,6 +60,7 @@ function ServersDashboard() {
       }
     },
     {
+      width: 200,
       title: "Created",
       key: "Id",
       render: (text, record) => {
@@ -66,6 +70,8 @@ function ServersDashboard() {
       }
     },
     {
+      width: 100,
+      fixed: "right",
       title: "Actions",
       key: "action",
       render: (text, record) => {
@@ -105,11 +111,12 @@ function ServersDashboard() {
 
   return (
     <div>
+      <h2>Server management</h2>
       <AddNewServerModal
         visible={modalOpen}
         setVisibility={toggleAddingNewServerModal}
       />
-      <Row style={{ margin: "0 0 10px 0" }} justify="end" type="flex">
+      <Row style={{ margin: "0 0 20px 0" }} justify="end" type="flex">
         <Button
           onClick={toggleAddingNewServerModal}
           type="primary"
@@ -122,7 +129,15 @@ function ServersDashboard() {
         </Button>
       </Row>
       <Row>
-        <Table dataSource={data} loading={fetching} columns={columns}></Table>
+        <Table
+          rowKey={record => record.Id}
+          dataSource={data}
+          loading={fetching}
+          columns={columns}
+          style={{ overflowX: "auto" }}
+          scroll={{ x: 850 }}
+          size="middle"
+        ></Table>
       </Row>
     </div>
   );

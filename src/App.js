@@ -7,6 +7,7 @@ import Navigation from "navigation";
 
 import "i18n";
 import "antd/dist/antd.css";
+import "./App.css";
 
 function App() {
   return (

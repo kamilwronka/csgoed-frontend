@@ -53,14 +53,14 @@ function SignInTab() {
               )}
             </Form.Item>
             <Form.Item
-              label={t("common.Email")}
+              label={t("common.email")}
               validateStatus={errors.email && touched.email ? "error" : ""}
               help={errors.email && touched.email ? errors.email : ""}
             >
               <Field id="email" name="email" type="text" as={Input} />
             </Form.Item>
             <Form.Item
-              label={t("common.Password")}
+              label={t("common.password")}
               validateStatus={
                 errors.password && touched.password ? "error" : ""
               }
@@ -70,7 +70,7 @@ function SignInTab() {
             </Form.Item>
             <Form.Item>
               <Button htmlType="submit" type="primary" loading={fetching}>
-                {fetching ? t("common.SigningIn") : t("common.SignIn")}
+                {fetching ? t("common.signingIn") : t("common.signIn")}
               </Button>
             </Form.Item>
           </Form>

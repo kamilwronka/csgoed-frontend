@@ -11,7 +11,7 @@ export default ({ children, appProps, ...rest }) => (
       return !appProps.isAuthorized ? (
         children
       ) : (
-        <Redirect to={parsedQuery.redirect || "/dashboard/home"} />
+        <Redirect to={parsedQuery.redirect || "/dashboard"} />
       );
     }}
   />

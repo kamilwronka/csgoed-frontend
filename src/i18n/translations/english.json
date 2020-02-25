@@ -18,7 +18,9 @@
     "menu": {
       "dashboard": "Dashboard",
       "home": "Home",
-      "servers": "Servers"
+      "servers": "Servers",
+      "payments": "Billing and payments",
+      "developers": "For developers"
     },
     "form": {
       "common": {

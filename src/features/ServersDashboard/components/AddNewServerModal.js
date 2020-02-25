@@ -10,7 +10,7 @@ import {
   fetchAvailableGames,
   createNewServer,
   resetCreateNewServer
-} from "features/Dashboard/actions/servers.actions";
+} from "../actions/servers.actions";
 import { openNotificationWithIcon } from "helpers/openNotification";
 import Logs from "components/Logs";
 import { useSocket } from "use-socketio";
@@ -36,13 +36,13 @@ function AddNewServerModal({ visible, setVisibility }) {
   });
 
   const { data: gamesData, fetching: gamesFetching } = useSelector(
-    state => state.dashboardPage.availableGames
+    state => state.serversDashboard.availableGames
   );
 
   const {
     data: createNewServerData,
     fetching: createNewServerFetching
-  } = useSelector(state => state.dashboardPage.createNewServer);
+  } = useSelector(state => state.serversDashboard.createNewServer);
 
   useEffect(() => {
     visible && dispatch(fetchAvailableGames());
