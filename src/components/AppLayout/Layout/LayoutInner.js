@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout as AntdLayout, Affix, Icon } from "antd";
+import { Layout as AntdLayout, Icon } from "antd";
 
 import SiderMenu from "../Sider/SiderMenu";
 import ContentLayout from "../ContentLayout/ContentLayout";
@@ -15,28 +15,29 @@ function MobileLayout({ children }) {
       <AntdLayout>
         <Header />
         <ContentLayout>{children}</ContentLayout>
-        <Affix offsetBottom={16} style={{ width: 0 }}>
-          <div
-            onClick={toggleSider}
-            style={{
-              background: "#001529",
-              height: 44,
-              width: 44,
-              borderRadius: 22,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              marginLeft: 16,
-              boxShadow: "0px 0px 10px 3px rgba(0,0,0,0.6)"
-            }}
-          >
-            <Icon
-              className="trigger"
-              type={!siderOpen ? "menu" : "close"}
-              style={{ color: "#fff" }}
-            />
-          </div>
-        </Affix>
+        <div
+          onClick={toggleSider}
+          style={{
+            position: "fixed",
+            right: 16,
+            bottom: 16,
+            background: "#001529",
+            height: 64,
+            width: 64,
+            borderRadius: 32,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            // marginLeft: 16,
+            boxShadow: "0px 0px 10px 1px rgba(0,0,0,0.6)"
+          }}
+        >
+          <Icon
+            className="trigger"
+            type={!siderOpen ? "menu" : "close"}
+            style={{ color: "#fff" }}
+          />
+        </div>
       </AntdLayout>
     </AntdLayout>
   );

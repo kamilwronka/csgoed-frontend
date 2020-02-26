@@ -2,6 +2,8 @@ import React from "react";
 import { Layout } from "antd";
 import useLayout from "hooks/useLayout";
 
+import ActivateEmailNotification from "../ActivateEmailNotification/ActivateEmailNotification";
+
 const { Content } = Layout;
 
 function ContentLayout({ children }) {
@@ -12,14 +14,14 @@ function ContentLayout({ children }) {
       <Content style={{ margin: mobile ? 0 : 20 }}>
         <div
           style={{
-            padding: 24,
             background: "#fff",
-            minHeight: 480,
+            minHeight: 640,
             position: siderOpen ? "fixed" : "relative",
             width: mobile ? window.innerWidth : "100%"
           }}
         >
-          {children}
+          <ActivateEmailNotification />
+          <div style={{ padding: 24 }}>{children}</div>
         </div>
       </Content>
     </Layout>

@@ -13,7 +13,17 @@
       "signingIn": "Signing in...",
       "signingUp": "Signing up...",
       "cancel": "Cancel",
-      "create": "Create"
+      "create": "Create",
+      "activateEmailMessage": "Activate account",
+      "activateEmailDescription": "You must activate an account in order to do any actions.",
+      "resendActivationEmailButton": "Resend activation email"
+    },
+    "icons": {
+      "dashboard": "dashboard",
+      "payments": "credit-card",
+      "developers": "code",
+      "servers": "unordered-list",
+      "account": "user"
     },
     "menu": {
       "dashboard": "Dashboard",

@@ -1,5 +1,5 @@
-import React, { useState, useRef } from "react";
-import { Avatar, Dropdown, Button, Icon, Popover } from "antd";
+import React, { useState } from "react";
+import { Avatar, Popover } from "antd";
 import OutsideClickHandler from "react-outside-click-handler";
 
 import UserMenuDropdown from "./UserMenuDropdown";

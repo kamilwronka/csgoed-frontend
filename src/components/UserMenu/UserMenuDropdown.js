@@ -2,13 +2,16 @@ import React from "react";
 import { Card, Avatar, Icon } from "antd";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { get } from "lodash";
 
 import { logOutUser } from "features/AuthPage/actions/auth.actions";
+import { useUserData } from "hooks";
 
 const { Meta } = Card;
 
 function UserMenuDropdown({ togglePopover }) {
   const dispatch = useDispatch();
+  const { data: userData } = useUserData();
 
   const handleLogout = () => {
     togglePopover();
@@ -17,7 +20,7 @@ function UserMenuDropdown({ togglePopover }) {
 
   return (
     <Card
-      style={{ width: 300, padding: 0, margin: 0 }}
+      style={{ width: 400, padding: 0, margin: 0 }}
       bordered={false}
       actions={[
         <Link key="user" to="/account" onClick={togglePopover}>
@@ -31,7 +34,7 @@ function UserMenuDropdown({ togglePopover }) {
     >
       <Meta
         avatar={<Avatar size={64} icon="user" />}
-        title="email@address.com"
+        title={get(userData, "email")}
         description="Administrator"
       />
     </Card>

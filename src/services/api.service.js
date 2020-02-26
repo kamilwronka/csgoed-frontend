@@ -1,6 +1,5 @@
 import axios from "axios";
 import { isNil, get } from "lodash";
-import { message } from "antd";
 
 import API_CONFIG from "config/api_config";
 import { openNotificationWithIcon } from "helpers/openNotification";

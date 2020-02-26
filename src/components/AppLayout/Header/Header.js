@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout } from "antd";
+import { Layout, Icon } from "antd";
 
 import UserMenu from "components/UserMenu/UserMenu";
 import useLayout from "hooks/useLayout";
@@ -23,10 +23,17 @@ function Header() {
         alignItems: "center",
         height: 64,
         color: "#fff",
-        padding: "0 24px"
+        padding: "0 24px",
+        width: mobile ? window.innerWidth : "100%"
       }}
     >
-      <div className="logo">{t(`menu.${pathname.substr(1)}`)}</div>
+      <div className="logo">
+        <Icon
+          style={{ marginRight: 10 }}
+          type={t(`icons.${pathname.substr(1)}`)}
+        />
+        {t(`menu.${pathname.substr(1)}`)}
+      </div>
       {!mobile && <UserMenu />}
     </AntdHeader>
   );

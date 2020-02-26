@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
-
 import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+import { get } from "lodash";
+
 import LayoutInner from "./LayoutInner";
+import { fetchUserData } from "store/actions/user.actions";
+import { useAuthData } from "hooks";
 
 export const LayoutContext = React.createContext({
   siderOpen: false,
@@ -13,6 +17,10 @@ function Layout({ children }) {
   const { pathname } = useLocation();
   const { t } = useTranslation();
   const [value, setValue] = useState({ siderOpen: false, mobile: false });
+  const dispatch = useDispatch();
+  const { data: authData } = useAuthData();
+
+  const token = get(authData, "token");
 
   const setMobile = val => {
     setValue({ ...value, mobile: val });
@@ -26,7 +34,9 @@ function Layout({ children }) {
     setValue({ ...value, siderOpen: false });
   };
 
-  console.log(value);
+  useEffect(() => {
+    token && dispatch(fetchUserData());
+  }, [dispatch, token]);
 
   useEffect(() => {
     window.document.title = t(`menu.${pathname.substr(1)}`) + " - csgoed.com";

@@ -1,17 +1,21 @@
 import React from "react";
-import { Menu, Icon, Layout, Avatar } from "antd";
+import { Menu, Icon, Layout, Avatar, Button } from "antd";
 import { Link, useLocation, useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import useLayout from "hooks/useLayout";
 import OutsideClickHandler from "react-outside-click-handler";
 import { useDispatch } from "react-redux";
+import { get } from "lodash";
+
 import { logOutUser } from "features/AuthPage/actions/auth.actions";
+import { useUserData } from "hooks";
 
 const { Sider } = Layout;
 
 function SiderMenu() {
   const { mobile, setMobile, siderOpen, disableSider } = useLayout();
   const dispatch = useDispatch();
+  const { data: userData } = useUserData();
 
   const { pathname } = useLocation();
   const { t } = useTranslation();
@@ -54,11 +58,12 @@ function SiderMenu() {
                 alignItems: "center"
               }}
               onClick={() => {
+                disableSider();
                 push("/account");
               }}
             >
               <Avatar size={64} icon="user" />
-              <h4 style={{ margin: "8px 0 0 0" }}>email@address.com</h4>
+              <h4 style={{ margin: "8px 0 0 0" }}>{get(userData, "email")}</h4>
               <span>Administrator</span>
             </div>
           )}
@@ -90,14 +95,14 @@ function SiderMenu() {
           </Menu>
         </div>
         {mobile && (
-          <Menu defaultSelectedKeys={defaultSelectedItem} mode="inline">
-            <Menu.Item key="/logout">
-              <span onClick={handleLogout}>
-                <Icon type="logout" />
-                <span>{t("common.logout")}</span>
-              </span>
-            </Menu.Item>
-          </Menu>
+          <Button
+            style={{ margin: 50 }}
+            onClick={handleLogout}
+            type="danger"
+            icon="logout"
+          >
+            {t("common.logout")}
+          </Button>
         )}
       </Sider>
     </OutsideClickHandler>

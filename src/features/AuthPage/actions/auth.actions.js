@@ -4,7 +4,8 @@ export const ACTIONS = {
   SIGN_IN_USER: "SIGN_IN_USER",
   SIGN_UP_USER: "SIGN_UP_USER",
   LOG_OUT_USER: "LOG_OUT_USER",
-  CLEAR_ERROR: "AUTH_CLEAR_ERROR"
+  CLEAR_ERROR: "AUTH_CLEAR_ERROR",
+  SEND_ACTIVATION_EMAIL: "SEND_ACTIVATION_EMAIL"
 };
 
 export const signInUser = ({ email, password }) => dispatch => {
@@ -31,6 +32,18 @@ export const signUpUser = ({ name, email, password }) => dispatch => {
         name,
         password
       }
+    })
+  );
+};
+
+export const sendActivationEmail = () => dispatch => {
+  dispatch({ type: `${ACTIONS.SEND_ACTIVATION_EMAIL}_RESET` });
+
+  return dispatch(
+    ApiService(ACTIONS.SEND_ACTIVATION_EMAIL, {
+      url: "/activate-email",
+      method: "post",
+      needsAuth: true
     })
   );
 };
