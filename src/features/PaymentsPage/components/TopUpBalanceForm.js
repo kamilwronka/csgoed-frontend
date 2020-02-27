@@ -1,17 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import StripeCheckout from "react-stripe-checkout";
-import { Form, Input, Card, Button } from "antd";
+import { Form, Input, Card, Button, notification } from "antd";
 import { get } from "lodash";
 
 import { STRIPE_KEY } from "config";
 import { useUserData } from "hooks";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { handleStripePayment } from "../actions/payment.actions";
+import { openNotificationWithIcon } from "helpers/openNotification";
 
 function TopUpBalanceForm() {
   const dispatch = useDispatch();
   const [amount, setAmount] = useState("");
   const { data: userData } = useUserData();
+  const { data: paymentData, error: paymentError, fetching } = useSelector(
+    state => state.paymentsPage.stripePayment
+  );
+
+  const paymentDataMessage = get(paymentData, "message");
+  const paymentErrorMessage = get(paymentError, "data.message");
 
   const handleChange = e => {
     let value = e.target.value;
@@ -22,6 +29,22 @@ function TopUpBalanceForm() {
   const onReceiveToken = data => {
     dispatch(handleStripePayment(data, amount));
   };
+
+  useEffect(() => {
+    fetching && openNotificationWithIcon("info", "Payment in progress...");
+  }, [fetching]);
+
+  useEffect(() => {
+    notification.destroy();
+    paymentDataMessage &&
+      openNotificationWithIcon("success", "Payment", paymentDataMessage);
+  }, [paymentDataMessage]);
+
+  useEffect(() => {
+    notification.destroy();
+    paymentErrorMessage &&
+      openNotificationWithIcon("error", "Payment", paymentErrorMessage);
+  }, [paymentErrorMessage]);
 
   return (
     <Card bordered={false} title={"Add funds to your account:"}>
