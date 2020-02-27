@@ -7,6 +7,7 @@ import userReducer from "./reducers/user.reducer";
 import serversDashboardReducer from "features/ServersDashboard/reducers/index";
 import emailActivationReducer from "./reducers/emailActivation.reducer";
 import { activateAccountReducer } from "features/AccountActivationPage";
+import { paymentsPageReducer } from "features/PaymentsPage";
 
 const authPersistConfig = {
   key: "auth",
@@ -25,5 +26,6 @@ export default combineReducers({
   user: persistReducer(userPersistConfig, userReducer),
   serversDashboard: serversDashboardReducer,
   emailActivation: emailActivationReducer,
-  accountActivation: activateAccountReducer
+  accountActivation: activateAccountReducer,
+  paymentsPage: paymentsPageReducer
 });
