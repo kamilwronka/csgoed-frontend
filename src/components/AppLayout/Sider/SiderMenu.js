@@ -1,5 +1,11 @@
 import React from "react";
 import { Menu, Icon, Layout, Avatar, Button } from "antd";
+import {
+  DashboardOutlined,
+  UnorderedListOutlined,
+  CreditCardOutlined,
+  CodeOutlined
+} from "@ant-design/icons";
 import { Link, useLocation, useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import useLayout from "hooks/useLayout";
@@ -70,25 +76,25 @@ function SiderMenu() {
           <Menu defaultSelectedKeys={defaultSelectedItem} mode="inline">
             <Menu.Item key="/dashboard">
               <Link to="/dashboard" onClick={disableSider}>
-                <Icon type="dashboard" />
+                <DashboardOutlined />
                 <span>{t("menu.dashboard")}</span>
               </Link>
             </Menu.Item>
             <Menu.Item key="/servers">
               <Link to="/servers" onClick={disableSider}>
-                <Icon type="unordered-list" />
+                <UnorderedListOutlined />
                 <span>{t("menu.servers")}</span>
               </Link>
             </Menu.Item>
             <Menu.Item key="/payments">
               <Link to="/payments" onClick={disableSider}>
-                <Icon type="credit-card" />
+                <CreditCardOutlined />
                 <span>{t("menu.payments")}</span>
               </Link>
             </Menu.Item>
             <Menu.Item key="/developers">
               <Link to="/developers" onClick={disableSider}>
-                <Icon type="code" />
+                <CodeOutlined />
                 <span>{t("menu.developers")}</span>
               </Link>
             </Menu.Item>

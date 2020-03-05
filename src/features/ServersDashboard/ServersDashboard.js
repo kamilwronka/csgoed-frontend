@@ -77,6 +77,7 @@ function ServersDashboard() {
             id={record.Id}
             name={record.Names[0].slice(1)}
             state={record.State}
+            game={record.Labels.game}
           />
         );
       }
@@ -112,7 +113,7 @@ function ServersDashboard() {
         visible={modalOpen}
         setVisibility={toggleAddingNewServerModal}
       />
-      <Row style={{ margin: "0 0 20px 0" }} justify="end" type="flex">
+      <div style={{ marginBottom: 20 }}>
         <Button
           onClick={toggleAddingNewServerModal}
           type="primary"
@@ -123,18 +124,16 @@ function ServersDashboard() {
         <Button onClick={handleRefresh} loading={fetching}>
           Refresh
         </Button>
-      </Row>
-      <Row>
-        <Table
-          rowKey={record => record.Id}
-          dataSource={data}
-          loading={fetching}
-          columns={columns}
-          style={{ overflowX: "auto" }}
-          scroll={{ x: 850 }}
-          size="middle"
-        ></Table>
-      </Row>
+      </div>
+      <Table
+        rowKey={record => record.Id}
+        dataSource={data}
+        loading={fetching}
+        columns={columns}
+        // style={{ overflowX: "auto" }}
+        scroll={{ x: 850 }}
+        size="middle"
+      ></Table>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Avatar, Popover } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 import OutsideClickHandler from "react-outside-click-handler";
 
 import UserMenuDropdown from "./UserMenuDropdown";
@@ -30,7 +31,7 @@ function UserMenu() {
         onClick={togglePopover}
         style={{ height: 48, transform: "translateY(-10px)" }}
       >
-        <Avatar size={42} icon="user" />
+        <Avatar size={42} icon={<UserOutlined />} />
       </div>
     </Popover>
   );

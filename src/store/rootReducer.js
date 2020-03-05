@@ -8,6 +8,7 @@ import serversDashboardReducer from "features/ServersDashboard/reducers/index";
 import emailActivationReducer from "./reducers/emailActivation.reducer";
 import { activateAccountReducer } from "features/AccountActivationPage";
 import { paymentsPageReducer } from "features/PaymentsPage";
+import singleServerReducer from "features/SingleServerDashboard/reducers/singleServer.reducer";
 
 const authPersistConfig = {
   key: "auth",
@@ -27,5 +28,6 @@ export default combineReducers({
   serversDashboard: serversDashboardReducer,
   emailActivation: emailActivationReducer,
   accountActivation: activateAccountReducer,
-  paymentsPage: paymentsPageReducer
+  paymentsPage: paymentsPageReducer,
+  singleServerPage: singleServerReducer
 });

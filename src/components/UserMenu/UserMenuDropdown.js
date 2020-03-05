@@ -1,8 +1,9 @@
 import React from "react";
-import { Card, Avatar, Icon } from "antd";
+import { Card, Avatar } from "antd";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { get } from "lodash";
+import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
 
 import { logOutUser } from "features/AuthPage/actions/auth.actions";
 import { useUserData } from "hooks";
@@ -24,16 +25,16 @@ function UserMenuDropdown({ togglePopover }) {
       bordered={false}
       actions={[
         <Link key="user" to="/account" onClick={togglePopover}>
-          <Icon type="user" />
+          <UserOutlined />
           &nbsp;Account
         </Link>,
-        <div onClick={handleLogout}>
-          <Icon type="logout" key="logout" /> &nbsp;Logout
+        <div key="logout" onClick={handleLogout}>
+          <LogoutOutlined /> &nbsp;Logout
         </div>
       ]}
     >
       <Meta
-        avatar={<Avatar size={64} icon="user" />}
+        avatar={<Avatar size={64} icon={<UserOutlined />} />}
         title={get(userData, "email")}
         description="Administrator"
       />

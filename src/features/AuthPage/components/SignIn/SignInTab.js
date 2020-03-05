@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Button, Alert } from "antd";
+import { Form, Input, Button, Alert, Layout, Checkbox } from "antd";
 import { Formik, Field } from "formik";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
@@ -12,6 +12,15 @@ import { useAuthData } from "hooks";
 const INITIAL_FORM_VALUES = {
   email: "kaam@kamil.pl",
   password: "password"
+};
+
+const formLayout = {
+  labelCol: { span: 4 },
+  wrapperCol: { span: 18 }
+};
+
+const tailLayout = {
+  wrapperCol: { offset: 4, span: 18 }
 };
 
 function SignInTab() {
@@ -41,8 +50,14 @@ function SignInTab() {
     >
       {({ handleSubmit, errors, touched, submitCount }) => {
         return (
-          <Form onSubmit={handleSubmit}>
-            <Form.Item>
+          <Form
+            // className="ant-form ant-form-horizontal"
+            // onSubmit={handleSubmit}
+            {...formLayout}
+            onFinish={handleSubmit}
+            labelAlign="left"
+          >
+            <Form.Item wrapperCol={22}>
               {!isNil(error) && submitCount > 0 && (
                 <Alert
                   message={t("form.signInForm.errors.unableToSignIn")}
@@ -66,9 +81,17 @@ function SignInTab() {
               }
               help={errors.password && touched.password ? errors.password : ""}
             >
-              <Field id="password" name="password" type="password" as={Input} />
+              <Field
+                id="password"
+                name="password"
+                type="password"
+                as={Input.Password}
+              />
             </Form.Item>
-            <Form.Item>
+            <Form.Item {...tailLayout} name="remember" valuePropName="checked">
+              <Checkbox>Remember me</Checkbox>
+            </Form.Item>
+            <Form.Item {...tailLayout}>
               <Button htmlType="submit" type="primary" loading={fetching}>
                 {fetching ? t("common.signingIn") : t("common.signIn")}
               </Button>

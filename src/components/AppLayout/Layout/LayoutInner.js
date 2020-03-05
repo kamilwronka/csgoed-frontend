@@ -1,4 +1,5 @@
 import React from "react";
+import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
 import { Layout as AntdLayout, Icon } from "antd";
 
 import SiderMenu from "../Sider/SiderMenu";
@@ -32,11 +33,11 @@ function MobileLayout({ children }) {
             boxShadow: "0px 0px 10px 1px rgba(0,0,0,0.6)"
           }}
         >
-          <Icon
-            className="trigger"
-            type={!siderOpen ? "menu" : "close"}
-            style={{ color: "#fff" }}
-          />
+          {!siderOpen ? (
+            <MenuOutlined className="trigger" style={{ color: "#fff" }} />
+          ) : (
+            <CloseOutlined className="trigger" style={{ color: "#fff" }} />
+          )}
         </div>
       </AntdLayout>
     </AntdLayout>

@@ -1,9 +1,16 @@
 import React from "react";
-import { Menu, Dropdown, Button, Icon } from "antd";
+import { Menu, Dropdown, Button } from "antd";
+import {
+  EditOutlined,
+  PauseOutlined,
+  CaretRightOutlined,
+  SyncOutlined,
+  DeleteOutlined
+} from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { useSocket } from "use-socketio";
 
-function ManageServerDropdown({ id, name, state }) {
+function ManageServerDropdown({ id, name, state, game }) {
   const { socket } = useSocket();
 
   function handleDelete() {
@@ -25,31 +32,33 @@ function ManageServerDropdown({ id, name, state }) {
   const menu = (
     <Menu onClick={() => {}}>
       <Menu.Item key="1">
-        <Icon type="edit" />
+        <EditOutlined />
         <Link
           style={{ display: "inline-block" }}
-          to={{ pathname: `/servers/${id}` }}
+          to={{
+            pathname: `/servers/${id}?name=${name}&game=${game}&view=summary`
+          }}
         >
           Edit
         </Link>
       </Menu.Item>
       {state === "running" ? (
         <Menu.Item key="2" onClick={handleStop}>
-          <Icon type="pause" />
+          <PauseOutlined />
           Stop
         </Menu.Item>
       ) : (
         <Menu.Item key="2" onClick={handleStart}>
-          <Icon type="caret-right" />
+          <CaretRightOutlined />
           Start
         </Menu.Item>
       )}
       <Menu.Item key="3" onClick={handleRestart}>
-        <Icon type="refresh" />
+        <SyncOutlined />
         Restart
       </Menu.Item>
       <Menu.Item key="4" onClick={handleDelete}>
-        <Icon type="delete" />
+        <DeleteOutlined />
         Delete
       </Menu.Item>
     </Menu>

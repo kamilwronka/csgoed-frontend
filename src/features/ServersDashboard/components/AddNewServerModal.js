@@ -87,10 +87,7 @@ function AddNewServerModal({ visible, setVisibility }) {
   };
 
   const onCancel = () => {
-    if (formRef.current) {
-      formRef.current.props.resetForm();
-      setVisibility(false);
-    }
+    setVisibility(false);
   };
 
   return (
@@ -111,7 +108,7 @@ function AddNewServerModal({ visible, setVisibility }) {
           type="primary"
           onClick={
             formRef.current && submitButton.text === t("common.create")
-              ? formRef.current.props.onSubmit
+              ? formRef.current.submit
               : onCancel
           }
         >
@@ -130,11 +127,10 @@ function AddNewServerModal({ visible, setVisibility }) {
           setTouched,
           setFieldValue,
           handleSubmit,
-          resetForm,
           values
         }) => {
           return (
-            <Form onSubmit={handleSubmit} ref={formRef} resetForm={resetForm}>
+            <Form onFinish={handleSubmit} ref={formRef}>
               <Form.Item
                 label={t("dashboard.serverName")}
                 validateStatus={
