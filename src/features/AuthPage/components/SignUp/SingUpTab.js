@@ -82,7 +82,7 @@ function SignUpTab() {
     >
       {({ handleSubmit, errors, touched, submitCount }) => {
         return (
-          <Form onSubmit={handleSubmit}>
+          <Form onFinish={handleSubmit}>
             <Form.Item>
               {!isNil(error) && submitCount > 0 && (
                 <Alert
