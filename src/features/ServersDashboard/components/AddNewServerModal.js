@@ -9,7 +9,8 @@ import { isNil } from "lodash";
 import {
   fetchAvailableGames,
   createNewServer,
-  resetCreateNewServer
+  resetCreateNewServer,
+  fetchServers
 } from "../actions/servers.actions";
 import { openNotificationWithIcon } from "helpers/openNotification";
 import Logs from "components/Logs";
@@ -27,12 +28,17 @@ function AddNewServerModal({ visible, setVisibility }) {
   const dispatch = useDispatch();
   const formRef = useRef(null);
   const [submitButton, setSubmitButton] = useState({
-    text: t("common.Create")
+    text: t("common.create")
   });
 
   const { socket } = useSocket("createServer", ({ message }) => {
     openNotificationWithIcon("success", message);
-    setSubmitButton(state => ({ ...state, text: t("common.continue") }));
+    setSubmitButton(state => ({
+      ...state,
+      text: t("common.continue"),
+      fetching: false
+    }));
+    dispatch(fetchServers());
   });
 
   const { data: gamesData, fetching: gamesFetching } = useSelector(
@@ -72,8 +78,12 @@ function AddNewServerModal({ visible, setVisibility }) {
   const onSubmit = ({ serverName, game }) => {
     console.log({ game, name: serverName });
     socket.emit("createServer", { game, name: serverName });
-
-    createNewServer({ game, name: serverName }, socket);
+    setSubmitButton(state => ({
+      ...state,
+      text: t("common.creating"),
+      fetching: true
+    }));
+    // createNewServer({ game, name: serverName }, socket);
   };
 
   const onCancel = () => {
@@ -92,15 +102,15 @@ function AddNewServerModal({ visible, setVisibility }) {
       footer={[
         submitButton.text !== t("common.continue") ? (
           <Button key="cancel" onClick={onCancel}>
-            {t("common.Cancel")}
+            {t("common.cancel")}
           </Button>
         ) : null,
         <Button
-          loading={createNewServerFetching}
+          loading={submitButton.fetching}
           key="create"
           type="primary"
           onClick={
-            formRef.current && submitButton.text === t("common.Create")
+            formRef.current && submitButton.text === t("common.create")
               ? formRef.current.props.onSubmit
               : onCancel
           }
@@ -172,7 +182,7 @@ function AddNewServerModal({ visible, setVisibility }) {
           );
         }}
       </Formik>
-      <Logs message={"createServerLogs"} />
+      {/* <Logs message={"createServerLogs"} /> */}
     </Modal>
   );
 }

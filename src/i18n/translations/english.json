@@ -14,6 +14,8 @@
       "signingUp": "Signing up...",
       "cancel": "Cancel",
       "create": "Create",
+      "continue": "Continue",
+      "creating": "Creating...",
       "activateEmailMessage": "Activate account",
       "activateEmailDescription": "You must activate an account in order to do any actions.",
       "resendActivationEmailButton": "Resend activation email"
