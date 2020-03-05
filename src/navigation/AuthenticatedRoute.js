@@ -1,17 +1,24 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { SocketIOProvider } from "use-socketio";
+import { get } from "lodash";
 
 import { API_CONFIG } from "config";
 import Notifications from "components/Notifications/Notifications";
+import { useAuthData } from "hooks";
 
 export default function AuthenticatedRoute({ children, appProps, ...rest }) {
+  const { data: authData } = useAuthData();
+
   return (
     <Route
       {...rest}
       render={props =>
         appProps.isAuthorized ? (
-          <SocketIOProvider url={API_CONFIG.API_URL}>
+          <SocketIOProvider
+            url={API_CONFIG.API_URL}
+            opts={{ query: { token: get(authData, "token") } }}
+          >
             <Notifications />
             {children}
           </SocketIOProvider>

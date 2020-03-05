@@ -51,7 +51,7 @@ function ServersDashboard() {
       key: "Ip",
       render: (text, record) => {
         return !isEmpty(record.Ports)
-          ? `${record.Ip}:${record.Ports[0].PublicPort}`
+          ? `${record.Ip}:${record.Labels.serverPort}`
           : "Not assigned";
       }
     },
