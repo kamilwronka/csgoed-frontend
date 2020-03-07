@@ -13,7 +13,7 @@ export const LayoutContext = React.createContext({
   mobile: false
 });
 
-function Layout({ children }) {
+function Layout({ children, ...props }) {
   const { pathname } = useLocation();
   const { t } = useTranslation();
   const [value, setValue] = useState({ siderOpen: false, mobile: false });
@@ -46,7 +46,7 @@ function Layout({ children }) {
     <LayoutContext.Provider
       value={{ ...value, setMobile, toggleSider, disableSider }}
     >
-      <LayoutInner>{children}</LayoutInner>
+      <LayoutInner {...props}>{children}</LayoutInner>
     </LayoutContext.Provider>
   );
 }

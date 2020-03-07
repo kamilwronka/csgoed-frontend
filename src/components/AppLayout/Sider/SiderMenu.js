@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu, Layout, Typography } from "antd";
+import { Menu, Layout, Typography, Avatar } from "antd";
 import {
   DashboardOutlined,
   UnorderedListOutlined,
@@ -11,6 +11,8 @@ import { Link, useLocation, useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import useLayout from "hooks/useLayout";
 import { useDispatch } from "react-redux";
+import { get } from "lodash";
+
 import packagejson from "../../../../package.json";
 
 import { logOutUser } from "features/AuthPage/actions/auth.actions";
@@ -46,7 +48,7 @@ function SiderMenu({ style }) {
       theme="dark"
     >
       <div>
-        {/* {mobile && (
+        {mobile && (
           <div
             style={{
               margin: 16,
@@ -64,7 +66,7 @@ function SiderMenu({ style }) {
             <h4 style={{ margin: "8px 0 0 0" }}>{get(userData, "email")}</h4>
             <span>Administrator</span>
           </div>
-        )} */}
+        )}
         <div
           style={{
             height: 64,
@@ -86,6 +88,7 @@ function SiderMenu({ style }) {
           theme="dark"
           defaultSelectedKeys={defaultSelectedItem}
           mode="inline"
+          selectedKeys={defaultSelectedItem}
         >
           <Menu.Item key="/dashboard">
             <Link to="/dashboard" onClick={disableSider}>

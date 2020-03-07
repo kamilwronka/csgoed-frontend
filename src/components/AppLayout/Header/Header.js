@@ -58,13 +58,13 @@ function Header() {
         height: 64,
         color: "#000",
         padding: "0 24px",
-        marginLeft: 250,
+        marginLeft: mobile ? 0 : 250,
         background: "#fff",
         zIndex: 10,
         boxShadow: "0px 2px 5px 0px rgba(0,0,0,0.3)"
       }}
     >
-      <div className="searchBar">
+      <div className="searchBar" style={{ width: mobile ? "100%" : "auto" }}>
         <SearchOutlined
           style={{
             fontSize: "1.4rem",
@@ -75,24 +75,22 @@ function Header() {
           }}
         />
         <input className="search-input" placeholder="Search..." />
-        {/* {getIcon(pathnameNormalized)}&nbsp;&nbsp;
-        {name ? name : t(`menu.${pathnameNormalized}`)} */}
       </div>
       <div className="header-icons-holder">
-        <HeaderNotifications />
         {!mobile && (
-          <Tooltip title="Language">
-            <div className="header-icon">
-              <LanguageMenu />
-            </div>
-          </Tooltip>
-        )}
-        {!mobile && (
-          <Tooltip title="Profile">
-            <div className="header-icon">
-              <UserMenu />
-            </div>
-          </Tooltip>
+          <>
+            <HeaderNotifications />
+            <Tooltip title="Language">
+              <div className="header-icon">
+                <LanguageMenu />
+              </div>
+            </Tooltip>
+            <Tooltip title="Profile">
+              <div className="header-icon">
+                <UserMenu />
+              </div>
+            </Tooltip>
+          </>
         )}
       </div>
     </AntdHeader>

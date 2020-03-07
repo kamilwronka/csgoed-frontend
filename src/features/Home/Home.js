@@ -5,6 +5,7 @@ import {
   LoadingOutlined,
   ArrowRightOutlined
 } from "@ant-design/icons";
+import { get } from "lodash";
 
 import { useUserData } from "hooks";
 import { Link } from "react-router-dom";
@@ -25,7 +26,7 @@ function Home() {
             justifyContent: "space-between"
           }}
         >
-          <Title level={3}>Welcome, {userData.name}!</Title>
+          <Title level={3}>Welcome, {get(userData, "name")}!</Title>
           <div style={{ fontSize: "1.2rem", color: "#000", cursor: "pointer" }}>
             <Tooltip title="Refresh data">
               {fetching || intact ? (

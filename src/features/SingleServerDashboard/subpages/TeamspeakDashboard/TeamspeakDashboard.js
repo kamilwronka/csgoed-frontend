@@ -1,6 +1,14 @@
 import React, { useEffect } from "react";
-import { Tabs } from "antd";
-import { useLocation, useHistory, useParams } from "react-router-dom";
+import {
+  Tabs,
+  Row,
+  Col,
+  Typography,
+  Divider,
+  PageHeader,
+  Breadcrumb
+} from "antd";
+import { useLocation, useHistory, useParams, Link } from "react-router-dom";
 
 import { parse, stringify } from "qs";
 
@@ -13,6 +21,7 @@ import { useDispatch } from "react-redux";
 import { fetchServerData } from "../../actions/singleServer.actions";
 
 const { TabPane } = Tabs;
+const { Title } = Typography;
 
 const SUBPAGES = {
   CONFIG: "Config",
@@ -21,10 +30,10 @@ const SUBPAGES = {
 };
 
 function TeamspeakDashboard() {
-  const { pathname, search } = useLocation();
-  const { view } = parse(search.substr(1));
+  const { pathname } = useLocation();
+  const { view, name } = parse(window.location.search.substr(1));
   const { mobile } = useLayout();
-  const { push } = useHistory();
+  const { push, goBack } = useHistory();
   const dispatch = useDispatch();
   const { id } = useParams();
 
@@ -33,34 +42,42 @@ function TeamspeakDashboard() {
   }, [dispatch, id]);
 
   const handleTabChange = tab => {
-    const query = { ...parse(search.substr(1)), view: tab };
+    const query = { ...parse(window.location.search.substr(1)), view: tab };
 
     push(pathname + "?" + stringify(query));
   };
 
   return (
     <div>
-      <Tabs
-        defaultActiveKey={view ? view : SUBPAGES.SUMMARY.toLowerCase()}
-        tabPosition={mobile ? "top" : "right"}
-        animated={false}
-        style={{ minHeight: 320 }}
-        tabBarStyle={{
-          width: mobile ? "100%" : 180,
-          marginBottom: mobile ? 40 : 0
-        }}
-        onChange={handleTabChange}
-      >
-        <TabPane tab={SUBPAGES.SUMMARY} key={SUBPAGES.SUMMARY.toLowerCase()}>
-          <SummarySubpage id={id} />
-        </TabPane>
-        <TabPane tab={SUBPAGES.ROLES} key={SUBPAGES.ROLES.toLowerCase()}>
-          <RolesSubpage />
-        </TabPane>
-        <TabPane tab={SUBPAGES.CONFIG} key={SUBPAGES.CONFIG.toLowerCase()}>
-          <ConfigSubpage />
-        </TabPane>
-      </Tabs>
+      <Title level={3}>{name}</Title>
+      <Breadcrumb style={{ paddingBottom: 24 }}>
+        <Breadcrumb.Item>
+          <Link to="/dashboard">Dashboard</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <Link to="/servers">Servers</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>{name}</Breadcrumb.Item>
+      </Breadcrumb>
+      <div className="card">
+        <Tabs
+          defaultActiveKey={view ? view : SUBPAGES.SUMMARY.toLowerCase()}
+          tabPosition={"top"}
+          animated={false}
+          style={{ minHeight: 320, padding: 24 }}
+          onChange={handleTabChange}
+        >
+          <TabPane tab={SUBPAGES.SUMMARY} key={SUBPAGES.SUMMARY.toLowerCase()}>
+            <SummarySubpage id={id} />
+          </TabPane>
+          <TabPane tab={SUBPAGES.ROLES} key={SUBPAGES.ROLES.toLowerCase()}>
+            <RolesSubpage />
+          </TabPane>
+          <TabPane tab={SUBPAGES.CONFIG} key={SUBPAGES.CONFIG.toLowerCase()}>
+            <ConfigSubpage />
+          </TabPane>
+        </Tabs>
+      </div>
     </div>
   );
 }

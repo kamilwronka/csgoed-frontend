@@ -7,17 +7,20 @@ import {
   notification,
   Col,
   Typography,
-  Divider
+  Divider,
+  Breadcrumb
 } from "antd";
 import { format } from "date-fns";
 import { pl } from "date-fns/locale";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { isEmpty } from "lodash";
 
 import { fetchServers, deleteServer } from "./actions/servers.actions";
 import AddNewServerDrawer from "./components/AddNewServerMenuForm";
 import ManageServerDropdown from "./components/ManageServerDropdown";
 import { useSocket } from "use-socketio";
+import TableRow from "./components/TableRow";
+import TableCell from "./components/TableCell";
 
 const { Title } = Typography;
 
@@ -85,7 +88,7 @@ function ServersDashboard() {
           <ManageServerDropdown
             record={record}
             id={record.Id}
-            name={record.Names[0].slice(1)}
+            name={record.Labels.name}
             state={record.State}
             game={record.Labels.game}
           />
@@ -118,7 +121,14 @@ function ServersDashboard() {
 
   return (
     <div>
-      <Row>
+      <Title level={3}>Servers console</Title>
+      <Breadcrumb style={{ paddingBottom: 24 }}>
+        <Breadcrumb.Item>
+          <Link to="/dashboard">Dashboard</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>Servers</Breadcrumb.Item>
+      </Breadcrumb>
+      {/* <Row>
         <Col
           xs={24}
           style={{
@@ -130,7 +140,7 @@ function ServersDashboard() {
           <Title level={3}>Servers console</Title>
         </Col>
         <Divider style={{ background: "#ccc", marginTop: 0 }} />
-      </Row>
+      </Row> */}
       <AddNewServerDrawer
         visible={drawerOpen}
         setVisibility={toggleAddingNewServerDrawer}
@@ -148,10 +158,13 @@ function ServersDashboard() {
         </Button>
       </div>
       <Table
+        rowSelection
         rowKey={record => record.Id}
         dataSource={data}
         loading={fetching}
         columns={columns}
+        pagination={{ pageSize: 20 }}
+        components={{ body: { row: TableRow, cell: TableCell } }}
         // style={{ overflowX: "auto" }}
         scroll={{ x: 850 }}
         size="middle"

@@ -1,9 +1,10 @@
 import React from "react";
 import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
-import { Layout as AntdLayout, Icon } from "antd";
+import { Layout as AntdLayout, Icon, Drawer } from "antd";
 import SimpleBar from "simplebar-react";
 
 import SiderMenu from "../Sider/SiderMenu";
+import MobileMenu from "../Sider/MobileMenu";
 import ContentLayout from "../ContentLayout/ContentLayout";
 import Header from "../Header/Header";
 
@@ -14,10 +15,12 @@ function MobileLayout({ children }) {
 
   return (
     <AntdLayout style={{ minHeight: "100vh" }}>
-      <SiderMenu />
+      <MobileMenu visible={siderOpen} onClose={toggleSider} />
       <AntdLayout>
         <Header />
-        <ContentLayout>{children}</ContentLayout>
+        <div style={{ marginTop: 64 }}>
+          <ContentLayout>{children}</ContentLayout>
+        </div>
         <div
           onClick={toggleSider}
           style={{
@@ -46,7 +49,7 @@ function MobileLayout({ children }) {
   );
 }
 
-function DesktopLayout({ children }) {
+function DesktopLayout({ children, ...props }) {
   return (
     <AntdLayout style={{ display: "flex", flexDirection: "column" }}>
       <SimpleBar>
@@ -62,19 +65,19 @@ function DesktopLayout({ children }) {
       <Header />
 
       <AntdLayout style={{ marginLeft: 250, marginTop: 64 }}>
-        <ContentLayout>{children}</ContentLayout>
+        <ContentLayout {...props}>{children}</ContentLayout>
       </AntdLayout>
     </AntdLayout>
   );
 }
 
-function LayoutInner({ children }) {
+function LayoutInner({ children, ...props }) {
   const { mobile } = useLayout();
 
   return mobile ? (
-    <MobileLayout>{children}</MobileLayout>
+    <MobileLayout {...props}>{children}</MobileLayout>
   ) : (
-    <DesktopLayout>{children}</DesktopLayout>
+    <DesktopLayout {...props}>{children}</DesktopLayout>
   );
 }
 
