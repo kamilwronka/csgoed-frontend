@@ -32,7 +32,10 @@ function Navigation() {
         <UnauthenticatedRoute appProps={{ isAuthorized }} path="/auth/:type">
           <AuthPage />
         </UnauthenticatedRoute>
-        <AuthenticatedRoute appProps={{ isAuthorized }} path="/servers/:id">
+        <AuthenticatedRoute
+          appProps={{ isAuthorized }}
+          path="/servers/:game/:id"
+        >
           <Layout>
             <SingleServerDashboard />
           </Layout>

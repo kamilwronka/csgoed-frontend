@@ -1,10 +1,12 @@
 import React from "react";
 import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
 import { Layout as AntdLayout, Icon } from "antd";
+import SimpleBar from "simplebar-react";
 
 import SiderMenu from "../Sider/SiderMenu";
 import ContentLayout from "../ContentLayout/ContentLayout";
 import Header from "../Header/Header";
+
 import useLayout from "hooks/useLayout";
 
 function MobileLayout({ children }) {
@@ -46,11 +48,20 @@ function MobileLayout({ children }) {
 
 function DesktopLayout({ children }) {
   return (
-    <AntdLayout style={{ minHeight: "100vh" }}>
+    <AntdLayout style={{ display: "flex", flexDirection: "column" }}>
+      <SimpleBar>
+        <SiderMenu
+          style={{
+            position: "fixed",
+            left: 0,
+            height: "100vh",
+            overflowY: "auto"
+          }}
+        />
+      </SimpleBar>
       <Header />
 
-      <AntdLayout>
-        <SiderMenu />
+      <AntdLayout style={{ marginLeft: 250, marginTop: 64 }}>
         <ContentLayout>{children}</ContentLayout>
       </AntdLayout>
     </AntdLayout>

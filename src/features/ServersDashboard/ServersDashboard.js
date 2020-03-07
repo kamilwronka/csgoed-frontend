@@ -1,19 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Table, Button, Row, notification } from "antd";
+import {
+  Table,
+  Button,
+  Row,
+  notification,
+  Col,
+  Typography,
+  Divider
+} from "antd";
 import { format } from "date-fns";
 import { pl } from "date-fns/locale";
 import { useHistory } from "react-router-dom";
 import { isEmpty } from "lodash";
 
 import { fetchServers, deleteServer } from "./actions/servers.actions";
-import AddNewServerModal from "./components/AddNewServerModal";
+import AddNewServerDrawer from "./components/AddNewServerMenuForm";
 import ManageServerDropdown from "./components/ManageServerDropdown";
 import { useSocket } from "use-socketio";
 
+const { Title } = Typography;
+
 function ServersDashboard() {
   const dispatch = useDispatch();
-  const [modalOpen, setModal] = useState(
+  const [drawerOpen, setModal] = useState(
     window.location.href.includes("new-server")
   );
   const { data, fetching } = useSelector(
@@ -88,7 +98,7 @@ function ServersDashboard() {
     dispatch(fetchServers());
   };
 
-  const toggleAddingNewServerModal = visibility => {
+  const toggleAddingNewServerDrawer = visibility => {
     if (visibility === true || visibility === false) {
       visibility
         ? history.push("/servers#new-server")
@@ -108,14 +118,26 @@ function ServersDashboard() {
 
   return (
     <div>
-      <h2>Server management</h2>
-      <AddNewServerModal
-        visible={modalOpen}
-        setVisibility={toggleAddingNewServerModal}
+      <Row>
+        <Col
+          xs={24}
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between"
+          }}
+        >
+          <Title level={3}>Servers console</Title>
+        </Col>
+        <Divider style={{ background: "#ccc", marginTop: 0 }} />
+      </Row>
+      <AddNewServerDrawer
+        visible={drawerOpen}
+        setVisibility={toggleAddingNewServerDrawer}
       />
       <div style={{ marginBottom: 20 }}>
         <Button
-          onClick={toggleAddingNewServerModal}
+          onClick={toggleAddingNewServerDrawer}
           type="primary"
           style={{ marginRight: 10 }}
         >

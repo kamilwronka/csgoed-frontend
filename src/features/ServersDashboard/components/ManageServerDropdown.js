@@ -36,7 +36,7 @@ function ManageServerDropdown({ id, name, state, game }) {
         <Link
           style={{ display: "inline-block" }}
           to={{
-            pathname: `/servers/${id}?name=${name}&game=${game}&view=summary`
+            pathname: `/servers/${game}/${id}?name=${name}&view=summary`
           }}
         >
           Edit

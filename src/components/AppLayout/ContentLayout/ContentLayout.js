@@ -11,11 +11,11 @@ function ContentLayout({ children }) {
 
   return (
     <Layout>
-      <Content style={{ margin: mobile ? 0 : 20 }}>
+      <Content style={{}}>
         <div
           style={{
-            background: "#fff",
-            minHeight: 640,
+            background: "#f0f0f0",
+            minHeight: "calc(100vh - 64px)",
             position: siderOpen ? "fixed" : "relative",
             width: mobile ? window.innerWidth : "100%"
           }}

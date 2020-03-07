@@ -31,7 +31,7 @@ function UserMenu() {
         onClick={togglePopover}
         style={{ height: 48, transform: "translateY(-10px)" }}
       >
-        <Avatar size={42} icon={<UserOutlined />} />
+        <Avatar size={36} icon={<UserOutlined />} />
       </div>
     </Popover>
   );

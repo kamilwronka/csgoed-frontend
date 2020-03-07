@@ -1,10 +1,10 @@
 import React from "react";
-import { parse } from "qs";
 
 import TeamspeakDashboard from "./subpages/TeamspeakDashboard/TeamspeakDashboard";
+import { useParams } from "react-router-dom";
 
 function SingleServerDashboard() {
-  const { game } = parse(window.location.search.substr(1));
+  const { game } = useParams();
 
   const renderSubpage = game => {
     switch (game) {

@@ -8,6 +8,7 @@ import Navigation from "navigation";
 import "i18n";
 import "antd/dist/antd.css";
 import "./App.css";
+import "simplebar/dist/simplebar.min.css";
 
 function App() {
   return (
