@@ -1,6 +1,6 @@
 import React from "react";
 import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
-import { Layout as AntdLayout, Icon, Drawer } from "antd";
+import { Layout as AntdLayout } from "antd";
 import SimpleBar from "simplebar-react";
 
 import SiderMenu from "../Sider/SiderMenu";

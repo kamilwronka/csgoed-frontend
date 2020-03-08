@@ -13,6 +13,10 @@ function PaymentsPage() {
     dispatch(fetchUserPayments());
   }, [dispatch]);
 
+  useEffect(() => {
+    document.title = "Billing and payments - csgoed.com";
+  }, []);
+
   return (
     <Row type="flex" justify="space-between">
       <Col xs={24} md={10}>

@@ -1,20 +1,11 @@
 import React, { useEffect } from "react";
-import {
-  Tabs,
-  Row,
-  Col,
-  Typography,
-  Divider,
-  PageHeader,
-  Breadcrumb
-} from "antd";
+import { Tabs, Typography, Breadcrumb } from "antd";
 import { useLocation, useHistory, useParams, Link } from "react-router-dom";
 
 import { parse, stringify } from "qs";
 
 import SummarySubpage from "./components/SummarySubpage";
 import ConfigSubpage from "./components/ConfigSubpage";
-import useLayout from "hooks/useLayout";
 import RolesSubpage from "./components/RolesSubpage";
 import { useDispatch } from "react-redux";
 
@@ -32,14 +23,14 @@ const SUBPAGES = {
 function TeamspeakDashboard() {
   const { pathname } = useLocation();
   const { view, name } = parse(window.location.search.substr(1));
-  const { mobile } = useLayout();
-  const { push, goBack } = useHistory();
+  const { push } = useHistory();
   const dispatch = useDispatch();
   const { id } = useParams();
 
   useEffect(() => {
     dispatch(fetchServerData(id));
-  }, [dispatch, id]);
+    document.title = `${name} - csgoed.com`;
+  }, [dispatch, id, name]);
 
   const handleTabChange = tab => {
     const query = { ...parse(window.location.search.substr(1)), view: tab };

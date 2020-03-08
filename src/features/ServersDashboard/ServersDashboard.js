@@ -3,33 +3,36 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   Table,
   Button,
-  Row,
   notification,
-  Col,
   Typography,
-  Divider,
-  Breadcrumb
+  Breadcrumb,
+  Input
 } from "antd";
 import { format } from "date-fns";
 import { pl } from "date-fns/locale";
 import { useHistory, Link } from "react-router-dom";
 import { isEmpty } from "lodash";
 
-import { fetchServers, deleteServer } from "./actions/servers.actions";
+import {
+  fetchServers,
+  deleteServer,
+  filterServers
+} from "./actions/servers.actions";
 import AddNewServerDrawer from "./components/AddNewServerMenuForm";
-import ManageServerDropdown from "./components/ManageServerDropdown";
+import ManageServerMenu from "./components/ManageServerMenu";
 import { useSocket } from "use-socketio";
 import TableRow from "./components/TableRow";
 import TableCell from "./components/TableCell";
 
-const { Title } = Typography;
+const { Title, Paragraph } = Typography;
+const { Search } = Input;
 
 function ServersDashboard() {
   const dispatch = useDispatch();
   const [drawerOpen, setModal] = useState(
     window.location.href.includes("new-server")
   );
-  const { data, fetching } = useSelector(
+  const { data, searchData, fetching } = useSelector(
     state => state.serversDashboard.servers
   );
   const history = useHistory();
@@ -49,17 +52,56 @@ function ServersDashboard() {
 
   const columns = [
     {
-      width: 150,
+      width: 140,
       title: "Name",
       key: "Image",
+      defaultSortOrder: "descend",
+      sorter: (a, b) => a.Labels.name.localeCompare(b.Labels.name),
+      render: (text, record) => (
+        <Paragraph
+          ellipsis={{ rows: 1, expandable: false }}
+          style={{ padding: 0, margin: 0 }}
+        >
+          <Link
+            style={{ display: "inline-block" }}
+            to={{
+              pathname: `/servers/${record.Labels.game}/${record.Id}?name=${record.Labels.name}&view=summary`
+            }}
+          >
+            {record.Labels.name}
+          </Link>
+        </Paragraph>
+      )
+    },
+    {
+      width: 100,
+      title: "Game",
+      key: "Game",
+      filters: [
+        { text: "Teamspeak 3", value: "teamspeak" },
+        { text: "CS:GO", value: "csgo" },
+        { text: "Minecraft", value: "minecraft" }
+      ],
+      onFilter: (value, record) => record.Labels.game.indexOf(value) === 0,
       render: (text, record) => {
-        return record.Names[0].slice(1);
+        return record.Labels.game;
       }
     },
-    { width: 150, title: "State", dataIndex: "State", key: "State" },
+    {
+      width: 100,
+      title: "State",
+      dataIndex: "State",
+      key: "State",
+      filters: [
+        { text: "exited", value: "exited" },
+        { text: "running", value: "running" },
+        { text: "created", value: "created" }
+      ],
+      onFilter: (value, record) => record.State.indexOf(value) === 0
+    },
     { width: 200, title: "Status", dataIndex: "Status", key: "Status" },
     {
-      width: 150,
+      width: 140,
       title: "Ip address",
       key: "Ip",
       render: (text, record) => {
@@ -72,20 +114,29 @@ function ServersDashboard() {
       width: 200,
       title: "Created",
       key: "Id",
+      sorter: (a, b) => a.Created - b.Created,
       render: (text, record) => {
-        return format(record.Created * 1000, "HH:mm dd-MM-yyyy", {
+        const time = format(record.Created * 1000, "HH:mm", {
           locale: pl
         });
+        const day = format(record.Created * 1000, "dd-MM-yyyy", {
+          locale: pl
+        });
+        return (
+          <div>
+            <strong>{day}</strong> - {time}
+          </div>
+        );
       }
     },
     {
-      width: 100,
+      width: 50,
       fixed: "right",
-      title: "Actions",
+      title: "Menu",
       key: "action",
       render: (text, record) => {
         return (
-          <ManageServerDropdown
+          <ManageServerMenu
             record={record}
             id={record.Id}
             name={record.Labels.name}
@@ -116,8 +167,16 @@ function ServersDashboard() {
   };
 
   useEffect(() => {
+    document.title = "Servers console - csgoed.com";
+  }, []);
+
+  useEffect(() => {
     dispatch(fetchServers());
   }, [dispatch]);
+
+  const handleSearch = e => {
+    dispatch(filterServers(e.target.value));
+  };
 
   return (
     <div>
@@ -128,46 +187,50 @@ function ServersDashboard() {
         </Breadcrumb.Item>
         <Breadcrumb.Item>Servers</Breadcrumb.Item>
       </Breadcrumb>
-      {/* <Row>
-        <Col
-          xs={24}
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between"
-          }}
-        >
-          <Title level={3}>Servers console</Title>
-        </Col>
-        <Divider style={{ background: "#ccc", marginTop: 0 }} />
-      </Row> */}
       <AddNewServerDrawer
         visible={drawerOpen}
         setVisibility={toggleAddingNewServerDrawer}
       />
-      <div style={{ marginBottom: 20 }}>
-        <Button
-          onClick={toggleAddingNewServerDrawer}
-          type="primary"
-          style={{ marginRight: 10 }}
-        >
-          Add new server
-        </Button>
-        <Button onClick={handleRefresh} loading={fetching}>
-          Refresh
-        </Button>
+      <div
+        style={{
+          marginBottom: 20,
+          display: "flex",
+          justifyContent: "space-between"
+        }}
+      >
+        <div>
+          <Search
+            enterButton
+            style={{ width: 300 }}
+            placeholder="Search..."
+            onChange={handleSearch}
+          />
+        </div>
+        <div>
+          <Button
+            onClick={toggleAddingNewServerDrawer}
+            type="primary"
+            style={{ marginRight: 10 }}
+          >
+            Add new server
+          </Button>
+          <Button onClick={handleRefresh} loading={fetching}>
+            Refresh
+          </Button>
+        </div>
       </div>
       <Table
+        className="card"
         rowSelection
         rowKey={record => record.Id}
-        dataSource={data}
+        dataSource={searchData ? searchData : data}
         loading={fetching}
         columns={columns}
         pagination={{ pageSize: 20 }}
         components={{ body: { row: TableRow, cell: TableCell } }}
-        // style={{ overflowX: "auto" }}
-        scroll={{ x: 850 }}
-        size="middle"
+        style={{ overflowX: "auto" }}
+        scroll={{ x: 900 }}
+        size="small"
       ></Table>
     </div>
   );

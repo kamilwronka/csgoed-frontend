@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Row, Typography, Divider, Col, Tooltip, List, Tag } from "antd";
 import {
   SyncOutlined,
@@ -14,6 +14,10 @@ const { Title, Text } = Typography;
 
 function Home() {
   const { data: userData, fetching, intact } = useUserData();
+
+  useEffect(() => {
+    document.title = "Dashboard - csgoed.com";
+  }, []);
 
   return (
     <>

@@ -5,7 +5,8 @@ import {
   PauseOutlined,
   CaretRightOutlined,
   SyncOutlined,
-  DeleteOutlined
+  DeleteOutlined,
+  EllipsisOutlined
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { useSocket } from "use-socketio";
@@ -66,7 +67,18 @@ function ManageServerDropdown({ id, name, state, game }) {
 
   return (
     <Dropdown overlay={menu} trigger={["click"]}>
-      <Button>Manage</Button>
+      <div
+        style={{
+          width: 38,
+          display: "flex",
+          justifyContent: "center",
+          cursor: "pointer"
+        }}
+      >
+        <EllipsisOutlined
+          style={{ transform: "rotate(90deg)", fontSize: "1.2rem" }}
+        />
+      </div>
     </Dropdown>
   );
 }

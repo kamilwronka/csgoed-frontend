@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Form, Input, Button, Alert, Layout, Checkbox } from "antd";
 import { Formik, Field } from "formik";
 import { useTranslation } from "react-i18next";
@@ -27,6 +27,10 @@ function SignInTab() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { fetching, error } = useAuthData();
+
+  useEffect(() => {
+    document.title = "Sign in - csgoed.com";
+  }, []);
 
   const SigninSchema = Yup.object().shape({
     email: Yup.string()

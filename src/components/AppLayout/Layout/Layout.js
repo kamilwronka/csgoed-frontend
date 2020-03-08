@@ -39,7 +39,7 @@ function Layout({ children, ...props }) {
   }, [dispatch, token]);
 
   useEffect(() => {
-    window.document.title = t(`menu.${pathname.substr(1)}`) + " - csgoed.com";
+    window.scrollTo(0, 0);
   }, [pathname, t]);
 
   return (

@@ -22,6 +22,10 @@ function AccountActivationPage() {
     dispatch(activateAccount(token));
   }, [token, dispatch]);
 
+  useEffect(() => {
+    document.title = "Activate account - csgoed.com";
+  }, []);
+
   return (
     <Alert
       message={

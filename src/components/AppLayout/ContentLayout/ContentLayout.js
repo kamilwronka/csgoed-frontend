@@ -2,11 +2,13 @@ import React from "react";
 import { Layout } from "antd";
 
 import ActivateEmailNotification from "../ActivateEmailNotification/ActivateEmailNotification";
+import useLayout from "hooks/useLayout";
 
 const { Content } = Layout;
 
-function ContentLayout({ children, padding = 24 }) {
-  console.log(padding);
+function ContentLayout({ children }) {
+  const { mobile } = useLayout();
+
   return (
     <Layout>
       <Content style={{}}>
@@ -17,9 +19,7 @@ function ContentLayout({ children, padding = 24 }) {
           }}
         >
           <ActivateEmailNotification />
-          <div style={{ padding: !padding || padding === 0 ? padding : 24 }}>
-            {children}
-          </div>
+          <div style={{ padding: 24 }}>{children}</div>
         </div>
       </Content>
     </Layout>

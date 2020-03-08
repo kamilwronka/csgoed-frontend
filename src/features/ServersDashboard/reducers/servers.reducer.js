@@ -25,4 +25,16 @@ additionalCases[ACTIONS.SET_SERVER_FETCHING] = (state, action) => {
   };
 };
 
+additionalCases[ACTIONS.FILTER_SERVERS] = (state, action) => {
+  return {
+    ...state,
+    searchData: state.data.filter(
+      value =>
+        value.Labels.name
+          .toLowerCase()
+          .indexOf(action.payload.toLowerCase()) !== -1
+    )
+  };
+};
+
 export default createReducer(ACTIONS.FETCH_SERVERS, { additionalCases });

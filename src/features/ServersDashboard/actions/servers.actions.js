@@ -6,7 +6,8 @@ export const ACTIONS = {
   CREATE_NEW_SERVER: "CREATE_NEW_SERVER",
   CREATE_NEW_SERVER_RESET: "CREATE_NEW_SERVER_RESET",
   DELETE_SERVER: "DELETE_SERVER",
-  SET_SERVER_FETCHING: "SET_SERVER_FETCHING"
+  SET_SERVER_FETCHING: "SET_SERVER_FETCHING",
+  FILTER_SERVERS: "FILTER_SERVERS"
 };
 
 export const fetchServers = () => dispatch => {
@@ -62,5 +63,13 @@ export const setServerFetching = (id, state) => dispatch => {
       id,
       state
     }
+  });
+};
+
+export const filterServers = value => dispatch => {
+  console.log("asdas");
+  return dispatch({
+    type: ACTIONS.FILTER_SERVERS,
+    payload: value
   });
 };
