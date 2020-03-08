@@ -40,7 +40,7 @@ function ManageServerDropdown({ id, name, state, game }) {
             pathname: `/servers/${game}/${id}?name=${name}&view=summary`
           }}
         >
-          Edit
+          Manage
         </Link>
       </Menu.Item>
       {state === "running" ? (
@@ -69,7 +69,7 @@ function ManageServerDropdown({ id, name, state, game }) {
     <Dropdown overlay={menu} trigger={["click"]}>
       <div
         style={{
-          width: 38,
+          width: 26,
           display: "flex",
           justifyContent: "center",
           cursor: "pointer"

@@ -23,6 +23,7 @@ import ManageServerMenu from "./components/ManageServerMenu";
 import { useSocket } from "use-socketio";
 import TableRow from "./components/TableRow";
 import TableCell from "./components/TableCell";
+import useLayout from "hooks/useLayout";
 
 const { Title, Paragraph } = Typography;
 const { Search } = Input;
@@ -36,6 +37,7 @@ function ServersDashboard() {
     state => state.serversDashboard.servers
   );
   const history = useHistory();
+  const { mobile } = useLayout();
 
   useSocket("deleteServer", id => {
     dispatch(deleteServer(id));
@@ -55,7 +57,6 @@ function ServersDashboard() {
       width: 140,
       title: "Name",
       key: "Image",
-      defaultSortOrder: "descend",
       sorter: (a, b) => a.Labels.name.localeCompare(b.Labels.name),
       render: (text, record) => (
         <Paragraph
@@ -132,7 +133,7 @@ function ServersDashboard() {
     {
       width: 50,
       fixed: "right",
-      title: "Menu",
+      title: "",
       key: "action",
       render: (text, record) => {
         return (
@@ -195,13 +196,14 @@ function ServersDashboard() {
         style={{
           marginBottom: 20,
           display: "flex",
-          justifyContent: "space-between"
+          justifyContent: "space-between",
+          flexWrap: "wrap-reverse"
         }}
       >
         <div>
           <Search
             enterButton
-            style={{ width: 300 }}
+            style={{ width: mobile ? 200 : 300 }}
             placeholder="Search..."
             onChange={handleSearch}
           />

@@ -2,13 +2,10 @@ import React from "react";
 import { Layout } from "antd";
 
 import ActivateEmailNotification from "../ActivateEmailNotification/ActivateEmailNotification";
-import useLayout from "hooks/useLayout";
 
 const { Content } = Layout;
 
-function ContentLayout({ children }) {
-  const { mobile } = useLayout();
-
+function ContentLayout({ children, padding }) {
   return (
     <Layout>
       <Content style={{}}>

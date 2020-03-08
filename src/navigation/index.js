@@ -36,7 +36,7 @@ function Navigation() {
           appProps={{ isAuthorized }}
           path="/servers/:game/:id"
         >
-          <Layout padding={24}>
+          <Layout>
             <SingleServerDashboard />
           </Layout>
         </AuthenticatedRoute>
