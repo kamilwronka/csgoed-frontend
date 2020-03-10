@@ -4,7 +4,7 @@ import { Modal, Form, Input, Select, Button, Drawer } from "antd";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { isNil, noop } from "lodash";
+import { isNil, noop, get } from "lodash";
 
 import {
   fetchAvailableGames,
@@ -16,6 +16,7 @@ import { openNotificationWithIcon } from "helpers/openNotification";
 import Logs from "components/Logs";
 import { useSocket } from "use-socketio";
 import useLayout from "hooks/useLayout";
+import CreateCSGOForm from "./ServerForms/CSGO";
 
 const { Option } = Select;
 
@@ -78,14 +79,33 @@ function AddNewServerModal({ visible, setVisibility }) {
     game: Yup.string().required(t("form.common.errors.required"))
   });
 
-  const onSubmit = ({ serverName, game }) => {
-    console.log({ game, name: serverName });
-    socket.emit("createServer", { game, name: serverName });
-    setSubmitButton(state => ({
-      ...state,
-      text: t("common.creating"),
-      fetching: true
-    }));
+  const onSubmit = values => {
+    console.log(values);
+    socket.emit("createServer", { ...values, name: values.serverName });
+    // setSubmitButton(state => ({
+    //   ...state,
+    //   text: t("common.creating"),
+    //   fetching: true
+    // }));
+  };
+
+  const renderProperForm = (game, props) => {
+    const { values, touched, errors, setFieldValue, setTouched } = props;
+
+    switch (game) {
+      case "csgo":
+        return (
+          <CreateCSGOForm
+            values={values}
+            touched={touched}
+            errors={errors}
+            setFieldValue={setFieldValue}
+            setTouched={setTouched}
+          />
+        );
+      default:
+        return null;
+    }
   };
 
   return (
@@ -93,24 +113,31 @@ function AddNewServerModal({ visible, setVisibility }) {
       title={t("dashboard.createNew")}
       visible={visible}
       onClose={setVisibility}
-      width={mobile ? "100%" : 500}
+      width={mobile ? "100%" : 600}
     >
       <Formik
         initialValues={FORM_INITIAL_STATE}
         validationSchema={NewServerSchema}
         onSubmit={onSubmit}
       >
-        {({
-          errors,
-          touched,
-          setTouched,
-          setFieldValue,
-          handleSubmit,
-          resetForm,
-          values
-        }) => {
+        {props => {
+          const {
+            errors,
+            touched,
+            setTouched,
+            setFieldValue,
+            handleSubmit,
+            resetForm,
+            values
+          } = props;
+
           return (
-            <Form onFinish={handleSubmit} ref={formRef}>
+            <Form
+              onFinish={handleSubmit}
+              ref={formRef}
+              labelCol={{ span: 8 }}
+              wrapperCol={{ span: 16 }}
+            >
               <Form.Item
                 label={t("dashboard.serverName")}
                 validateStatus={
@@ -154,15 +181,17 @@ function AddNewServerModal({ visible, setVisibility }) {
                     })}
                 </Select>
               </Form.Item>
-
-              <Button
-                loading={submitButton.fetching}
-                key="create"
-                type="primary"
-                onClick={formRef.current ? formRef.current.submit : noop}
-              >
-                {submitButton.text}
-              </Button>
+              {renderProperForm(values.game, props)}
+              <Form.Item wrapperCol={{ offset: 6 }}>
+                <Button
+                  loading={submitButton.fetching}
+                  key="create"
+                  type="primary"
+                  onClick={formRef.current ? formRef.current.submit : noop}
+                >
+                  {submitButton.text}
+                </Button>
+              </Form.Item>
             </Form>
           );
         }}

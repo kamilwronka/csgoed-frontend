@@ -67,6 +67,22 @@
       "form": {
         "allowedCharacters": "Server name can contain only a-z, A-Z, 0-9 and '-' characters."
       }
+    },
+    "servers": {
+      "form": {
+        "csgo": {
+          "startMap": "Start map",
+          "tickrate": "Tickrate",
+          "serverPassword": "Server password",
+          "csgoServerName": "CS:GO Server name",
+          "rconPassword": "RCON Password",
+          "fpsMax": "Max FPS",
+          "mapGroup": "Map group",
+          "fpsUncapped": "FPS Uncapped",
+          "maxPlayers": "Max players",
+          "srcdsToken": "SRCDS Token"
+        }
+      }
     }
   }
 }

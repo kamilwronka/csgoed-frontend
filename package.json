@@ -22,6 +22,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.3.0",
     "react-stripe-checkout": "^2.6.3",
+    "react-use": "^13.27.0",
     "redux": "^4.0.5",
     "redux-persist": "^6.0.0",
     "redux-promise-middleware": "^6.1.2",

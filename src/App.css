@@ -138,3 +138,33 @@ thead tr .ant-table-cell {
 .ant-input {
   border-radius: 0 !important;
 }
+
+.ant-checkbox .ant-checkbox-inner {
+  border-radius: 0 !important;
+}
+
+.btn-warning {
+  margin-right: 10px;
+}
+
+.btn-warning .ant-btn {
+  background-color: rgba(255, 140, 0, 1);
+}
+
+.btn-warning .ant-btn:disabled {
+  background-color: rgba(255, 140, 0, 0.1);
+}
+
+.btn-warning:hover {
+  color: "#000";
+  background-color: rgba(255, 140, 0, 0.7);
+}
+
+.btn-warning .ant-btn:disabled .ant-btn:hover {
+  color: "#000";
+  background-color: red;
+}
+
+.btn-warning span {
+  color: #fff;
+}

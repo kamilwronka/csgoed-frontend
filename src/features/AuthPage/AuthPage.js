@@ -31,8 +31,8 @@ function AuthPage() {
       align="middle"
       style={{ marginTop: "50px" }}
     >
-      <Col xs={22} md={18} lg={12}>
-        <Card>
+      <Col xs={22} md={16} lg={14} xl={10} xxl={8}>
+        <div className="card" style={{ padding: 24 }}>
           <Tabs
             animated
             defaultActiveKey={defaultActiveKey}
@@ -46,7 +46,7 @@ function AuthPage() {
               <SignUpTab />
             </TabPane>
           </Tabs>
-        </Card>
+        </div>
       </Col>
     </Row>
   );

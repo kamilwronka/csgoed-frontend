@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Table,
@@ -6,24 +6,31 @@ import {
   notification,
   Typography,
   Breadcrumb,
-  Input
+  Input,
+  Col,
+  Row,
+  Tooltip
 } from "antd";
 import { format } from "date-fns";
 import { pl } from "date-fns/locale";
 import { useHistory, Link } from "react-router-dom";
-import { isEmpty } from "lodash";
-
+import { isEmpty, debounce, get } from "lodash";
 import {
-  fetchServers,
-  deleteServer,
-  filterServers
-} from "./actions/servers.actions";
+  PauseOutlined,
+  SyncOutlined,
+  DeleteOutlined,
+  PlusOutlined,
+  UndoOutlined
+} from "@ant-design/icons";
+
+import { fetchServers, deleteServer } from "./actions/servers.actions";
 import AddNewServerDrawer from "./components/AddNewServerMenuForm";
 import ManageServerMenu from "./components/ManageServerMenu";
 import { useSocket } from "use-socketio";
 import TableRow from "./components/TableRow";
 import TableCell from "./components/TableCell";
-import useLayout from "hooks/useLayout";
+import { useDebounce } from "react-use";
+import { isString } from "formik";
 
 const { Title, Paragraph } = Typography;
 const { Search } = Input;
@@ -33,24 +40,40 @@ function ServersDashboard() {
   const [drawerOpen, setModal] = useState(
     window.location.href.includes("new-server")
   );
-  const { data, searchData, fetching } = useSelector(
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
+  const { data, fetching } = useSelector(
     state => state.serversDashboard.servers
   );
+  const [searchData, setSearchData] = useState(data);
   const history = useHistory();
-  const { mobile } = useLayout();
+  const dataLength = get(data, "length");
 
-  useSocket("deleteServer", id => {
-    dispatch(deleteServer(id));
-    setTimeout(notification.destroy, 3000);
-  });
+  useDebounce(
+    () => {
+      handleSearch(searchValue);
+    },
+    500,
+    [searchValue]
+  );
 
-  useSocket("startServer", id => {
-    setTimeout(notification.destroy, 3000);
-  });
+  const setupSocketEvents = socket => {
+    socket.on("deleteServer", id => {
+      dispatch(deleteServer(id));
+      setTimeout(notification.destroy, 3000);
+    });
 
-  useSocket("stopServer", id => {
-    setTimeout(notification.destroy, 3000);
-  });
+    socket.on("startServer", id => {
+      setTimeout(notification.destroy, 3000);
+    });
+
+    socket.on("startServer", id => {
+      setTimeout(notification.destroy, 3000);
+    });
+  };
+
+  const { socket } = useSocket();
+  setupSocketEvents(socket);
 
   const columns = [
     {
@@ -175,9 +198,33 @@ function ServersDashboard() {
     dispatch(fetchServers());
   }, [dispatch]);
 
-  const handleSearch = e => {
-    dispatch(filterServers(e.target.value));
+  useEffect(() => {
+    handleSearch(searchValue);
+    //eslint-disable-next-line
+  }, [dataLength]);
+
+  function handleSearch(searchValue) {
+    if (isString(searchValue)) {
+      setSearchData(
+        data
+          ? data.filter(
+              value =>
+                value.Labels.name.toLowerCase().indexOf(searchValue) !== -1
+            )
+          : []
+      );
+    }
+  }
+
+  const handleSelect = (_, selected, items) => {
+    setSelectedItems(items);
   };
+
+  const handleSelectAll = (_, items) => {
+    setSelectedItems(items);
+  };
+
+  const handleStopAll = () => {};
 
   return (
     <div>
@@ -192,38 +239,88 @@ function ServersDashboard() {
         visible={drawerOpen}
         setVisibility={toggleAddingNewServerDrawer}
       />
-      <div
+      <Row
+        gutter={[24, 24]}
         style={{
-          marginBottom: 20,
-          display: "flex",
-          justifyContent: "space-between",
-          flexWrap: "wrap-reverse"
+          marginBottom: 20
         }}
       >
-        <div>
+        <Col xs={24} lg={8}>
           <Search
             enterButton
-            style={{ width: mobile ? 200 : 300 }}
+            style={{ width: "100%" }}
             placeholder="Search..."
-            onChange={handleSearch}
+            value={searchValue}
+            onChange={({ currentTarget }) => {
+              setSearchValue(currentTarget.value);
+            }}
+            allowClear
           />
-        </div>
-        <div>
-          <Button
-            onClick={toggleAddingNewServerDrawer}
-            type="primary"
-            style={{ marginRight: 10 }}
-          >
-            Add new server
-          </Button>
-          <Button onClick={handleRefresh} loading={fetching}>
-            Refresh
-          </Button>
-        </div>
-      </div>
+        </Col>
+        <Col
+          xs={24}
+          lg={16}
+          style={{ display: "flex", justifyContent: "flex-end" }}
+        >
+          <Tooltip title="Stop all">
+            <Button
+              onClick={toggleAddingNewServerDrawer}
+              disabled={isEmpty(selectedItems)}
+              style={{ marginRight: 10, width: 44, height: 32 }}
+              icon={<PauseOutlined />}
+            />
+          </Tooltip>
+          <Tooltip title="Restart all">
+            <Button
+              onClick={handleRefresh}
+              loading={fetching}
+              disabled={isEmpty(selectedItems)}
+              style={{ marginRight: 10, width: 44, height: 32 }}
+              icon={<SyncOutlined />}
+            />
+          </Tooltip>
+          <Tooltip title="Delete all">
+            <Button
+              onClick={handleRefresh}
+              loading={fetching}
+              disabled={isEmpty(selectedItems)}
+              type="danger"
+              style={{ marginRight: 10, width: 44, height: 32 }}
+              icon={<DeleteOutlined />}
+            />
+          </Tooltip>
+          <Tooltip title="Add new server">
+            <Button
+              onClick={toggleAddingNewServerDrawer}
+              type="primary"
+              style={{ marginRight: 10, width: 44, height: 32 }}
+              icon={<PlusOutlined />}
+            />
+          </Tooltip>
+          <Tooltip title="Refresh">
+            <Button
+              onClick={handleRefresh}
+              loading={fetching}
+              icon={
+                <UndoOutlined
+                  style={{
+                    transform: "rotate(45deg)"
+                  }}
+                />
+              }
+              style={{ width: 44, height: 32 }}
+            />
+          </Tooltip>
+        </Col>
+      </Row>
       <Table
         className="card"
-        rowSelection
+        rowSelection={{
+          fixed: true,
+          type: "checkbox",
+          onSelect: handleSelect,
+          onSelectAll: handleSelectAll
+        }}
         rowKey={record => record.Id}
         dataSource={searchData ? searchData : data}
         loading={fetching}

@@ -1,0 +1,13 @@
+{
+  "mods": [
+    { "id": "1", "name": "Sourcemod", "value": "sourcemod" },
+    { "id": "2", "name": "Metamod", "value": "metamod" },
+    { "id": "3", "name": "Vanilla", "value": "vanilla" }
+  ],
+  "maxPlayers": { "id": 1, "name": "Max Players", "value": "maxPlayers" },
+  "region": {
+    "name": "Region",
+    "value": "region",
+    "id": 1
+  }
+}
