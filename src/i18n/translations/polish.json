@@ -1,19 +1,81 @@
 {
   "translation": {
-    "common": {
-      "SignUp": "Rejestracja",
-      "SignIn": "Logowanie",
-      "Email": "Adres e-mail",
-      "Password": "Hasło",
-      "Logout": "Wyloguj się",
-      "Dashboard": "Podsumowanie",
-      "ConfirmEmail": "Potwierdź adres e-mail",
-      "ConfirmPassword": "Potwierdź hasło",
-      "Name": "Imię"
-    },
     "menu": {
-      "Home": "Home",
-      "Servers": "Serwery"
+      "dashboard": "Pulpit",
+      "home": "Home",
+      "servers": "Serwery",
+      "payments": "Billing i płatności",
+      "developers": "Dla developerów",
+      "account": "Konto"
+    },
+    "common": {
+      "signUp": "Zarejestruj się",
+      "signIn": "Zaloguj się",
+      "email": "Email",
+      "password": "Hasło",
+      "logout": "Wyloguj się",
+      "dashboard": "Pulpit",
+      "confirmEmail": "Potwierdź adres e-mail",
+      "confirmPassword": "Potwierdź hasło",
+      "name": "Imię",
+      "signingIn": "Logowanie...",
+      "signingUp": "Rejestracja...",
+      "cancel": "Anuluj",
+      "create": "Utwórz",
+      "continue": "Kontynuuj",
+      "creating": "Tworzenie...",
+      "activateEmailMessage": "Aktywuj konto",
+      "activateEmailDescription": "Musisz aktywować konto, by móc korzystać z serwisu.",
+      "resendActivationEmailButton": "Wyślij e-mail aktywacyjny"
+    },
+    "languages": {
+      "english": "Angielski",
+      "polish": "Polski"
+    },
+    "icons": {
+      "dashboard": "dashboard",
+      "payments": "credit-card",
+      "developers": "code",
+      "servers": "unordered-list",
+      "account": "user"
+    },
+    "form": {
+      "common": {
+        "createAccount": "Nie masz konta?",
+        "signIn": "Masz już konto?",
+        "errors": {
+          "required": "Pole jest wymagane"
+        }
+      },
+      "signUpForm": {
+        "title": "Rejestracja - csgoed.com",
+        "header": "Stwórz swoje konto",
+        "updatesCheckbox": "Wysyłaj e-maile o aktualizacjach",
+        "errors": {
+          "tooShortName": "Podane imię jest za krótkie",
+          "tooLongName": "Podane imię jest za długie",
+          "tooLongPassword": "Hasło jest za długie",
+          "tooShortPassword": "Hasło jest za krótkie",
+          "invalidEmail": "Adres email jest nieprawidłowy",
+          "notSamePasswords": "Podane hasła nie są takie same",
+          "notSameEmails": "Podane emaile nie są takie same",
+          "unableToSignUp": "Nie można się zarejestrować"
+        }
+      },
+      "signInForm": {
+        "title": "Logowanie - csgoed.com",
+        "header": "Zaloguj się do swojego konta",
+        "remember": "Zapamiętaj mnie",
+        "forgot": "Nie pamiętasz hasła?",
+        "errors": {
+          "unableToSignIn": "Nie można się zalogować",
+          "unableToSignInDesc": "Nieprawidłowy email lub hasło."
+        }
+      },
+      "passwordResetForm": {
+        "title": "Reset hasła - csgoed.com",
+        "header": "Reset hasła"
+      }
     }
   }
 }

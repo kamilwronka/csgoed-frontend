@@ -1,18 +1,9 @@
 import React, { useEffect } from "react";
-import {
-  Form,
-  Button,
-  Alert,
-  Layout,
-  Input as AntInput,
-  Checkbox,
-  Typography,
-  Col,
-} from "antd";
+import { Button, Checkbox, Typography, Col } from "antd";
 import { Formik, Field } from "formik";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { isNil, get } from "lodash";
+import { isNil } from "lodash";
 import { Link } from "react-router-dom";
 import { WarningOutlined } from "@ant-design/icons";
 
@@ -34,8 +25,8 @@ function SignInTab() {
   const location = useLocation();
 
   useEffect(() => {
-    document.title = "Sign in - csgoed.com";
-  }, [location]);
+    document.title = t("form.signInForm.title");
+  }, [location, t]);
 
   const onSubmit = (values) => {
     dispatch(signInUser(values));
@@ -45,11 +36,11 @@ function SignInTab() {
     <div>
       <Col offset={2} xs={20}>
         <Typography.Title level={4} style={{ padding: 0, marginBottom: 36 }}>
-          Sign in to your account
+          {t("form.signInForm.header")}
         </Typography.Title>
       </Col>
       <Formik onSubmit={onSubmit} initialValues={INITIAL_FORM_VALUES}>
-        {({ handleSubmit, errors, touched, submitCount }) => {
+        {({ handleSubmit, errors, touched, values, setFieldValue }) => {
           return (
             <form onSubmit={handleSubmit}>
               <FormItem
@@ -62,7 +53,9 @@ function SignInTab() {
               </FormItem>
               <FormItem
                 label={t("common.password")}
-                additionalLabel={<Link to="/auth/reset">Forgot password?</Link>}
+                additionalLabel={
+                  <Link to="/auth/reset">{t("form.signInForm.forgot")}</Link>
+                }
                 style={{
                   display: "flex",
                   flexDirection: "column",
@@ -91,7 +84,12 @@ function SignInTab() {
                 name="remember"
                 valuePropName="checked"
               >
-                <Checkbox>Stay signed in</Checkbox>
+                <Checkbox
+                  checked={values.remember}
+                  onChange={(e) => setFieldValue("remember", e.target.checked)}
+                >
+                  {t("form.signInForm.remember")}
+                </Checkbox>
               </FormItem>
               <FormItem style={{ marginTop: 64 }}>
                 <Button
@@ -116,8 +114,10 @@ function SignInTab() {
         }}
       >
         <p>
-          Don't have an account?{" "}
-          <Link to={`/auth/signup${location.search}`}>Sign up</Link>
+          {t("form.common.createAccount")}{" "}
+          <Link to={`/auth/signup${location.search}`}>
+            {t("common.signUp")}
+          </Link>
         </p>
       </Col>
     </div>

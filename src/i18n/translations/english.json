@@ -20,6 +20,10 @@
       "activateEmailDescription": "You must activate an account in order to do any actions.",
       "resendActivationEmailButton": "Resend activation email"
     },
+    "languages": {
+      "english": "English",
+      "polish": "Polish"
+    },
     "icons": {
       "dashboard": "dashboard",
       "payments": "credit-card",
@@ -37,11 +41,16 @@
     },
     "form": {
       "common": {
+        "createAccount": "Don't have an account?",
+        "signIn": "Already have an account?",
         "errors": {
           "required": "Field is required"
         }
       },
       "signUpForm": {
+        "title": "Sign up - csgoed.com",
+        "header": "Create your account",
+        "updatesCheckbox": "Email me about product updates",
         "errors": {
           "tooShortName": "Given name is too short",
           "tooLongName": "Given name is too long",
@@ -54,10 +63,18 @@
         }
       },
       "signInForm": {
+        "title": "Sign in - csgoed.com",
+        "header": "Sign in to your account",
+        "remember": "Stay signed in",
+        "forgot": "Forgot password?",
         "errors": {
           "unableToSignIn": "Unable to Sign In",
           "unableToSignInDesc": "Incorrect email or password."
         }
+      },
+      "passwordResetForm": {
+        "title": "Reset password - csgoed.com",
+        "header": "Password reset"
       }
     },
     "dashboard": {

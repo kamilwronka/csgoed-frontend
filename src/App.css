@@ -23,6 +23,7 @@
   color: #000;
   background: transparent;
   width: 300px;
+  line-height: 48px;
 }
 
 .search-input::placeholder {

@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
-import { Button, Alert, Col, Typography, Checkbox } from "antd";
+import { Button, Col, Typography, Checkbox } from "antd";
 import { Formik, Field } from "formik";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { isNil } from "lodash";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-use";
 
 import { SIGN_UP_FORM_CONFIG } from "config";
 import { signUpUser } from "features/AuthPage/actions/auth.actions";
@@ -13,7 +14,6 @@ import { equalTo } from "helpers/equalTo";
 import { useAuthData } from "hooks";
 import FormItem from "components/FormItem";
 import Input from "components/Input";
-import { useLocation } from "react-use";
 
 const INITIAL_FORM_VALUES = {
   email: "",
@@ -31,8 +31,8 @@ function SignUpTab() {
   const location = useLocation();
 
   useEffect(() => {
-    document.title = "Sign up - csgoed.com";
-  }, []);
+    document.title = t("form.signUpForm.title");
+  }, [t]);
 
   const SignUpSchema = Yup.object().shape({
     name: Yup.string()
@@ -82,7 +82,7 @@ function SignUpTab() {
     <div>
       <Col offset={2} xs={20}>
         <Typography.Title level={4} style={{ padding: 0, marginBottom: 36 }}>
-          Create your account
+          {t("form.signUpForm.header")}
         </Typography.Title>
       </Col>
       <Formik
@@ -103,16 +103,6 @@ function SignUpTab() {
 
           return (
             <form onSubmit={handleSubmit}>
-              {/* <FormItem>
-                {!isNil(error) && submitCount > 0 && (
-                  <Alert
-                    message={t("form.signUpForm.errors.unableToSignUp")}
-                    description={error.data.message}
-                    type="error"
-                    showIcon
-                  />
-                )}
-              </FormItem> */}
               <FormItem
                 label={t("common.name")}
                 name="name"
@@ -173,7 +163,7 @@ function SignUpTab() {
                 name="remember"
                 valuePropName="checked"
               >
-                <Checkbox>Email me about product updates</Checkbox>
+                <Checkbox>{t("form.signUpForm.updatesCheckbox")}</Checkbox>
               </FormItem>
               <FormItem style={{ marginTop: 64 }}>
                 <Button
@@ -198,8 +188,10 @@ function SignUpTab() {
         }}
       >
         <p>
-          Already have an account?{" "}
-          <Link to={`/auth/signin${location.search}`}>Sign in</Link>
+          {t("form.common.signIn")}{" "}
+          <Link to={`/auth/signin${location.search}`}>
+            {t("common.signIn")}
+          </Link>
         </p>
       </Col>
     </div>

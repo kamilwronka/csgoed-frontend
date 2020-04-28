@@ -1,15 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Row } from "antd";
 import { useHistory, useLocation, useParams } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 
 import ImageBackground from "components/ImageBackground";
 import backgroundImage from "assets/images/bg.svg";
+import { clearError } from "./actions/auth.actions";
 
 import SignInTab from "./components/SignIn/SignInTab";
 import SignUpTab from "./components/SignUp/SingUpTab";
-import { clearError } from "./actions/auth.actions";
+import ResetPasswordTab from "./components/ResetPassword/ResetPasswordTab";
 
 function AuthPage() {
   const location = useLocation();
@@ -25,6 +25,8 @@ function AuthPage() {
         return <SignUpTab />;
       case "signin":
         return <SignInTab />;
+      case "reset":
+        return <ResetPasswordTab />;
       default:
         history.push(`/auth/signin${location.search}`);
     }
@@ -48,17 +50,17 @@ function AuthPage() {
   };
 
   useEffect(() => {
-    cardRef.current &&
-      cardRef.current.addEventListener("transitionend", handleTransition);
+    const ref = cardRef.current;
+    ref && cardRef.current.addEventListener("transitionend", handleTransition);
     return () => {
-      cardRef.current.removeEventListener("transitionend", handleTransition);
+      ref.removeEventListener("transitionend", handleTransition);
     };
   }, []);
 
   useEffect(() => {
     setRendering(true);
     dispatch(clearError());
-  }, [params.type]);
+  }, [params.type, dispatch]);
 
   return (
     <Row justify="center" type="flex" align="middle">

@@ -1,11 +1,11 @@
 import React from "react";
-import { Menu, Layout, Typography, Avatar, Drawer } from "antd";
+import { Menu, Layout, Typography, Avatar, Drawer, Button } from "antd";
 import {
   DashboardOutlined,
   UnorderedListOutlined,
   CreditCardOutlined,
   CodeOutlined,
-  UserOutlined
+  UserOutlined,
 } from "@ant-design/icons";
 import { Link, useLocation, useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -45,7 +45,7 @@ function MobileMenu({ style, onClose, visible }) {
             display: "flex",
             justifyContent: "center",
             flexDirection: "column",
-            alignItems: "center"
+            alignItems: "center",
           }}
           onClick={() => {
             disableSider();
@@ -57,6 +57,13 @@ function MobileMenu({ style, onClose, visible }) {
             {get(userData, "email")}
           </h4>
           <span style={{ color: "#fff" }}>Administrator</span>
+          <Button
+            style={{ marginTop: 12 }}
+            type="danger"
+            onClick={handleLogout}
+          >
+            {t("common.logout")}
+          </Button>
         </div>
       )}
       <Menu

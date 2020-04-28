@@ -6,16 +6,16 @@ function getProperFlag(lang) {
   return import(`resources/images/${lang}_flag.svg`);
 }
 
-const LANGUAGES = [
-  { value: "en", name: "English" },
-  { value: "pl", name: "Polish" }
-];
-
 function LanguageMenu() {
   const [popoverOpen, setPopover] = useState();
-  const [lang, setLang] = useState("en");
+  const { t, i18n } = useTranslation();
+  const [lang, setLang] = useState(i18n.languages[0]);
   const [flag, setFlag] = useState("");
-  const { t } = useTranslation();
+
+  const LANGUAGES = [
+    { value: "en", name: t("languages.english") },
+    { value: "pl", name: t("languages.polish") },
+  ];
 
   function togglePopover() {
     setPopover(!popoverOpen);
@@ -26,16 +26,17 @@ function LanguageMenu() {
   }
 
   useEffect(() => {
-    getProperFlag(lang).then(flag => {
+    getProperFlag(lang).then((flag) => {
       setFlag(flag.default);
     });
-  }, [lang]);
+    i18n.changeLanguage(lang);
+  }, [lang, i18n]);
 
   return (
     <Dropdown
       overlay={
         <Menu>
-          {LANGUAGES.map(language => {
+          {LANGUAGES.map((language) => {
             return (
               <Menu.Item key={language.value}>
                 <Button
@@ -62,7 +63,7 @@ function LanguageMenu() {
             width: 32,
             height: 32,
             borderRadius: "50%",
-            objectFit: "cover"
+            objectFit: "cover",
           }}
           src={flag}
           alt={flag}
