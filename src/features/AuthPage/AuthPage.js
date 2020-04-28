@@ -1,53 +1,101 @@
-import React from "react";
-import { Tabs, Card, Row, Col } from "antd";
+import React, { useState, useRef, useEffect } from "react";
+import { Row } from "antd";
 import { useHistory, useLocation, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
+
+import ImageBackground from "components/ImageBackground";
+import backgroundImage from "assets/images/bg.svg";
 
 import SignInTab from "./components/SignIn/SignInTab";
 import SignUpTab from "./components/SignUp/SingUpTab";
 import { clearError } from "./actions/auth.actions";
 
-const { TabPane } = Tabs;
-
 function AuthPage() {
   const location = useLocation();
   const history = useHistory();
   const params = useParams();
-  const { t } = useTranslation();
   const dispatch = useDispatch();
+  const cardRef = useRef(null);
+  const [rendering, setRendering] = useState(false);
 
-  const onSwitchTab = tab => {
-    dispatch(clearError());
-    history.push(`/auth/${tab}${location.search}`);
+  const renderTab = () => {
+    switch (params.type) {
+      case "signup":
+        return <SignUpTab />;
+      case "signin":
+        return <SignInTab />;
+      default:
+        history.push(`/auth/signin${location.search}`);
+    }
   };
 
-  const defaultActiveKey = params.type;
+  const getHeight = () => {
+    switch (params.type) {
+      case "signup":
+        return 690 + 48;
+      case "signin":
+        return 478 + 48;
+      default:
+        return 300;
+    }
+  };
+
+  const handleTransition = (e) => {
+    if (e.propertyName === "min-height") {
+      setRendering(false);
+    }
+  };
+
+  useEffect(() => {
+    cardRef.current &&
+      cardRef.current.addEventListener("transitionend", handleTransition);
+    return () => {
+      cardRef.current.removeEventListener("transitionend", handleTransition);
+    };
+  }, []);
+
+  useEffect(() => {
+    setRendering(true);
+    dispatch(clearError());
+  }, [params.type]);
 
   return (
-    <Row
-      justify="center"
-      type="flex"
-      align="middle"
-      style={{ marginTop: "50px" }}
-    >
-      <Col xs={22} md={16} lg={14} xl={10} xxl={8}>
-        <div className="card" style={{ padding: 24 }}>
-          <Tabs
-            animated
-            defaultActiveKey={defaultActiveKey}
-            onChange={onSwitchTab}
-            tabPosition="top"
+    <Row justify="center" type="flex" align="middle">
+      <ImageBackground
+        src={backgroundImage}
+        style={{
+          width: "100vw",
+          height: "100vh",
+          overflowY: "scroll",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "flex-start",
+            paddingTop: 150,
+            paddingBottom: 150,
+          }}
+        >
+          <div
+            ref={cardRef}
+            className="card"
+            style={{
+              padding: "48px 0 0 0",
+              width: "100%",
+              maxWidth: 448,
+              boxShadow: "0px 3px 15px 1px rgba(0,0,0,0.75)",
+              minHeight: getHeight(),
+            }}
           >
-            <TabPane tab={t("common.signIn")} key="signin">
-              <SignInTab />
-            </TabPane>
-            <TabPane tab={t("common.signUp")} key="signup">
-              <SignUpTab />
-            </TabPane>
-          </Tabs>
+            <div className={`appear ${rendering ? "animate" : ""}`}>
+              {renderTab()}
+            </div>
+          </div>
         </div>
-      </Col>
+      </ImageBackground>
     </Row>
   );
 }

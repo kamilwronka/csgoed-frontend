@@ -3,7 +3,7 @@
     "common": {
       "signUp": "Sign Up",
       "signIn": "Sign In",
-      "email": "E-mail address",
+      "email": "Email",
       "password": "Password",
       "logout": "Logout",
       "dashboard": "Dashboard",
@@ -56,7 +56,7 @@
       "signInForm": {
         "errors": {
           "unableToSignIn": "Unable to Sign In",
-          "unableToSignInDesc": "Provided e-mail or password is wrong"
+          "unableToSignInDesc": "Incorrect email or password."
         }
       }
     },
