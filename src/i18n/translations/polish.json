@@ -76,6 +76,16 @@
         "title": "Reset hasła - csgoed.com",
         "header": "Reset hasła"
       }
+    },
+    "pages": {
+      "paymentsPage": {
+        "title": "Billing i płatności - csgoed.com",
+        "balance": "Stan konta",
+        "billingInformation": "Informacje o płatnościach",
+        "goToDepositHistory": "Przejdź do historii wpłat",
+        "addFunds": "Dodaj środki",
+        "addFundsFull": "Dodaj środki do konta"
+      }
     }
   }
 }

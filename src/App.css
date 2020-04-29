@@ -137,6 +137,16 @@ thead tr .ant-table-cell {
   background-color: #001529 !important;
 }
 
+.ant-btn-primary:disabled {
+  color: #f0f0f0;
+  background-color: #001529 !important;
+  opacity: 0.7;
+}
+
+.ant-btn-primary:disabled:hover {
+  color: #f0f0f0;
+}
+
 .ant-input {
   border-radius: 0 !important;
 }
@@ -244,4 +254,34 @@ thead tr .ant-table-cell {
   to {
     opacity: 1;
   }
+}
+
+.FormGroup {
+  margin: 0 15px 20px;
+  padding: 0;
+  border-style: none;
+  background-color: #7795f8;
+  will-change: opacity, transform;
+  box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 #829fff;
+  border-radius: 4px;
+}
+
+.FormRow {
+  outline: none;
+  transition: 0.2s;
+  height: 44px;
+  width: 100%;
+  border: 1px solid #d9d9d9;
+  padding-left: 12px;
+  margin: 8px 0 8px 0;
+}
+
+.StripeElement--webkit-autofill {
+  background: transparent !important;
+}
+
+.StripeElement {
+  width: 100%;
+  padding: 11px 15px 11px 0;
 }
