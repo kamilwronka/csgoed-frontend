@@ -8,7 +8,6 @@ import { Layout } from "components/AppLayout";
 import AuthenticatedRoute from "./AuthenticatedRoute";
 import UnauthenticatedRoute from "./UnauthenticatedRoute";
 
-import { MainPage } from "features/MainPage";
 import { AuthPage } from "features/AuthPage";
 
 import { Home } from "features/Home";
@@ -66,7 +65,7 @@ function Navigation() {
           </Layout>
         </AuthenticatedRoute>
         <Route path="/">
-          <MainPage />
+          <Redirect to="/auth/signin" />
         </Route>
       </Switch>
     </Router>
