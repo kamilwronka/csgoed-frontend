@@ -1,6 +1,7 @@
 {
   "translation": {
     "common": {
+      "greeting": "Welcome",
       "signUp": "Sign Up",
       "signIn": "Sign In",
       "email": "Email",
@@ -98,6 +99,39 @@
           "fpsUncapped": "FPS Uncapped",
           "maxPlayers": "Max players",
           "srcdsToken": "SRCDS Token"
+        }
+      }
+    },
+    "pages": {
+      "paymentsPage": {
+        "title": "Billing and payments - csgoed.com",
+        "balance": "Account balance",
+        "billingInformation": "Payments information",
+        "goToDepositHistory": "Go to payments history",
+        "addFunds": "Add funds",
+        "addFundsFull": "Add funds to your account"
+      },
+      "dashboardPage": {
+        "activeServers": "Active servers",
+        "goToServers": "Go to servers",
+        "estimatedCost": "Estimated costs",
+        "goToBilling": "Go to billing and payments",
+        "platformStatus": "Platform status",
+        "goToPlatformStatus": "Go to platform status",
+        "messages": "Messages",
+        "goToMessages": "Go to messages",
+        "documentation": "Docs",
+        "goToDocumentation": "Go to docs"
+      },
+      "serversConsolePage": {
+        "header": "Servers console",
+        "table": {
+          "states": {
+            "running": "running",
+            "exited": "exited",
+            "created": "created",
+            "paused": "paused"
+          }
         }
       }
     }

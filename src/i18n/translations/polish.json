@@ -9,6 +9,7 @@
       "account": "Konto"
     },
     "common": {
+      "greeting": "Witaj",
       "signUp": "Zarejestruj się",
       "signIn": "Zaloguj się",
       "email": "Email",
@@ -85,6 +86,29 @@
         "goToDepositHistory": "Przejdź do historii wpłat",
         "addFunds": "Dodaj środki",
         "addFundsFull": "Dodaj środki do konta"
+      },
+      "dashboardPage": {
+        "activeServers": "Aktywne serwery",
+        "goToServers": "Przejdź do serwerów",
+        "estimatedCost": "Koszty",
+        "goToBilling": "Przejdź do płatności",
+        "platformStatus": "Status platformy",
+        "goToPlatformStatus": "Sprawdź status platformy",
+        "messages": "Wiadomości",
+        "goToMessages": "Przejdź do wiadomości",
+        "documentation": "Dokumentacja",
+        "goToDocumentation": "Przejdź do dokumentacji"
+      },
+      "serversConsolePage": {
+        "header": "Servers console",
+        "table": {
+          "states": {
+            "running": "running",
+            "exited": "exited",
+            "created": "created",
+            "paused": "paused"
+          }
+        }
       }
     }
   }

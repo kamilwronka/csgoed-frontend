@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Table,
@@ -9,18 +9,18 @@ import {
   Input,
   Col,
   Row,
-  Tooltip
+  Tooltip,
 } from "antd";
 import { format } from "date-fns";
 import { pl } from "date-fns/locale";
 import { useHistory, Link } from "react-router-dom";
-import { isEmpty, debounce, get } from "lodash";
+import { isEmpty, get } from "lodash";
 import {
   PauseOutlined,
   SyncOutlined,
   DeleteOutlined,
   PlusOutlined,
-  UndoOutlined
+  UndoOutlined,
 } from "@ant-design/icons";
 
 import { fetchServers, deleteServer } from "./actions/servers.actions";
@@ -31,19 +31,21 @@ import TableRow from "./components/TableRow";
 import TableCell from "./components/TableCell";
 import { useDebounce } from "react-use";
 import { isString } from "formik";
+import { useTranslation } from "react-i18next";
 
 const { Title, Paragraph } = Typography;
 const { Search } = Input;
 
 function ServersDashboard() {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const [drawerOpen, setModal] = useState(
     window.location.href.includes("new-server")
   );
   const [selectedItems, setSelectedItems] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const { data, fetching } = useSelector(
-    state => state.serversDashboard.servers
+    (state) => state.serversDashboard.servers
   );
   const [searchData, setSearchData] = useState(data);
   const history = useHistory();
@@ -57,17 +59,17 @@ function ServersDashboard() {
     [searchValue]
   );
 
-  const setupSocketEvents = socket => {
-    socket.on("deleteServer", id => {
+  const setupSocketEvents = (socket) => {
+    socket.on("deleteServer", (id) => {
       dispatch(deleteServer(id));
       setTimeout(notification.destroy, 3000);
     });
 
-    socket.on("startServer", id => {
+    socket.on("startServer", (id) => {
       setTimeout(notification.destroy, 3000);
     });
 
-    socket.on("startServer", id => {
+    socket.on("startServer", (id) => {
       setTimeout(notification.destroy, 3000);
     });
   };
@@ -89,13 +91,13 @@ function ServersDashboard() {
           <Link
             style={{ display: "inline-block" }}
             to={{
-              pathname: `/servers/${record.Labels.game}/${record.Id}?name=${record.Labels.name}&view=summary`
+              pathname: `/servers/${record.Labels.game}/${record.Id}?name=${record.Labels.name}&view=summary`,
             }}
           >
             {record.Labels.name}
           </Link>
         </Paragraph>
-      )
+      ),
     },
     {
       width: 100,
@@ -104,12 +106,12 @@ function ServersDashboard() {
       filters: [
         { text: "Teamspeak 3", value: "teamspeak" },
         { text: "CS:GO", value: "csgo" },
-        { text: "Minecraft", value: "minecraft" }
+        { text: "Minecraft", value: "minecraft" },
       ],
       onFilter: (value, record) => record.Labels.game.indexOf(value) === 0,
       render: (text, record) => {
         return record.Labels.game;
-      }
+      },
     },
     {
       width: 100,
@@ -119,9 +121,9 @@ function ServersDashboard() {
       filters: [
         { text: "exited", value: "exited" },
         { text: "running", value: "running" },
-        { text: "created", value: "created" }
+        { text: "created", value: "created" },
       ],
-      onFilter: (value, record) => record.State.indexOf(value) === 0
+      onFilter: (value, record) => record.State.indexOf(value) === 0,
     },
     { width: 200, title: "Status", dataIndex: "Status", key: "Status" },
     {
@@ -132,7 +134,7 @@ function ServersDashboard() {
         return !isEmpty(record.Ports)
           ? `${record.Ip}:${record.Labels.serverPort}`
           : "Not assigned";
-      }
+      },
     },
     {
       width: 200,
@@ -141,17 +143,17 @@ function ServersDashboard() {
       sorter: (a, b) => a.Created - b.Created,
       render: (text, record) => {
         const time = format(record.Created * 1000, "HH:mm", {
-          locale: pl
+          locale: pl,
         });
         const day = format(record.Created * 1000, "dd-MM-yyyy", {
-          locale: pl
+          locale: pl,
         });
         return (
           <div>
             <strong>{day}</strong> - {time}
           </div>
         );
-      }
+      },
     },
     {
       width: 50,
@@ -168,22 +170,22 @@ function ServersDashboard() {
             game={record.Labels.game}
           />
         );
-      }
-    }
+      },
+    },
   ];
 
   const handleRefresh = () => {
     dispatch(fetchServers());
   };
 
-  const toggleAddingNewServerDrawer = visibility => {
+  const toggleAddingNewServerDrawer = (visibility) => {
     if (visibility === true || visibility === false) {
       visibility
         ? history.push("/servers#new-server")
         : history.push("/servers");
       return setModal(visibility);
     } else {
-      setModal(state => {
+      setModal((state) => {
         !state ? history.push("/servers#new-server") : history.push("/servers");
         return !state;
       });
@@ -208,7 +210,7 @@ function ServersDashboard() {
       setSearchData(
         data
           ? data.filter(
-              value =>
+              (value) =>
                 value.Labels.name.toLowerCase().indexOf(searchValue) !== -1
             )
           : []
@@ -224,16 +226,16 @@ function ServersDashboard() {
     setSelectedItems(items);
   };
 
-  const handleStopAll = () => {};
-
   return (
     <div>
       <Title level={3}>Servers console</Title>
       <Breadcrumb style={{ paddingBottom: 24 }}>
         <Breadcrumb.Item>
-          <Link to="/dashboard">Dashboard</Link>
+          <Link to="/dashboard">{t("breadcrumbs.dashboard")}</Link>
         </Breadcrumb.Item>
-        <Breadcrumb.Item>Servers</Breadcrumb.Item>
+        <Breadcrumb.Item>
+          {t("pages.serversConsolePage.header")}
+        </Breadcrumb.Item>
       </Breadcrumb>
       <AddNewServerDrawer
         visible={drawerOpen}
@@ -242,7 +244,7 @@ function ServersDashboard() {
       <Row
         gutter={[24, 24]}
         style={{
-          marginBottom: 20
+          marginBottom: 20,
         }}
       >
         <Col xs={24} lg={8}>
@@ -304,7 +306,7 @@ function ServersDashboard() {
               icon={
                 <UndoOutlined
                   style={{
-                    transform: "rotate(45deg)"
+                    transform: "rotate(45deg)",
                   }}
                 />
               }
@@ -319,9 +321,9 @@ function ServersDashboard() {
           fixed: true,
           type: "checkbox",
           onSelect: handleSelect,
-          onSelectAll: handleSelectAll
+          onSelectAll: handleSelectAll,
         }}
-        rowKey={record => record.Id}
+        rowKey={(record) => record.Id}
         dataSource={searchData ? searchData : data}
         loading={fetching}
         columns={columns}

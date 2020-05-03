@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu, Layout, Typography, Avatar, Drawer, Button } from "antd";
+import { Menu, Avatar, Drawer, Button } from "antd";
 import {
   DashboardOutlined,
   UnorderedListOutlined,
@@ -17,7 +17,7 @@ import { logOutUser } from "features/AuthPage/actions/auth.actions";
 import { useUserData } from "hooks";
 
 function MobileMenu({ style, onClose, visible }) {
-  const { mobile, setMobile, siderOpen, disableSider } = useLayout();
+  const { mobile, disableSider } = useLayout();
   const dispatch = useDispatch();
   const { data: userData } = useUserData();
 
