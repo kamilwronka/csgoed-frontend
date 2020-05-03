@@ -5,34 +5,27 @@ import {
   UnorderedListOutlined,
   CreditCardOutlined,
   CodeOutlined,
-  PlayCircleFilled
+  PlayCircleFilled,
 } from "@ant-design/icons";
 import { Link, useLocation, useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import useLayout from "hooks/useLayout";
-import { useDispatch } from "react-redux";
 import { get } from "lodash";
 
 import packagejson from "../../../../package.json";
 
-import { logOutUser } from "features/AuthPage/actions/auth.actions";
 import { useUserData } from "hooks";
 
 const { Sider } = Layout;
 const { Text } = Typography;
 
 function SiderMenu({ style }) {
-  const { mobile, setMobile, siderOpen, disableSider } = useLayout();
-  const dispatch = useDispatch();
+  const { mobile, setMobile, disableSider } = useLayout();
   const { data: userData } = useUserData();
 
   const { pathname } = useLocation();
   const { t } = useTranslation();
   const { push } = useHistory();
-
-  const handleLogout = () => {
-    dispatch(logOutUser());
-  };
 
   const defaultSelectedItem = pathname;
 
@@ -55,7 +48,7 @@ function SiderMenu({ style }) {
               display: "flex",
               justifyContent: "center",
               flexDirection: "column",
-              alignItems: "center"
+              alignItems: "center",
             }}
             onClick={() => {
               disableSider();
@@ -67,23 +60,25 @@ function SiderMenu({ style }) {
             <span>Administrator</span>
           </div>
         )}
-        <div
-          style={{
-            height: 64,
-            background: "rgba(255,255,255,0.05)",
-            marginBottom: 20,
-            boxShadow: "0px 2px 5px 0px rgba(0,0,0,0.5)",
-            color: "#fff",
-            display: "flex",
-            alignItems: "center",
-            lineHeight: 64,
-            fontSize: "1.4rem",
-            paddingLeft: 24
-          }}
-        >
-          <PlayCircleFilled style={{ fontSize: "1.6rem" }} />
-          &nbsp; csgo'ed
-        </div>
+        <Link to="/">
+          <div
+            style={{
+              height: 64,
+              background: "rgba(255,255,255,0.05)",
+              marginBottom: 20,
+              boxShadow: "0px 2px 5px 0px rgba(0,0,0,0.5)",
+              color: "#fff",
+              display: "flex",
+              alignItems: "center",
+              lineHeight: 64,
+              fontSize: "1.4rem",
+              paddingLeft: 24,
+            }}
+          >
+            <PlayCircleFilled style={{ fontSize: "1.6rem" }} />
+            &nbsp; csgo'ed
+          </div>
+        </Link>
         <Menu
           theme="dark"
           defaultSelectedKeys={defaultSelectedItem}

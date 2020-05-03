@@ -3,17 +3,19 @@ import { Row, Typography, Divider, Col, Tooltip, List, Tag } from "antd";
 import {
   SyncOutlined,
   LoadingOutlined,
-  ArrowRightOutlined
+  ArrowRightOutlined,
 } from "@ant-design/icons";
 import { get } from "lodash";
 
 import { useUserData } from "hooks";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const { Title, Text } = Typography;
 
 function Home() {
   const { data: userData, fetching, intact } = useUserData();
+  const { t } = useTranslation();
 
   useEffect(() => {
     document.title = "Dashboard - csgoed.com";
@@ -27,10 +29,12 @@ function Home() {
           style={{
             display: "flex",
             flexDirection: "row",
-            justifyContent: "space-between"
+            justifyContent: "space-between",
           }}
         >
-          <Title level={3}>Welcome, {get(userData, "name")}!</Title>
+          <Title level={3}>
+            {t("common.greeting")}, {get(userData, "name")}!
+          </Title>
           <div style={{ fontSize: "1.2rem", color: "#000", cursor: "pointer" }}>
             <Tooltip title="Refresh data">
               {fetching || intact ? (
@@ -47,14 +51,14 @@ function Home() {
         <Col xs={24} md={24} lg={12} xl={8} xxl={6}>
           <div className="card">
             <div>
-              <Title level={4}>Active servers</Title>
+              <Title level={4}>{t("pages.dashboardPage.activeServers")}</Title>
               <List
                 size={"small"}
                 dataSource={[
                   { title: "Teamspeak 3", amount: 3, key: 2 },
-                  { title: "CS:GO", amount: 2, key: 1 }
+                  { title: "CS:GO", amount: 2, key: 1 },
                 ]}
-                renderItem={item => {
+                renderItem={(item) => {
                   return (
                     <li
                       key={item.key}
@@ -65,7 +69,7 @@ function Home() {
                         padding: "6px 16px 6px 16px",
                         fontWeight: "500",
                         display: "flex",
-                        justifyContent: "space-between"
+                        justifyContent: "space-between",
                       }}
                     >
                       {item.title}: <Tag color="#f50">{item.amount}</Tag>
@@ -78,7 +82,7 @@ function Home() {
               <Divider style={{ marginBottom: 0 }} />
               <div style={{ padding: 16, fontWeight: "500" }}>
                 <Link to="/servers">
-                  <ArrowRightOutlined /> Go to servers
+                  <ArrowRightOutlined /> {t("pages.dashboardPage.goToServers")}
                 </Link>
               </div>
             </div>
@@ -87,13 +91,13 @@ function Home() {
         <Col xs={24} md={24} lg={12} xl={8} xxl={6}>
           <div className="card">
             <div>
-              <Title level={4}>Estimated costs</Title>
+              <Title level={4}>{t("pages.dashboardPage.estimatedCost")}</Title>
             </div>
             <div>
               <Divider style={{ marginBottom: 0 }} />
               <div style={{ padding: 16, fontWeight: "500" }}>
                 <Link to="/payments">
-                  <ArrowRightOutlined /> Go to billing and payments
+                  <ArrowRightOutlined /> {t("pages.dashboardPage.goToBilling")}
                 </Link>
               </div>
             </div>
@@ -102,7 +106,7 @@ function Home() {
         <Col xs={24} md={24} xl={8} xxl={6}>
           <div className="card success">
             <div>
-              <Title level={4}>Platform status</Title>
+              <Title level={4}>{t("pages.dashboardPage.platformStatus")}</Title>
               <Text style={{ padding: "0 16px 0 16px" }}>
                 All services are working.
               </Text>
@@ -111,7 +115,8 @@ function Home() {
               <Divider style={{ marginBottom: 0 }} />
               <div style={{ padding: 16, fontWeight: "500" }}>
                 <Link to="/platform-status">
-                  <ArrowRightOutlined /> Go to platform status panel
+                  <ArrowRightOutlined />{" "}
+                  {t("pages.dashboardPage.goToPlatformStatus")}
                 </Link>
               </div>
             </div>
@@ -120,13 +125,13 @@ function Home() {
         <Col xs={24} md={24} xl={8} xxl={6}>
           <div className="card">
             <div>
-              <Title level={4}>Messages</Title>
+              <Title level={4}>{t("pages.dashboardPage.messages")}</Title>
             </div>
             <div>
               <Divider style={{ marginBottom: 0 }} />
               <div style={{ padding: 16, fontWeight: "500" }}>
                 <Link to="/payments">
-                  <ArrowRightOutlined /> Go to messages
+                  <ArrowRightOutlined /> {t("pages.dashboardPage.goToMessages")}
                 </Link>
               </div>
             </div>
@@ -135,13 +140,14 @@ function Home() {
         <Col xs={24} md={24} xl={8} xxl={6}>
           <div className="card">
             <div>
-              <Title level={4}>Documentation</Title>
+              <Title level={4}>{t("pages.dashboardPage.documentation")}</Title>
             </div>
             <div>
               <Divider style={{ marginBottom: 0 }} />
               <div style={{ padding: 16, fontWeight: "500" }}>
                 <Link to="/docs">
-                  <ArrowRightOutlined /> Go to documentation
+                  <ArrowRightOutlined />{" "}
+                  {t("pages.dashboardPage.goToDocumentation")}
                 </Link>
               </div>
             </div>
