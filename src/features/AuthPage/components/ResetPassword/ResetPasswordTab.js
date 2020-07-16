@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 
 import FormItem from "components/FormItem";
 import Input from "components/Input";
-import { useAuthData } from "hooks";
 import { useLocation } from "react-use";
 
 const INITIAL_FORM_VALUES = {
@@ -17,7 +16,6 @@ const INITIAL_FORM_VALUES = {
 
 function ResetPasswordTab() {
   const { t } = useTranslation();
-  const { fetching, error } = useAuthData();
   const location = useLocation();
 
   const onSubmit = (values) => {
@@ -47,26 +45,26 @@ function ResetPasswordTab() {
         validationSchema={SignUpSchema}
       >
         {({ handleSubmit, errors, touched, submitCount }) => {
-          const showEmailError = () => {
-            if (!isNil(error)) {
-              return error.data.message;
-            } else if (errors.email && touched.email) {
-              return errors.email;
-            } else {
-              return "";
-            }
-          };
+          // const showEmailError = () => {
+          //   if (!isNil(error)) {
+          //     return error.data.message;
+          //   } else if (errors.email && touched.email) {
+          //     return errors.email;
+          //   } else {
+          //     return "";
+          //   }
+          // };
 
           return (
             <form onSubmit={handleSubmit}>
               <FormItem
                 label={t("common.email")}
-                validateStatus={
-                  !isNil(error) || (errors.email && touched.email)
-                    ? "error"
-                    : ""
-                }
-                help={showEmailError()}
+                // validateStatus={
+                //   !isNil(error) || (errors.email && touched.email)
+                //     ? "error"
+                //     : ""
+                // }
+                // help={showEmailError()}
               >
                 <Field id="email" name="email" type="text" as={Input} />
               </FormItem>
@@ -74,7 +72,7 @@ function ResetPasswordTab() {
                 <Button
                   htmlType="submit"
                   type="primary"
-                  loading={fetching}
+                  // loading={fetching}
                   style={{ width: "100%", height: 44 }}
                 >
                   {t("common.continue")}

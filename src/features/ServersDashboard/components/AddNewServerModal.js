@@ -3,15 +3,8 @@ import { Formik, Field } from "formik";
 import { Modal, Form, Input, Select, Button } from "antd";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
-import { useDispatch, useSelector } from "react-redux";
 import { isNil } from "lodash";
 
-import {
-  fetchAvailableGames,
-  createNewServer,
-  resetCreateNewServer,
-  fetchServers
-} from "../actions/servers.actions";
 import { openNotificationWithIcon } from "helpers/openNotification";
 import Logs from "components/Logs";
 import { useSocket } from "use-socketio";
@@ -20,68 +13,63 @@ const { Option } = Select;
 
 const FORM_INITIAL_STATE = {
   serverName: "",
-  game: ""
+  game: "",
 };
 
 function AddNewServerModal({ visible, setVisibility }) {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const formRef = useRef(null);
   const [submitButton, setSubmitButton] = useState({
-    text: t("common.create")
+    text: t("common.create"),
   });
 
   const { socket } = useSocket("createServer", ({ message }) => {
     openNotificationWithIcon("success", message);
-    setSubmitButton(state => ({
+    setSubmitButton((state) => ({
       ...state,
       text: t("common.continue"),
-      fetching: false
+      fetching: false,
     }));
-    dispatch(fetchServers());
   });
 
-  const { data: gamesData, fetching: gamesFetching } = useSelector(
-    state => state.serversDashboard.availableGames
-  );
+  // const { data: gamesData, fetching: gamesFetching } = useSelector(
+  //   (state) => state.serversDashboard.availableGames
+  // );
 
-  const {
-    data: createNewServerData,
-    fetching: createNewServerFetching
-  } = useSelector(state => state.serversDashboard.createNewServer);
+  // const {
+  //   data: createNewServerData,
+  //   fetching: createNewServerFetching,
+  // } = useSelector((state) => state.serversDashboard.createNewServer);
 
-  useEffect(() => {
-    visible && dispatch(fetchAvailableGames());
-  }, [dispatch, visible]);
+  // useEffect(() => {}, [dispatch, visible]);
 
-  useEffect(() => {
-    if (createNewServerData && visible) {
-      setVisibility(false);
-      dispatch(resetCreateNewServer());
-      openNotificationWithIcon(
-        "success",
-        "You successfully created a new server."
-      );
-    }
-  }, [createNewServerData, setVisibility, visible, dispatch]);
+  // useEffect(() => {
+  //   if (createNewServerData && visible) {
+  //     setVisibility(false);
+  //     openNotificationWithIcon(
+  //       "success",
+  //       "You successfully created a new server."
+  //     );
+  //   }
+  // }, [createNewServerData, setVisibility, visible, dispatch]);
 
   const NewServerSchema = Yup.object().shape({
     serverName: Yup.mixed()
       .test({
-        test: value => /^[-A-Za-z0-9]+$/.test(value),
-        message: t("dashboard.form.allowedCharacters")
+        test: (value) => /^[-A-Za-z0-9]+$/.test(value),
+        message: t("dashboard.form.allowedCharacters"),
       })
       .required(t("form.common.errors.required")),
-    game: Yup.string().required(t("form.common.errors.required"))
+    game: Yup.string().required(t("form.common.errors.required")),
   });
 
   const onSubmit = ({ serverName, game }) => {
     console.log({ game, name: serverName });
     socket.emit("createServer", { game, name: serverName });
-    setSubmitButton(state => ({
+    setSubmitButton((state) => ({
       ...state,
       text: t("common.creating"),
-      fetching: true
+      fetching: true,
     }));
     // createNewServer({ game, name: serverName }, socket);
   };
@@ -113,7 +101,7 @@ function AddNewServerModal({ visible, setVisibility }) {
           }
         >
           {submitButton.text}
-        </Button>
+        </Button>,
       ]}
     >
       <Formik
@@ -127,7 +115,7 @@ function AddNewServerModal({ visible, setVisibility }) {
           setTouched,
           setFieldValue,
           handleSubmit,
-          values
+          values,
         }) => {
           return (
             <Form onFinish={handleSubmit} ref={formRef}>
@@ -155,23 +143,23 @@ function AddNewServerModal({ visible, setVisibility }) {
                 help={errors.game && touched.game ? errors.game : ""}
               >
                 <Select
-                  loading={gamesFetching}
+                  // loading={gamesFetching}
                   id="game"
                   name="game"
                   value={values.game}
-                  onChange={value => setFieldValue("game", value)}
+                  onChange={(value) => setFieldValue("game", value)}
                   onBlur={() =>
                     !touched.game && setTouched({ ...touched, game: true })
                   }
                 >
-                  {!isNil(gamesData) &&
+                  {/* {!isNil(gamesData) &&
                     gamesData.map(({ game, fullName, id }) => {
                       return (
                         <Option key={id} value={game}>
                           {fullName}
                         </Option>
                       );
-                    })}
+                    })} */}
                 </Select>
               </Form.Item>
             </Form>

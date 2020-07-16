@@ -1,54 +1,67 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useReducer } from "react";
 import { Alert, Button, notification } from "antd";
 import { useTranslation } from "react-i18next";
 import { get } from "lodash";
 
-import { useUserData } from "hooks";
-import { useDispatch, useSelector } from "react-redux";
-import { sendActivationEmail } from "features/AuthPage/actions/auth.actions";
+import useUserData from "hooks/useUserData";
 import { openNotificationWithIcon } from "helpers/openNotification";
+import { AuthService } from "services";
+
+const INITIAL_DATA = {
+  data: null,
+  error: null,
+  intact: true,
+  fetching: false,
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "pending":
+      return { ...state, fetching: true, intact: false };
+    case "fulfilled":
+      return { ...state, data: action.payload, fetching: false };
+    case "error":
+      return { ...state, error: action.payload, fetching: false };
+    default:
+      return state;
+  }
+};
 
 function ActivateEmailNotification() {
   const { t } = useTranslation();
-  const { data: userData } = useUserData();
-  const dispatch = useDispatch();
-  const { data: mailData, error: mailError, fetching } = useSelector(
-    state => state.emailActivation
-  );
+  const { data: userData, fetching } = useUserData();
+  const [state, dispatch] = useReducer(reducer, INITIAL_DATA);
 
-  const errorMessage = get(mailError, "data.message");
-  const successMessage = get(mailData, "message");
   const activated = get(userData, "activated", false);
 
-  const resendActivationEmail = () => {
-    dispatch(sendActivationEmail());
-  };
-
   useEffect(() => {
-    if (successMessage) {
+    if (state.data) {
       notification.destroy();
-      openNotificationWithIcon(
-        "success",
-        "Activation e-mail",
-        successMessage,
-        5000
-      );
+      openNotificationWithIcon("success", "Activation e-mail", "jeje", 5000);
     }
 
-    if (errorMessage) {
+    if (state.error) {
       notification.destroy();
-      openNotificationWithIcon(
-        "error",
-        "Activation e-mail",
-        errorMessage,
-        5000
-      );
+      openNotificationWithIcon("error", "Activation e-mail", state.error, 5000);
     }
 
     if (fetching) {
       openNotificationWithIcon("info", "Sending activation e-mail...", "", 0);
     }
-  }, [successMessage, errorMessage, fetching]);
+  }, [state.error, state.data, fetching]);
+
+  const resendActivationEmail = async () => {
+    dispatch({ type: "pending" });
+
+    try {
+      const response = await AuthService({ needsAuth: true }).post(
+        "/resend-activation-email"
+      );
+      dispatch({ type: "fulfilled", payload: response.data });
+    } catch (error) {
+      dispatch({ type: "error", payload: error.response.data });
+    }
+  };
 
   return (
     !activated && (

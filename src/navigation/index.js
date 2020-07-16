@@ -5,8 +5,6 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import { get } from "lodash";
-import { useAuthData } from "hooks";
 
 import { Layout } from "components/AppLayout";
 
@@ -22,10 +20,12 @@ import { AccountPage } from "features/AccountPage";
 import { PaymentsPage } from "features/PaymentsPage";
 import { DevelopersPage } from "features/DevelopersPage";
 import { AccountActivationPage } from "features/AccountActivationPage";
+import useAuth from "hooks/useAuth";
 
 function Navigation() {
-  const { data } = useAuthData();
-  const isAuthorized = get(data, "token", false);
+  const { state } = useAuth();
+
+  const isAuthorized = state.data.authorized;
 
   return (
     <Router>
@@ -36,19 +36,19 @@ function Navigation() {
         <UnauthenticatedRoute appProps={{ isAuthorized }} path="/auth/:type">
           <AuthPage />
         </UnauthenticatedRoute>
-        <AuthenticatedRoute
+        {/* <AuthenticatedRoute
           appProps={{ isAuthorized }}
           path="/servers/:game/:id"
         >
           <Layout>
             <SingleServerDashboard />
           </Layout>
-        </AuthenticatedRoute>
-        <AuthenticatedRoute appProps={{ isAuthorized }} path="/servers">
+        </AuthenticatedRoute> */}
+        {/* <AuthenticatedRoute appProps={{ isAuthorized }} path="/servers">
           <Layout>
             <ServersDashboard />
           </Layout>
-        </AuthenticatedRoute>
+        </AuthenticatedRoute> */}
         <AuthenticatedRoute appProps={{ isAuthorized }} path="/dashboard">
           <Layout>
             <Home />
@@ -59,11 +59,11 @@ function Navigation() {
             <AccountPage />
           </Layout>
         </AuthenticatedRoute>
-        <AuthenticatedRoute appProps={{ isAuthorized }} path="/payments">
+        {/* <AuthenticatedRoute appProps={{ isAuthorized }} path="/payments">
           <Layout>
             <PaymentsPage />
           </Layout>
-        </AuthenticatedRoute>
+        </AuthenticatedRoute> */}
         <AuthenticatedRoute appProps={{ isAuthorized }} path="/developers">
           <Layout>
             <DevelopersPage />

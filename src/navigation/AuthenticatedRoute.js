@@ -5,24 +5,28 @@ import { get } from "lodash";
 
 import { API_CONFIG } from "config";
 import Notifications from "components/Notifications/Notifications";
-import { useAuthData } from "hooks";
+import useAuth from "hooks/useAuth";
 
 export default function AuthenticatedRoute({ children, appProps, ...rest }) {
-  const { data: authData } = useAuthData();
+  const { state } = useAuth();
 
   return (
     <Route
       {...rest}
-      render={props =>
+      render={(props) =>
         appProps.isAuthorized ? (
-          <SocketIOProvider
-            url={API_CONFIG.API_URL}
-            opts={{ query: { token: get(authData, "token") } }}
-          >
-            <Notifications />
+          <>
+            {/* <Notifications /> */}
             {children}
-          </SocketIOProvider>
+          </>
         ) : (
+          // <SocketIOProvider
+          //   url={API_CONFIG.API_URL}
+          //   opts={{ query: { token: get(state, "accessToken") } }}
+          // >
+          //   <Notifications />
+          //   {children}
+          // </SocketIOProvider>
           <Redirect
             to={`/auth/signin?redirect=${props.location.pathname}${props.location.search}`}
           />

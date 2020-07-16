@@ -1,11 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Row } from "antd";
 import { useHistory, useLocation, useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
 
 import ImageBackground from "components/ImageBackground";
 import backgroundImage from "assets/images/bg.svg";
-import { clearError } from "./actions/auth.actions";
 
 import SignInTab from "./components/SignIn/SignInTab";
 import SignUpTab from "./components/SignUp/SingUpTab";
@@ -15,7 +13,6 @@ function AuthPage() {
   const location = useLocation();
   const history = useHistory();
   const params = useParams();
-  const dispatch = useDispatch();
   const cardRef = useRef(null);
   const [rendering, setRendering] = useState(false);
 
@@ -59,8 +56,7 @@ function AuthPage() {
 
   useEffect(() => {
     setRendering(true);
-    dispatch(clearError());
-  }, [params.type, dispatch]);
+  }, [params.type]);
 
   return (
     <Row justify="center" type="flex" align="middle">

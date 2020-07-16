@@ -7,7 +7,7 @@ import {
 } from "@ant-design/icons";
 import { get } from "lodash";
 
-import { useUserData } from "hooks";
+import useUserData from "hooks/useUserData";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -33,7 +33,7 @@ function Home() {
           }}
         >
           <Title level={3}>
-            {t("common.greeting")}, {get(userData, "name")}!
+            {t("common.greeting")}, {get(userData, "firstName")}!
           </Title>
           <div style={{ fontSize: "1.2rem", color: "#000", cursor: "pointer" }}>
             <Tooltip title="Refresh data">

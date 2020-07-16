@@ -1,42 +1,40 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
-import { get } from "lodash";
+import { isNil } from "lodash";
 
 import LayoutInner from "./LayoutInner";
-import { fetchUserData } from "store/actions/user.actions";
-import { useAuthData } from "hooks";
+import useAuth from "hooks/useAuth";
+import useUserData from "hooks/useUserData";
 
 export const LayoutContext = React.createContext({
   siderOpen: false,
-  mobile: false
+  mobile: false,
 });
 
 function Layout({ children, ...props }) {
   const { pathname } = useLocation();
   const { t } = useTranslation();
   const [value, setValue] = useState({ siderOpen: false, mobile: false });
-  const dispatch = useDispatch();
-  const { data: authData } = useAuthData();
+  const { state } = useAuth();
+  const { fetchUserData, data } = useUserData();
 
-  const token = get(authData, "token");
-
-  const setMobile = val => {
+  const setMobile = (val) => {
     setValue({ ...value, mobile: val });
   };
 
-  const toggleSider = val => {
+  const toggleSider = (val) => {
     setValue({ ...value, siderOpen: !value.siderOpen });
   };
 
-  const disableSider = val => {
+  const disableSider = (val) => {
     setValue({ ...value, siderOpen: false });
   };
 
   useEffect(() => {
-    token && dispatch(fetchUserData());
-  }, [dispatch, token]);
+    fetchUserData();
+    //eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);

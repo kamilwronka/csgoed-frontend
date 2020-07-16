@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
 import { Row, Col, Drawer } from "antd";
 
 import AddFundsForm from "./components/AddFundsForm";
 import AccountBalance from "./components/Balance";
-import { fetchUserPayments } from "./actions/payment.actions";
 import BillingInformation from "./components/BillingInformation";
 import useLayout from "hooks/useLayout";
 import { useHistory } from "react-router-dom";
 
 function PaymentsPage() {
-  const dispatch = useDispatch();
   const { push } = useHistory();
   const { t } = useTranslation();
   const [showAddFundsModal, toggleAddFundsModal] = useState(
@@ -27,10 +24,6 @@ function PaymentsPage() {
       return !prevState;
     });
   };
-
-  useEffect(() => {
-    dispatch(fetchUserPayments());
-  }, [dispatch]);
 
   useEffect(() => {
     document.title = t("pages.paymentsPage.title");

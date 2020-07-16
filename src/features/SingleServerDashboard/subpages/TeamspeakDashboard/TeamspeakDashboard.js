@@ -7,9 +7,6 @@ import { parse, stringify } from "qs";
 import SummarySubpage from "./components/SummarySubpage";
 import ConfigSubpage from "./components/ConfigSubpage";
 import RolesSubpage from "./components/RolesSubpage";
-import { useDispatch } from "react-redux";
-
-import { fetchServerData } from "../../actions/singleServer.actions";
 
 const { TabPane } = Tabs;
 const { Title } = Typography;
@@ -17,22 +14,20 @@ const { Title } = Typography;
 const SUBPAGES = {
   CONFIG: "Config",
   SUMMARY: "Summary",
-  ROLES: "Roles"
+  ROLES: "Roles",
 };
 
 function TeamspeakDashboard() {
   const { pathname } = useLocation();
   const { view, name } = parse(window.location.search.substr(1));
   const { push } = useHistory();
-  const dispatch = useDispatch();
   const { id } = useParams();
 
   useEffect(() => {
-    dispatch(fetchServerData(id));
     document.title = `${name} - csgoed.com`;
-  }, [dispatch, id, name]);
+  }, [id, name]);
 
-  const handleTabChange = tab => {
+  const handleTabChange = (tab) => {
     const query = { ...parse(window.location.search.substr(1)), view: tab };
 
     push(pathname + "?" + stringify(query));

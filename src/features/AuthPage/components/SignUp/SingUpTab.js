@@ -2,18 +2,16 @@ import React, { useEffect } from "react";
 import { Button, Col, Typography, Checkbox } from "antd";
 import { Formik, Field } from "formik";
 import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { isNil } from "lodash";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-use";
 
 import { SIGN_UP_FORM_CONFIG } from "config";
-import { signUpUser } from "features/AuthPage/actions/auth.actions";
 import { equalTo } from "helpers/equalTo";
-import { useAuthData } from "hooks";
 import FormItem from "components/FormItem";
 import Input from "components/Input";
+import useAuth from "hooks/useAuth";
 
 const INITIAL_FORM_VALUES = {
   email: "",
@@ -26,8 +24,7 @@ Yup.addMethod(Yup.string, "equalTo", equalTo);
 
 function SignUpTab() {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const { fetching, error } = useAuthData();
+  const { signUp, fetching, error } = useAuth();
   const location = useLocation();
 
   useEffect(() => {
@@ -35,7 +32,17 @@ function SignUpTab() {
   }, [t]);
 
   const SignUpSchema = Yup.object().shape({
-    name: Yup.string()
+    firstName: Yup.string()
+      .min(
+        SIGN_UP_FORM_CONFIG.nameMinChars,
+        t("form.signUpForm.errors.tooShortName")
+      )
+      .max(
+        SIGN_UP_FORM_CONFIG.nameMaxChars,
+        t("form.signUpForm.errors.tooLongName")
+      )
+      .required(t("form.common.errors.required")),
+    lastName: Yup.string()
       .min(
         SIGN_UP_FORM_CONFIG.nameMinChars,
         t("form.signUpForm.errors.tooShortName")
@@ -75,7 +82,7 @@ function SignUpTab() {
   });
 
   const onSubmit = (values) => {
-    dispatch(signUpUser(values));
+    signUp(values);
   };
 
   return (
@@ -104,12 +111,28 @@ function SignUpTab() {
           return (
             <form onSubmit={handleSubmit}>
               <FormItem
-                label={t("common.name")}
-                name="name"
-                validateStatus={errors.name && touched.name ? "error" : ""}
-                help={errors.name && touched.name ? errors.name : ""}
+                label={t("common.firstName")}
+                name="firstName"
+                validateStatus={
+                  errors.firstName && touched.firstName ? "error" : ""
+                }
+                help={
+                  errors.firstName && touched.firstName ? errors.firstName : ""
+                }
               >
-                <Field id="name" name="name" type="text" as={Input} />
+                <Field id="firstName" name="firstName" type="text" as={Input} />
+              </FormItem>
+              <FormItem
+                label={t("common.lastName")}
+                name="lastName"
+                validateStatus={
+                  errors.lastName && touched.lastName ? "error" : ""
+                }
+                help={
+                  errors.lastName && touched.lastName ? errors.lastName : ""
+                }
+              >
+                <Field id="lastName" name="lastName" type="text" as={Input} />
               </FormItem>
               <FormItem
                 label={t("common.email")}

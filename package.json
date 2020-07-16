@@ -12,6 +12,8 @@
     "axios": "^0.19.1",
     "body-scroll-lock": "^2.6.4",
     "date-fns": "^2.9.0",
+    "fbemitter": "^2.1.1",
+    "fingerprintjs2": "^2.1.0",
     "formik": "^2.1.1",
     "i18next": "^19.0.3",
     "i18next-browser-languagedetector": "^4.1.1",

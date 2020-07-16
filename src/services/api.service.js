@@ -1,74 +1,84 @@
-import axios from "axios";
+import Axios from "axios";
+import { LocalStorage } from "./localstorage.service";
 import { isNil, get } from "lodash";
+import { API_CONFIG } from "config";
+import { emitter, EMITTER_EVENTS } from "./event.service";
 
-import API_CONFIG from "config/api_config";
-import { openNotificationWithIcon } from "helpers/openNotification";
-
-class ApiService {
-  constructor(type, options) {
+export class ApiService {
+  constructor(apiUrl, options = { needsAuth: false }) {
+    this.apiUrl = apiUrl;
+    this.isRefreshing = false;
+    this.refreshAttempts = 0;
+    this.instance = Axios.create({ baseURL: this.apiUrl });
     this.options = options;
-    this.type = type;
 
-    this.instance = axios.create({
-      baseURL: API_CONFIG.API_URL
+    this.options.needsAuth &&
+      this.instance.interceptors.request.use((config) => {
+        const token = get(LocalStorage.get("auth"), "accessToken", null);
+
+        if (!token) {
+          return Promise.reject({ response: { status: 401 } });
+        }
+
+        return {
+          ...config,
+          headers: {
+            Authorization: "Bearer " + LocalStorage.get("auth").accessToken,
+          },
+        };
+      });
+
+    this.options.needsAuth &&
+      this.instance.interceptors.response.use(
+        (response) => response,
+        async (error) => {
+          if (
+            !this.isRefreshing &&
+            !this.refreshAttempts > 0 &&
+            !isNil(error.response) &&
+            error.response.status === 401
+          ) {
+            this.isRefreshing = true;
+            try {
+              this.refreshAttempts = 0;
+              await this.refreshToken();
+              this.isRefreshing = false;
+              this.refreshAttempts = this.refreshAttempts + 1;
+
+              return this.instance.request(error.config);
+            } catch {
+              emitter.emit(EMITTER_EVENTS.SYNC_AUTH_DATA, {
+                authorized: false,
+                refreshToken: null,
+                accessToken: null,
+              });
+
+              this.isRefreshing = false;
+              this.refreshAttempts = this.refreshAttempts + 1;
+              return Promise.reject();
+            }
+          }
+
+          return Promise.reject(error);
+        }
+      );
+  }
+
+  async refreshToken() {
+    const response = await Axios.get(API_CONFIG.AUTH_SERVICE_URL + "/refresh", {
+      headers: {
+        Authorization: "Bearer " + LocalStorage.get("auth").refreshToken,
+      },
+    });
+
+    emitter.emit(EMITTER_EVENTS.SYNC_AUTH_DATA, {
+      authorized: true,
+      refreshToken: response.data.refreshToken,
+      accessToken: response.data.accessToken,
     });
   }
 
-  setToken(token) {
-    if (!isNil(token)) {
-      this.instance.defaults.headers.common[
-        API_CONFIG.DEFAULT_AUTH_HEADER
-      ] = `Bearer ${token}`;
-    }
-  }
-
-  get() {
-    const { url, data, needsAuth } = this.options;
-
-    return {
-      type: this.type,
-      payload: token => {
-        if (needsAuth) this.setToken(token);
-
-        return this.instance.get(url, data).catch(err => {
-          openNotificationWithIcon(
-            "error",
-            "Unable to fetch data",
-            get(err, "response.data.message")
-              ? `Status ${err.response.status} - ${err.response.data.message}`
-              : null
-          );
-        });
-      }
-    };
-  }
-
-  post() {
-    const { url, data, needsAuth } = this.options;
-
-    return {
-      type: this.type,
-      payload: token => {
-        if (needsAuth) this.setToken(token);
-
-        return this.instance.post(url, { ...data });
-      }
-    };
-  }
-
-  delete() {
-    const { url, data, needsAuth } = this.options;
-
-    return {
-      type: this.type,
-      payload: token => {
-        if (needsAuth) this.setToken(token);
-
-        return this.instance.delete(url, { ...data });
-      }
-    };
+  createInstance() {
+    return this.instance;
   }
 }
-
-export default (type, options) =>
-  new ApiService(type, options)[options.method]();

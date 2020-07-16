@@ -2,34 +2,37 @@ import React, { useEffect } from "react";
 import { Button, Checkbox, Typography, Col } from "antd";
 import { Formik, Field } from "formik";
 import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
 import { isNil } from "lodash";
 import { Link } from "react-router-dom";
 import { WarningOutlined } from "@ant-design/icons";
+import * as Yup from "yup";
 
 import Input from "components/Input";
 import FormItem from "components/FormItem";
-import { signInUser } from "features/AuthPage/actions/auth.actions";
-import { useAuthData } from "hooks";
 import { useLocation } from "react-use";
+import useAuth from "hooks/useAuth";
 
 const INITIAL_FORM_VALUES = {
-  email: "kaam@kamil.pl",
-  password: "password",
+  email: "",
+  password: "",
 };
 
 function SignInTab() {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const { fetching, error } = useAuthData();
   const location = useLocation();
+  const { signIn, error, fetching } = useAuth();
+
+  const SignInSchema = Yup.object().shape({
+    email: Yup.string().required(t("form.common.errors.required")),
+    password: Yup.string().required(t("form.common.errors.required")),
+  });
 
   useEffect(() => {
     document.title = t("form.signInForm.title");
   }, [location, t]);
 
   const onSubmit = (values) => {
-    dispatch(signInUser(values));
+    signIn(values);
   };
 
   return (
@@ -39,7 +42,11 @@ function SignInTab() {
           {t("form.signInForm.header")}
         </Typography.Title>
       </Col>
-      <Formik onSubmit={onSubmit} initialValues={INITIAL_FORM_VALUES}>
+      <Formik
+        onSubmit={onSubmit}
+        initialValues={INITIAL_FORM_VALUES}
+        validationSchema={SignInSchema}
+      >
         {({ handleSubmit, errors, touched, values, setFieldValue }) => {
           return (
             <form onSubmit={handleSubmit}>

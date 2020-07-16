@@ -1,7 +1,6 @@
-import { useSelector } from "react-redux";
+import { useContext } from "react";
+import UserDataContext from "contexts/UserDataContext";
 
-const useUserData = () => {
-  return useSelector(state => state.user);
-};
-
-export default useUserData;
+export default function useUserData() {
+  return useContext(UserDataContext);
+}

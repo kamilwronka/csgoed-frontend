@@ -7,7 +7,6 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import Axios from "axios";
 import {
   Form,
   Card,
@@ -20,14 +19,11 @@ import {
 import { get } from "lodash";
 
 import { STRIPE_KEY } from "config";
-import { useUserData, useAuthData } from "hooks";
-import { useDispatch, useSelector } from "react-redux";
-import { handleStripePayment } from "../actions/payment.actions";
+import { useUserData } from "hooks";
 import { openNotificationWithIcon } from "helpers/openNotification";
 import FormItem from "components/FormItem";
 import Input from "components/Input";
 import { Formik, Field } from "formik";
-import { API_CONFIG } from "config";
 
 const CARD_OPTIONS = {
   iconStyle: "solid",
@@ -51,7 +47,6 @@ const CARD_OPTIONS = {
 
 function AddFundsForm() {
   const { data: userData } = useUserData();
-  const { data: authData } = useAuthData();
   const stripe = useStripe();
   const elements = useElements();
   const [processing, setProcessing] = useState(false);
@@ -81,28 +76,28 @@ function AddFundsForm() {
 
     setProcessing(true);
 
-    const {
-      data: { client_secret },
-    } = await Axios.post(
-      API_CONFIG.API_URL + "/payments/client-secret",
-      { amount: values.amount * 100 },
-      { headers: { Authorization: "Bearer " + authData.token } }
-    );
+    // const {
+    //   data: { client_secret },
+    // } = await Axios.post(
+    //   API_CONFIG.API_URL + "/payments/client-secret",
+    //   { amount: values.amount * 100 },
+    //   { headers: { Authorization: "Bearer " + authData.token } }
+    // );
 
-    console.log(client_secret);
+    // console.log(client_secret);
 
-    await stripe.confirmCardPayment(client_secret, {
-      payment_method: {
-        card: elements.getElement(CardElement),
-        billing_details: {
-          email: values.email,
-          phone: values.phone,
-          name: values.name,
-        },
-      },
-    });
+    // await stripe.confirmCardPayment(client_secret, {
+    //   payment_method: {
+    //     card: elements.getElement(CardElement),
+    //     billing_details: {
+    //       email: values.email,
+    //       phone: values.phone,
+    //       name: values.name,
+    //     },
+    //   },
+    // });
 
-    console.log(client_secret);
+    // console.log(client_secret);
 
     // const { error, paymentMethod } = await stripe.createPaymentMethod({
     //   type: "card",
@@ -114,14 +109,14 @@ function AddFundsForm() {
     // console.log(error, paymentMethod);
   };
 
-  useEffect(() => {
-    authData.token &&
-      Axios.get(API_CONFIG.API_URL + "/user/payment-methods", {
-        headers: {
-          Authorization: "Bearer " + authData.token,
-        },
-      }).then(console.log);
-  }, [authData.token]);
+  // useEffect(() => {
+  //   authData.token &&
+  //     Axios.get(API_CONFIG.API_URL + "/user/payment-methods", {
+  //       headers: {
+  //         Authorization: "Bearer " + authData.token,
+  //       },
+  //     }).then(console.log);
+  // }, [authData.token]);
 
   return (
     <Formik onSubmit={onSubmit} initialValues={INITIAL_VALUES}>

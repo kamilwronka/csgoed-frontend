@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import {
   Table,
   Button,
@@ -23,7 +22,6 @@ import {
   UndoOutlined,
 } from "@ant-design/icons";
 
-import { fetchServers, deleteServer } from "./actions/servers.actions";
 import AddNewServerDrawer from "./components/AddNewServerMenuForm";
 import ManageServerMenu from "./components/ManageServerMenu";
 import { useSocket } from "use-socketio";
@@ -37,41 +35,35 @@ const { Title, Paragraph } = Typography;
 const { Search } = Input;
 
 function ServersDashboard() {
-  const dispatch = useDispatch();
   const { t } = useTranslation();
   const [drawerOpen, setModal] = useState(
     window.location.href.includes("new-server")
   );
   const [selectedItems, setSelectedItems] = useState([]);
   const [searchValue, setSearchValue] = useState("");
-  const { data, fetching } = useSelector(
-    (state) => state.serversDashboard.servers
-  );
-  const [searchData, setSearchData] = useState(data);
+
+  // const [searchData, setSearchData] = useState(data);
   const history = useHistory();
-  const dataLength = get(data, "length");
+  // const dataLength = get(data, "length");
 
   useDebounce(
     () => {
-      handleSearch(searchValue);
+      // handleSearch(searchValue);
     },
     500,
     [searchValue]
   );
 
   const setupSocketEvents = (socket) => {
-    socket.on("deleteServer", (id) => {
-      dispatch(deleteServer(id));
-      setTimeout(notification.destroy, 3000);
-    });
-
-    socket.on("startServer", (id) => {
-      setTimeout(notification.destroy, 3000);
-    });
-
-    socket.on("startServer", (id) => {
-      setTimeout(notification.destroy, 3000);
-    });
+    // socket.on("deleteServer", (id) => {
+    //   setTimeout(notification.destroy, 3000);
+    // });
+    // socket.on("startServer", (id) => {
+    //   setTimeout(notification.destroy, 3000);
+    // });
+    // socket.on("startServer", (id) => {
+    //   setTimeout(notification.destroy, 3000);
+    // });
   };
 
   const { socket } = useSocket();
@@ -174,9 +166,7 @@ function ServersDashboard() {
     },
   ];
 
-  const handleRefresh = () => {
-    dispatch(fetchServers());
-  };
+  const handleRefresh = () => {};
 
   const toggleAddingNewServerDrawer = (visibility) => {
     if (visibility === true || visibility === false) {
@@ -196,27 +186,25 @@ function ServersDashboard() {
     document.title = "Servers console - csgoed.com";
   }, []);
 
-  useEffect(() => {
-    dispatch(fetchServers());
-  }, [dispatch]);
+  useEffect(() => {}, []);
 
-  useEffect(() => {
-    handleSearch(searchValue);
-    //eslint-disable-next-line
-  }, [dataLength]);
+  // useEffect(() => {
+  //   handleSearch(searchValue);
+  //   //eslint-disable-next-line
+  // }, [dataLength]);
 
-  function handleSearch(searchValue) {
-    if (isString(searchValue)) {
-      setSearchData(
-        data
-          ? data.filter(
-              (value) =>
-                value.Labels.name.toLowerCase().indexOf(searchValue) !== -1
-            )
-          : []
-      );
-    }
-  }
+  // function handleSearch(searchValue) {
+  //   if (isString(searchValue)) {
+  //     setSearchData(
+  //       data
+  //         ? data.filter(
+  //             (value) =>
+  //               value.Labels.name.toLowerCase().indexOf(searchValue) !== -1
+  //           )
+  //         : []
+  //     );
+  //   }
+  // }
 
   const handleSelect = (_, selected, items) => {
     setSelectedItems(items);
@@ -275,7 +263,7 @@ function ServersDashboard() {
           <Tooltip title="Restart all">
             <Button
               onClick={handleRefresh}
-              loading={fetching}
+              // loading={fetching}
               disabled={isEmpty(selectedItems)}
               style={{ marginRight: 10, width: 44, height: 32 }}
               icon={<SyncOutlined />}
@@ -284,7 +272,7 @@ function ServersDashboard() {
           <Tooltip title="Delete all">
             <Button
               onClick={handleRefresh}
-              loading={fetching}
+              // loading={fetching}
               disabled={isEmpty(selectedItems)}
               type="danger"
               style={{ marginRight: 10, width: 44, height: 32 }}
@@ -302,7 +290,7 @@ function ServersDashboard() {
           <Tooltip title="Refresh">
             <Button
               onClick={handleRefresh}
-              loading={fetching}
+              // loading={fetching}
               icon={
                 <UndoOutlined
                   style={{
@@ -324,8 +312,8 @@ function ServersDashboard() {
           onSelectAll: handleSelectAll,
         }}
         rowKey={(record) => record.Id}
-        dataSource={searchData ? searchData : data}
-        loading={fetching}
+        // dataSource={searchData ? searchData : data}
+        // loading={fetching}
         columns={columns}
         pagination={{ pageSize: 20 }}
         components={{ body: { row: TableRow, cell: TableCell } }}

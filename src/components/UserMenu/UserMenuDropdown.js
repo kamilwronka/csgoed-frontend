@@ -1,22 +1,21 @@
 import React from "react";
 import { Card, Avatar } from "antd";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { get } from "lodash";
 import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
 
-import { logOutUser } from "features/AuthPage/actions/auth.actions";
 import { useUserData } from "hooks";
+import useAuth from "hooks/useAuth";
 
 const { Meta } = Card;
 
 function UserMenuDropdown({ togglePopover }) {
-  const dispatch = useDispatch();
+  const { logout } = useAuth();
   const { data: userData } = useUserData();
 
   const handleLogout = () => {
     togglePopover();
-    dispatch(logOutUser());
+    logout();
   };
 
   return (
@@ -30,7 +29,7 @@ function UserMenuDropdown({ togglePopover }) {
         </Link>,
         <div key="logout" onClick={handleLogout}>
           <LogoutOutlined /> &nbsp;Logout
-        </div>
+        </div>,
       ]}
     >
       <Meta

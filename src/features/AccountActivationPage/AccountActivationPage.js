@@ -1,26 +1,30 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, Button } from "antd";
 import { useLocation } from "react-router-dom";
 import { parse } from "qs";
-import { useDispatch, useSelector } from "react-redux";
-import { get } from "lodash";
 
-import { activateAccount } from "./actions/accountActivation.actions";
+import Axios from "axios";
+import { API_CONFIG } from "config";
 
 function AccountActivationPage() {
-  const dispatch = useDispatch();
+  const [state, setState] = useState();
+  const [error, setError] = useState();
+  const [fetching, setFetching] = useState();
+
   const { search } = useLocation();
   const { token } = parse(search.substring(1));
-  const { data, error, fetching, intact } = useSelector(
-    state => state.accountActivation
-  );
-
-  const successMessage = get(data, "message");
-  const errorMessage = get(error, "data.message");
 
   useEffect(() => {
-    dispatch(activateAccount(token));
-  }, [token, dispatch]);
+    setFetching(true);
+    Axios.post(API_CONFIG.API_URL + "/activate", { token })
+      .then((response) => {
+        setState(response.data);
+      })
+      .catch((error) => setError(error.response.data.message))
+      .finally(() => {
+        setFetching(false);
+      });
+  }, [token]);
 
   useEffect(() => {
     document.title = "Activate account - csgoed.com";
@@ -29,13 +33,11 @@ function AccountActivationPage() {
   return (
     <Alert
       message={
-        fetching || intact
+        fetching
           ? "Activating account..."
-          : successMessage || errorMessage
+          : error || "Account has been activated."
       }
-      description={
-        successMessage ? <Button type="link">Continue</Button> : null
-      }
+      description={state ? <Button type="link">Continue</Button> : null}
     />
   );
 }

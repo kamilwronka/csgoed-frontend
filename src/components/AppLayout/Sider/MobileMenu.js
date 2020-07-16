@@ -10,23 +10,22 @@ import {
 import { Link, useLocation, useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import useLayout from "hooks/useLayout";
-import { useDispatch } from "react-redux";
 import { get } from "lodash";
 
-import { logOutUser } from "features/AuthPage/actions/auth.actions";
 import { useUserData } from "hooks";
+import useAuth from "hooks/useAuth";
 
 function MobileMenu({ style, onClose, visible }) {
   const { mobile, disableSider } = useLayout();
-  const dispatch = useDispatch();
   const { data: userData } = useUserData();
+  const { logout } = useAuth();
 
   const { pathname } = useLocation();
   const { t } = useTranslation();
   const { push } = useHistory();
 
   const handleLogout = () => {
-    dispatch(logOutUser());
+    logout();
   };
 
   const defaultSelectedItem = pathname;
