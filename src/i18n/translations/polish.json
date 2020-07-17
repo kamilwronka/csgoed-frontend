@@ -28,7 +28,14 @@
       "creating": "Tworzenie...",
       "activateEmailMessage": "Aktywuj konto",
       "activateEmailDescription": "Musisz aktywować konto, by móc korzystać z serwisu.",
-      "resendActivationEmailButton": "Wyślij e-mail aktywacyjny"
+      "resendActivationEmailButton": "Wyślij e-mail aktywacyjny",
+      "activation": {
+        "succes": "E-mail aktywacyjny został wysłany",
+        "timeout": "Proszę poczekać 15 minut przed kolejną próbą",
+        "alreadyActivated": "Konto jest już aktywowane",
+        "activationEmailHeader": "E-mail aktywujący konto",
+        "sending": "Wysyłanie e-maila z kodem aktywacyjnym konto..."
+      }
     },
     "languages": {
       "english": "Angielski",
@@ -50,7 +57,7 @@
         }
       },
       "signUpForm": {
-        "title": "Rejestracja - csgoed.com",
+        "title": "Rejestracja - shopper.com",
         "header": "Stwórz swoje konto",
         "updatesCheckbox": "Wysyłaj e-maile o aktualizacjach",
         "errors": {
@@ -65,7 +72,7 @@
         }
       },
       "signInForm": {
-        "title": "Logowanie - csgoed.com",
+        "title": "Logowanie - shopper.com",
         "header": "Zaloguj się do swojego konta",
         "remember": "Zapamiętaj mnie",
         "forgot": "Nie pamiętasz hasła?",
@@ -75,13 +82,13 @@
         }
       },
       "passwordResetForm": {
-        "title": "Reset hasła - csgoed.com",
+        "title": "Reset hasła - shopper.com",
         "header": "Reset hasła"
       }
     },
     "pages": {
       "paymentsPage": {
-        "title": "Billing i płatności - csgoed.com",
+        "title": "Billing i płatności - shopper.com",
         "balance": "Stan konta",
         "billingInformation": "Informacje o płatnościach",
         "goToDepositHistory": "Przejdź do historii wpłat",

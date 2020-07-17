@@ -29,7 +29,7 @@ const reducer = (state, action) => {
 
 function ActivateEmailNotification() {
   const { t } = useTranslation();
-  const { data: userData, fetching } = useUserData();
+  const { data: userData } = useUserData();
   const [state, dispatch] = useReducer(reducer, INITIAL_DATA);
 
   const activated = get(userData, "activated", false);
@@ -37,18 +37,28 @@ function ActivateEmailNotification() {
   useEffect(() => {
     if (state.data) {
       notification.destroy();
-      openNotificationWithIcon("success", "Activation e-mail", "jeje", 5000);
+      openNotificationWithIcon(
+        "success",
+        t("common.activation.activationEmailHeader"),
+        t(`${state.data.message}`),
+        5
+      );
     }
 
     if (state.error) {
       notification.destroy();
-      openNotificationWithIcon("error", "Activation e-mail", state.error, 5000);
+      openNotificationWithIcon(
+        "error",
+        t("common.activation.activationEmailHeader"),
+        t(`${state.error.message}`),
+        5
+      );
     }
 
-    if (fetching) {
-      openNotificationWithIcon("info", "Sending activation e-mail...", "", 0);
+    if (state.fetching) {
+      openNotificationWithIcon("info", t("common.activation.sending"), "", 0);
     }
-  }, [state.error, state.data, fetching]);
+  }, [state.error, state.data, state.fetching, t]);
 
   const resendActivationEmail = async () => {
     dispatch({ type: "pending" });

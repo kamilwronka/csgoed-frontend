@@ -76,7 +76,7 @@ function SiderMenu({ style }) {
             }}
           >
             <PlayCircleFilled style={{ fontSize: "1.6rem" }} />
-            &nbsp; csgo'ed
+            &nbsp; shopper
           </div>
         </Link>
         <Menu
@@ -112,7 +112,7 @@ function SiderMenu({ style }) {
         </Menu>
       </div>
       <Text style={{ color: "#aaa", textAlign: "center" }} type="secondary">
-        version: {packagejson.version} @ csgoed.com
+        version: {packagejson.version} @ shopper
       </Text>
     </Sider>
     // </OutsideClickHandler>

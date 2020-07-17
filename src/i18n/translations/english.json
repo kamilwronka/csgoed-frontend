@@ -20,7 +20,14 @@
       "creating": "Creating...",
       "activateEmailMessage": "Activate account",
       "activateEmailDescription": "You must activate an account in order to do any actions.",
-      "resendActivationEmailButton": "Resend activation email"
+      "resendActivationEmailButton": "Resend activation email",
+      "activation": {
+        "succes": "Account activation e-mail has been sent",
+        "timeout": "Wait 15 minutes before next attempt",
+        "alreadyActivated": "Account is already activated",
+        "activationEmailHeader": "Account activation e-mail",
+        "sending": "Sending account activation e-mail..."
+      }
     },
     "languages": {
       "english": "English",
