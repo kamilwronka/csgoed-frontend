@@ -27,7 +27,7 @@ function AccountActivationPage() {
   }, [token]);
 
   useEffect(() => {
-    document.title = "Activate account - csgoed.com";
+    document.title = "Activate account - shopn.io";
   }, []);
 
   return (

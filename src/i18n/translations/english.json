@@ -57,7 +57,7 @@
         }
       },
       "signUpForm": {
-        "title": "Sign up - csgoed.com",
+        "title": "Sign up - shopn.io",
         "header": "Create your account",
         "updatesCheckbox": "Email me about product updates",
         "errors": {
@@ -72,7 +72,7 @@
         }
       },
       "signInForm": {
-        "title": "Sign in - csgoed.com",
+        "title": "Sign in - shopn.io",
         "header": "Sign in to your account",
         "remember": "Stay signed in",
         "forgot": "Forgot password?",
@@ -82,7 +82,7 @@
         }
       },
       "passwordResetForm": {
-        "title": "Reset password - csgoed.com",
+        "title": "Reset password - shopn.io",
         "header": "Password reset"
       }
     },
@@ -112,7 +112,7 @@
     },
     "pages": {
       "paymentsPage": {
-        "title": "Billing and payments - csgoed.com",
+        "title": "Billing and payments - shopn.io",
         "balance": "Account balance",
         "billingInformation": "Payments information",
         "goToDepositHistory": "Go to payments history",

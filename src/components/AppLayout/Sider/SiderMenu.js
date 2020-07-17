@@ -76,7 +76,7 @@ function SiderMenu({ style }) {
             }}
           >
             <PlayCircleFilled style={{ fontSize: "1.6rem" }} />
-            &nbsp; shopper
+            &nbsp; shopn.io
           </div>
         </Link>
         <Menu
@@ -112,7 +112,7 @@ function SiderMenu({ style }) {
         </Menu>
       </div>
       <Text style={{ color: "#aaa", textAlign: "center" }} type="secondary">
-        version: {packagejson.version} @ shopper
+        version: {packagejson.version} @ shopn.io
       </Text>
     </Sider>
     // </OutsideClickHandler>

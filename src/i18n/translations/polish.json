@@ -57,7 +57,7 @@
         }
       },
       "signUpForm": {
-        "title": "Rejestracja - shopper.com",
+        "title": "Rejestracja - shopn.io",
         "header": "Stwórz swoje konto",
         "updatesCheckbox": "Wysyłaj e-maile o aktualizacjach",
         "errors": {
@@ -72,7 +72,7 @@
         }
       },
       "signInForm": {
-        "title": "Logowanie - shopper.com",
+        "title": "Logowanie - shopn.io",
         "header": "Zaloguj się do swojego konta",
         "remember": "Zapamiętaj mnie",
         "forgot": "Nie pamiętasz hasła?",
@@ -82,13 +82,13 @@
         }
       },
       "passwordResetForm": {
-        "title": "Reset hasła - shopper.com",
+        "title": "Reset hasła - shopn.io",
         "header": "Reset hasła"
       }
     },
     "pages": {
       "paymentsPage": {
-        "title": "Billing i płatności - shopper.com",
+        "title": "Billing i płatności - shopn.io",
         "balance": "Stan konta",
         "billingInformation": "Informacje o płatnościach",
         "goToDepositHistory": "Przejdź do historii wpłat",

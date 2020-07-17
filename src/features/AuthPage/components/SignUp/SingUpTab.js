@@ -24,7 +24,10 @@ Yup.addMethod(Yup.string, "equalTo", equalTo);
 
 function SignUpTab() {
   const { t } = useTranslation();
-  const { signUp, fetching, error } = useAuth();
+  const {
+    signUp,
+    state: { error, fetching },
+  } = useAuth();
   const location = useLocation();
 
   useEffect(() => {

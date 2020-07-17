@@ -24,7 +24,7 @@ function TeamspeakDashboard() {
   const { id } = useParams();
 
   useEffect(() => {
-    document.title = `${name} - csgoed.com`;
+    document.title = `${name} - shopn.io`;
   }, [id, name]);
 
   const handleTabChange = (tab) => {

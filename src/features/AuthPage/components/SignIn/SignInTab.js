@@ -20,7 +20,10 @@ const INITIAL_FORM_VALUES = {
 function SignInTab() {
   const { t } = useTranslation();
   const location = useLocation();
-  const { signIn, error, fetching } = useAuth();
+  const {
+    signIn,
+    state: { error, fetching },
+  } = useAuth();
 
   const SignInSchema = Yup.object().shape({
     email: Yup.string().required(t("form.common.errors.required")),
@@ -34,6 +37,8 @@ function SignInTab() {
   const onSubmit = (values) => {
     signIn(values);
   };
+
+  console.log(fetching);
 
   return (
     <div>

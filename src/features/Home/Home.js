@@ -18,7 +18,7 @@ function Home() {
   const { t } = useTranslation();
 
   useEffect(() => {
-    document.title = "Dashboard - csgoed.com";
+    document.title = "Dashboard - shopn.io";
   }, []);
 
   return (

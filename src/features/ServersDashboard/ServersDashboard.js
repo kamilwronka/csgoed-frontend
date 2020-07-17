@@ -183,7 +183,7 @@ function ServersDashboard() {
   };
 
   useEffect(() => {
-    document.title = "Servers console - csgoed.com";
+    document.title = "Servers console - shopn.io";
   }, []);
 
   useEffect(() => {}, []);
